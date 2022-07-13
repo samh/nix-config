@@ -179,6 +179,19 @@
             };
           };
         };
+        "Notes-Personal" = {
+          id = "jjbsv-stmrg";
+          enable = true;
+          path = "/home/samh/Notes/Notes-Personal";
+          devices = [ "fedora2020desktop" ];
+          versioning = {
+            type = "staggered";
+            params = {
+              cleanInterval = "3600";
+              maxAge = "365";
+            };
+          };
+        };
       };
     };
   };
