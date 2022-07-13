@@ -87,6 +87,7 @@
     home = "/home/samh";
     description = "Sam";
     extraGroups = [ "wheel" "networkmanager" ];
+    shell = pkgs.fish;
     #openssh.authorizedKeys.keys = [ "ssh-dss AAAAB3Nza... alice@foobar" ];
   };
 
@@ -96,11 +97,16 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     bitwarden
+    bwm_ng # console network/disk monitor
+    doit
     element-desktop
     firefox
+    git
+    gparted
     htop
     jetbrains.pycharm-professional
     keepassxc
+    ncdu
     neofetch
     obsidian
     rclone
@@ -108,6 +114,8 @@
     tmux
     tmuxPlugins.continuum
     tmuxPlugins.resurrect
+    vimHugeX # gvim
+    #vscodium-fhs
     xfce.xfce4-whiskermenu-plugin
     yadm
   ];
