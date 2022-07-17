@@ -103,6 +103,7 @@
     bitwarden
     bwm_ng # console network/disk monitor
     doit
+    duf
     element-desktop
     firefox
     git
@@ -141,6 +142,10 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  # Enable periodic TRIM for SSDs
+  services.fstrim.enable = true;
+  # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd
+  services.fwupd.enable = true;
 
   services = {
     syncthing = {
