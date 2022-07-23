@@ -71,8 +71,19 @@
   # services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
+  # sound.enable = true;
   # hardware.pulseaudio.enable = true;
+  # Pipewire
+  # rtkit is optional but recommended
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
@@ -90,7 +101,7 @@
     isNormalUser = true;
     home = "/home/samh";
     description = "Sam";
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "audio" "networkmanager" ];
     shell = pkgs.fish;
     #openssh.authorizedKeys.keys = [ "ssh-dss AAAAB3Nza... alice@foobar" ];
   };
@@ -98,7 +109,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     bitwarden
     bwm_ng # console network/disk monitor
@@ -114,13 +124,18 @@
     ncdu
     neofetch
     obsidian
+    pavucontrol
     rclone
     syncthing
     tmux
     tmuxPlugins.continuum
     tmuxPlugins.resurrect
+    #vim
     vimHugeX # gvim
     #vscodium-fhs
+    xfce.xfce4-panel-profiles
+    xfce.xfce4-pulseaudio-plugin
+    #xfce.xfce4-volumed-pulse
     xfce.xfce4-whiskermenu-plugin
     yadm
   ];
