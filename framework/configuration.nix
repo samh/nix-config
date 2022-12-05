@@ -10,35 +10,22 @@
       ./hardware-configuration.nix
     ];
 
-  # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  # boot.loader.grub.efiSupport = true;
-  # boot.loader.grub.efiInstallAsRemovable = true;
-  # boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  # Define on which hard drive you want to install Grub.
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  # Boot parameters for Framework laptop per
+  # https://dov.dev/blog/nixos-on-the-framework-12th-gen
+  #boot.kernelPackages = pkgs.linuxPackages_6_0;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelParams = [ "module_blacklist=hid_sensor_hub" ];
 
-  networking.hostName = "nixos-xps"; # Define your hostname.
+  networking.hostName = "fwnixos"; # Define your hostname.
+  # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  zramSwap.enable = true;
-  zramSwap.algorithm = "zstd";
-  zramSwap.memoryPercent = 100;
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "America/New_York";
-
-  networking.networkmanager.enable = true;
-  # Manual says applet is needed for XFCE
-  programs.nm-applet.enable = true;
-
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
-  networking.interfaces.enp9s0.useDHCP = true;
-  #networking.interfaces.wlp11s0.useDHCP = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -49,30 +36,33 @@
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
+  #   useXkbConfig = true; # use xkbOptions in tty.
   # };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the Plasma 5 Desktop Environment.
-  #services.xserver.displayManager.sddm.enable = true;
-  #services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.desktopManager.xfce.enable = true;
-  services.xserver.displayManager.defaultSession = "xfce";
-  services.xserver.desktopManager.xfce.thunarPlugins = [
-    pkgs.xfce.thunar-archive-plugin
-  ];
+  # Enable the GNOME Desktop Environment.
+  #services.xserver.displayManager.gdm.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
 
+  # Enable KDE Plasma
+  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  
   # Configure keymap in X11
   # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e";
+  # services.xserver.xkbOptions = {
+  #   "eurosign:e";
+  #   "caps:escape" # map caps to escape.
+  # };
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.printing.enable = true;
 
   # Enable sound.
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
+  #sound.enable = true;
+  #hardware.pulseaudio.enable = true;
   # Pipewire
   # rtkit is optional but recommended
   security.rtkit.enable = true;
@@ -87,23 +77,22 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
-  services.xserver.libinput.touchpad.middleEmulation = true;
-  services.xserver.libinput.touchpad.scrollMethod = "edge";
-  services.xserver.libinput.touchpad.naturalScrolling = false;
-  services.xserver.libinput.touchpad.tapping = true;
+
+  # Enable ZRAM swap
+  #zramSwap.enable = true;
+  #zramSwap.algorithm = "zstd";
+  #zramSwap.memoryPercent = 50;
+
+  # Enable Flatpak
+  services.flatpak.enable = true;
+  # For the sandboxed apps to work correctly, desktop integration portals need to be installed.
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.users.jane = {
-  #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  # };
   users.users.samh = {
     isNormalUser = true;
-    home = "/home/samh";
-    description = "Sam";
     extraGroups = [ "wheel" "audio" "networkmanager" ];
     shell = pkgs.fish;
-    #openssh.authorizedKeys.keys = [ "ssh-dss AAAAB3Nza... alice@foobar" ];
   };
 
   # Enable Flakes
@@ -117,7 +106,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget
     bitwarden
     bwm_ng # console network/disk monitor
     doit
@@ -125,33 +113,44 @@
     element-desktop
     firefox
     git
-    gparted
+    #gparted
     htop
     jetbrains.pycharm-professional
     keepassxc
     ncdu
     neofetch
-    obsidian
+    #obsidian  # Installed via Flatpak
+    partition-manager  # KDE Partition Manager
     pavucontrol
     rclone
     syncthing
+    thunderbird
     tmux
     tmuxPlugins.continuum
     tmuxPlugins.resurrect
     #vim
     vimHugeX # gvim
+    vscode.fhs
     #vscodium-fhs
-    xfce.xfce4-panel-profiles
-    xfce.xfce4-pulseaudio-plugin
-    #xfce.xfce4-volumed-pulse
-    xfce.xfce4-whiskermenu-plugin
+    wget
     yadm
+  
+    # XFCE
+    #xfce.xfce4-panel-profiles
+    #xfce.xfce4-pulseaudio-plugin
+    #xfce.xfce4-whiskermenu-plugin
   ];
 
-  programs.tmux.enable = true;
-
   # TODO: only allow per package
+  # Obsidian, PyCharm, maybe others I didn't realize...
   nixpkgs.config.allowUnfree = true;
+  #allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+  #  "obsidian"
+  #  "jetbrains.pycharm-professional"
+  #  "vscode.fhs"
+  #];
+  
+  programs.tmux.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -182,6 +181,7 @@
       devices = {
         "storage-server-2021" = { id = "AL433J4-2HM6N7D-C4HP5FT-6FNPCPI-MYW4T36-7RIEF5B-7J66U2W-BYW7CQ3"; };
         "fedora2020desktop" = { id = "4JP4C67-VSQX646-E4BRJDC-ZQ2ZTNJ-CKWNUSS-2FC46OK-MDN7DB7-JCKBXQW"; };
+        "pixel4a" = { id = "NPVNVC5-J2CKZF6-6LUH6NF-3NYG6GP-GUERNAO-O35UZUC-L6ADKSK-SPRA3AL"; };
       };
       folders = {
         "Sync-Linux" = {        # Name of folder in Syncthing, also the folder ID
@@ -202,7 +202,7 @@
           id = "evgke-fvs53";
           enable = true;
           path = "/home/samh/Notes/Notes-Shared";
-          devices = [ "fedora2020desktop" ];
+          devices = [ "fedora2020desktop" "pixel4a" ];
           versioning = {
             type = "staggered";
             params = {
@@ -215,7 +215,7 @@
           id = "jjbsv-stmrg";
           enable = true;
           path = "/home/samh/Notes/Notes-Personal";
-          devices = [ "fedora2020desktop" ];
+          devices = [ "fedora2020desktop" "pixel4a" ];
           versioning = {
             type = "staggered";
             params = {
@@ -234,13 +234,18 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  # Copy the NixOS configuration file and link it from the resulting system
+  # (/run/current-system/configuration.nix). This is useful in case you
+  # accidentally delete configuration.nix.
+  # system.copySystemConfiguration = true;
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.11"; # Did you read the comment?
+  system.stateVersion = "22.05"; # Did you read the comment?
 
 }
 
