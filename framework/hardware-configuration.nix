@@ -42,6 +42,12 @@
       options = [ "subvol=@home-nixos" "compress=zstd:9" ];
     };
 
+  fileSystems."/home-fedora" =
+    { device = "/dev/disk/by-uuid/198858cf-edf7-4385-a331-70b1dd0e7702";
+      fsType = "btrfs";
+      options = [ "subvol=@home-fedora" "compress=zstd:9" ];
+    };
+
   boot.initrd.luks.devices."luks-home".device = "/dev/disk/by-uuid/991fc6ac-9b9e-44d0-a37b-c4f4dbeb9a44";
   boot.initrd.luks.devices."luks-home".preLVM = false;
 

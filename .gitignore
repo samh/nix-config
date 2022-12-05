@@ -1,5 +1,6 @@
 *.bak
 *.orig
+*.swp
 /.idea/
 /configuration.nix
 /hardware-configuration.nix
