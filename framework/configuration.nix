@@ -120,7 +120,6 @@
     ncdu
     neofetch
     #obsidian  # Installed via Flatpak
-    partition-manager  # KDE Partition Manager
     pavucontrol
     rclone
     syncthing
@@ -149,7 +148,8 @@
   #  "jetbrains.pycharm-professional"
   #  "vscode.fhs"
   #];
-  
+
+  programs.partition-manager.enable = true; # KDE Partition Manager
   programs.tmux.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
