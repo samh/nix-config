@@ -143,6 +143,9 @@
     #vscodium-fhs
     wget
     yadm
+
+    # KDE Plasma
+    ark
   
     # XFCE
     #xfce.xfce4-panel-profiles
