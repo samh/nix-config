@@ -6,7 +6,11 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # A collection of NixOS modules covering hardware quirks.
+      # https://github.com/NixOS/nixos-hardware
+      <nixos-hardware/framework/12th-gen-intel>
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
