@@ -33,6 +33,13 @@
 
   hardware.bluetooth.enable = true;
 
+  # xpadneo - https://github.com/atar-axis/xpadneo
+  # Driver for using Xbox One controller via Bluetooth.
+  hardware.xpadneo.enable = true;
+  # xone - https://github.com/medusalix/xone
+  # Driver for using Xbox One controllsers via USB or Xbox Wireless Dongle
+  #hardware.xone.enable = true;
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
