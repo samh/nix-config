@@ -37,8 +37,8 @@
   # Driver for using Xbox One controller via Bluetooth.
   hardware.xpadneo.enable = true;
   # xone - https://github.com/medusalix/xone
-  # Driver for using Xbox One controllsers via USB or Xbox Wireless Dongle
-  #hardware.xone.enable = true;
+  # Driver for using Xbox One controllers via USB or Xbox Wireless Dongle
+  hardware.xone.enable = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
