@@ -29,13 +29,18 @@
       options = [ "x-systemd.device-timeout=0" ];
     };
 
-#  fileSystems."/etc/libvirt/qemu" =
-#    { device = "/dev/nvme/samh";
-#      fsType = "btrfs";
-#      options = [ "subvol=@qemu" "compress=zstd:9" ];
-#    };
+  # libvirt qemu configuration; on Ubuntu and Fedora this is /etc/libvirt/qemu
+  fileSystems."/var/lib/libvirt/qemu" =
+    { device = "/dev/nvme/samh";
+      fsType = "btrfs";
+      options = [ "subvol=@qemu-nixos" "compress=zstd:9" ];
+    };
 
   # Storage (HDD)
+  #
+  # The "nofail" option tells systemd to mount them asynchronously, instead
+  # of waiting until they are mounted to continue, making the boot a little
+  # faster.
   fileSystems."/media/data1" =
     { device = "/dev/storage/data1";
       fsType = "btrfs";
@@ -60,6 +65,11 @@
   # Root pools for btrbk backups
   fileSystems."/pool/nvme-nixos" =
     { device = "/dev/mapper/nvme-nixos";
+      fsType = "btrfs";
+      options = [ "compress=zstd:9" "x-systemd.device-timeout=0" ];
+    };
+  fileSystems."/pool/nvme-samh" =
+    { device = "/dev/nvme/samh";
       fsType = "btrfs";
       options = [ "compress=zstd:9" "x-systemd.device-timeout=0" ];
     };
