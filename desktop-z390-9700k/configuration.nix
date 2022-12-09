@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./mounts.nix
-      /etc/nixos/common.nix
+      /etc/nixos/include/common.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
