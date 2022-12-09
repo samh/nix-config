@@ -130,6 +130,7 @@
     element-desktop
     firefox
     git
+    gnupg
     #gparted
     htop
     jetbrains.pycharm-professional
@@ -144,6 +145,7 @@
     tmux
     tmuxPlugins.continuum
     tmuxPlugins.resurrect
+    usbimager  # minimal graphical alternative to e.g. Etcher
     #vim
     vimHugeX # gvim
     vscode.fhs
