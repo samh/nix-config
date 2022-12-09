@@ -66,10 +66,12 @@
     #gparted
     htop
     jetbrains.pycharm-professional
+    kdiff3
     keepassxc
     neofetch
     #obsidian  # Installed via Flatpak
     rclone
+    #remmina  # trying Flatpak
     syncthing
     thunderbird
     tmux
@@ -81,9 +83,6 @@
     #vscodium-fhs
     yadm
 
-    # KDE Plasma
-    ark
-  
     # XFCE
     #xfce.xfce4-panel-profiles
     #xfce.xfce4-pulseaudio-plugin
@@ -112,6 +111,8 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  programs.ssh.startAgent = true;
+
   # Enable periodic TRIM for SSDs
   services.fstrim.enable = true;
   # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd

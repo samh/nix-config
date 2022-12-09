@@ -36,10 +36,12 @@
    };
 
   environment.systemPackages = with pkgs; [
+    cryptsetup
     git
     ncdu
     pavucontrol
     tmux
+    tree
     wget
   ];
 
