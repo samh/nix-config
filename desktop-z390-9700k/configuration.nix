@@ -119,6 +119,67 @@
   # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd
   services.fwupd.enable = true;
 
+  services = {
+    syncthing = {
+      enable = true;
+      user = "samh";
+      dataDir = "/home/samh/Documents";    # Default folder for new synced folders
+      configDir = "/home/samh/.config/syncthing";   # Folder for Syncthing's settings and keys
+
+      overrideDevices = true;     # overrides any devices added or deleted through the WebUI
+      overrideFolders = true;     # overrides any folders added or deleted through the WebUI
+      devices = {
+        "storage-server" = { id = "AL433J4-2HM6N7D-C4HP5FT-6FNPCPI-MYW4T36-7RIEF5B-7J66U2W-BYW7CQ3"; };
+        "framework-laptop" = { id = "DQ5PQ5T-OEQQGJ5-C67RF4Y-SJR5NIZ-WPFSJQT-YNXFOET-37356WL-P7LWNQH"; };
+        "pixel4a" = { id = "NPVNVC5-J2CKZF6-6LUH6NF-3NYG6GP-GUERNAO-O35UZUC-L6ADKSK-SPRA3AL"; };
+        "work-laptop" = { id = "RNF52NS-62AEXH6-OX6QEAG-ELSLT7R-QLMPMW2-OBQS35Z-ZUDVRUF-PNOH3Q4"; };
+      };
+      folders = {
+        "Sync-Linux" = {        # Name of folder in Syncthing, also the folder ID
+          id = "Sync-Linux";
+          enable = true;
+          path = "/home/samh/Sync";    # Which folder to add to Syncthing
+          devices = [ "framework-laptop" ];      # Which devices to share the folder with
+          versioning = {
+            type = "staggered";
+            params = {
+              cleanInterval = "3600";
+              maxAge = "365";  # Syncthing doc says days; is Nix version the same?
+#              versionsPath = ".stversions";
+            };
+          };
+        };
+        "Notes-Shared" = {
+          id = "evgke-fvs53";
+          enable = true;
+          path = "/home/samh/Notes/Notes-Shared";
+          devices = [ "storage-server" "framework-laptop" "work-laptop" "pixel4a" ];
+          versioning = {
+            type = "staggered";
+            params = {
+              cleanInterval = "3600";
+              maxAge = "365";
+            };
+          };
+        };
+        "Notes-Personal" = {
+          id = "jjbsv-stmrg";
+          enable = true;
+          path = "/home/samh/Notes/Notes-Personal";
+          devices = [ "storage-server" "framework-laptop" "pixel4a" ];
+          versioning = {
+            type = "staggered";
+            params = {
+              cleanInterval = "3600";
+              maxAge = "365";
+            };
+          };
+        };
+      };
+    };
+  };
+
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
