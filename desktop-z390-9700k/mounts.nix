@@ -11,6 +11,11 @@
       fsType = "btrfs";
       options = [ "subvol=@home" "compress=zstd:9" ];
     };
+  fileSystems."/var/lib/flatpak" =
+    { device = "/dev/nvme2/flatpak";
+      fsType = "btrfs";
+      options = [ "subvol=@flatpak-nixos" "compress=zstd:15" ];
+    };
 
 #  fileSystems."/media/fedora2020" =
 #    { device = "/dev/nvme/fedora2020";
