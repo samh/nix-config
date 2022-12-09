@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      /etc/nixos/common.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -18,9 +19,6 @@
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-
-  # Set your time zone.
-  time.timeZone = "America/New_York";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -39,11 +37,9 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-
   # Enable the Plasma 5 Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-  
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -56,31 +52,6 @@
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.hplip ];
 
-  # Enable sound.
-  #sound.enable = true;
-  #hardware.pulseaudio.enable = true;
-  # Pipewire
-  # rtkit is optional but recommended
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.samh = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" ];
-    shell = pkgs.fish;
-  };
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -90,16 +61,13 @@
     duf
     element-desktop
     firefox
-    git
     gnupg
     #gparted
     htop
     jetbrains.pycharm-professional
     keepassxc
-    ncdu
     neofetch
     #obsidian  # Installed via Flatpak
-    pavucontrol
     rclone
     syncthing
     thunderbird
@@ -110,7 +78,6 @@
     vimHugeX # gvim
     vscode.fhs
     #vscodium-fhs
-    wget
     yadm
 
     # KDE Plasma
@@ -131,7 +98,6 @@
   #];
 
   programs.partition-manager.enable = true; # KDE Partition Manager
-  programs.tmux.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -170,4 +136,3 @@
   system.stateVersion = "22.11"; # Did you read the comment?
 
 }
-
