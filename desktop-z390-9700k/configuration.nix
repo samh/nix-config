@@ -10,6 +10,8 @@
       ./hardware-configuration.nix
       ./mounts.nix
       /etc/nixos/include/common.nix
+      /etc/nixos/include/kde.nix
+      /etc/nixos/include/vfio-host.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -39,10 +41,6 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-
-  # Enable the Plasma 5 Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
