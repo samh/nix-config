@@ -17,7 +17,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   # Default mode cuts off a lot of info
-  boot.loader.systemd-boot.consoleMode = "auto";
+  boot.loader.systemd-boot.consoleMode = "max";
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos-2022-desktop"; # Define your hostname.
