@@ -118,6 +118,19 @@
   # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd
   services.fwupd.enable = true;
 
+  users.users.vm1 = {
+    uid = 5010; # in fedora2020 it was 1001, change to be more unique
+    isNormalUser = true;
+    extraGroups = [ ];
+    shell = pkgs.fish;
+  };
+  users.users.vm2 = {
+    uid = 5050;
+    isNormalUser = true;
+    extraGroups = [ "wheel" "audio" ];
+    shell = pkgs.fish;
+  };
+
   services = {
     syncthing = {
       enable = true;

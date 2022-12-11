@@ -5,6 +5,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.samh = {
+    uid = 1000;
     isNormalUser = true;
     extraGroups = [ "wheel" "audio" "networkmanager" ];
     shell = pkgs.fish;
