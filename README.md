@@ -5,3 +5,6 @@ to the top level; for example:
 
   ln -s framework/configuration.nix .
   ln -s framework/hardware-configuration.nix .
+
+Shared modules are stored under the `include` subdirectory
+(for lack of a better name).

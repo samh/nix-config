@@ -66,6 +66,7 @@
     #gparted
     htop
     jetbrains.pycharm-professional
+    junction # choose which application to open links
     kdiff3
     keepassxc
     neofetch
@@ -112,6 +113,11 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   programs.ssh.startAgent = true;
+
+  # trace: warning: Strict reverse path filtering breaks Tailscale exit node use and some subnet routing setups. Consider setting:
+  #
+  #  networking.firewall.checkReversePath = "loose";
+  services.tailscale.enable = true;
 
   # Enable periodic TRIM for SSDs
   services.fstrim.enable = true;
