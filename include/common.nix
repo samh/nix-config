@@ -11,6 +11,9 @@
     shell = pkgs.fish;
   };
 
+  # Enable sound.
+  #sound.enable = true;
+  #hardware.pulseaudio.enable = true;
   # Pipewire
   # rtkit is optional but recommended
   security.rtkit.enable = true;

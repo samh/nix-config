@@ -10,6 +10,9 @@
       # A collection of NixOS modules covering hardware quirks.
       # https://github.com/NixOS/nixos-hardware
       <nixos-hardware/framework/12th-gen-intel>
+      /etc/nixos/include/common.nix
+      /etc/nixos/include/kde.nix
+      /etc/nixos/include/virt-manager.nix
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
@@ -62,10 +65,6 @@
   #services.xserver.displayManager.gdm.enable = true;
   #services.xserver.desktopManager.gnome.enable = true;
 
-  # Enable KDE Plasma
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-  
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = {
@@ -77,21 +76,6 @@
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.hplip ];
 
-  # Enable sound.
-  #sound.enable = true;
-  #hardware.pulseaudio.enable = true;
-  # Pipewire
-  # rtkit is optional but recommended
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-  };
-
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
 
@@ -99,26 +83,6 @@
   #zramSwap.enable = true;
   #zramSwap.algorithm = "zstd";
   #zramSwap.memoryPercent = 50;
-
-  # Enable Flatpak
-  services.flatpak.enable = true;
-  # For the sandboxed apps to work correctly, desktop integration portals need to be installed.
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.samh = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" ];
-    shell = pkgs.fish;
-  };
-
-  # Enable Flakes
-  nix = {
-    package = pkgs.nixFlakes; # or versioned attributes like nixVersions.nix_2_8
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -129,20 +93,16 @@
     duf
     element-desktop
     firefox
-    git
     gnupg
     #gparted
     htop
     jetbrains.pycharm-professional
     keepassxc
-    ncdu
     neofetch
     #obsidian  # Installed via Flatpak
-    pavucontrol
     rclone
     syncthing
     thunderbird
-    tmux
     tmuxPlugins.continuum
     tmuxPlugins.resurrect
     usbimager  # minimal graphical alternative to e.g. Etcher
@@ -150,12 +110,8 @@
     vimHugeX # gvim
     vscode.fhs
     #vscodium-fhs
-    wget
     yadm
 
-    # KDE Plasma
-    ark
-  
     # XFCE
     #xfce.xfce4-panel-profiles
     #xfce.xfce4-pulseaudio-plugin

@@ -10,6 +10,8 @@
     ark
   ];
 
+  programs.partition-manager.enable = true; # KDE Partition Manager
+
   # Exclude some KDE Plasma packages
   # https://nixos.wiki/wiki/KDE
   # Attempt to disable kwallet to be able to use KeePassXC's secret service
