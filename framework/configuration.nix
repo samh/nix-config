@@ -97,6 +97,7 @@
     #gparted
     htop
     jetbrains.pycharm-professional
+    junction # choose which application to open links
     keepassxc
     neofetch
     #obsidian  # Installed via Flatpak
@@ -142,6 +143,8 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  # Enable Tailscale
+  services.tailscale.enable = true;
   # Enable periodic TRIM for SSDs
   services.fstrim.enable = true;
   # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd
