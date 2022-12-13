@@ -117,9 +117,10 @@
   };
   programs.ssh.startAgent = true;
 
-  # trace: warning: Strict reverse path filtering breaks Tailscale exit node use and some subnet routing setups. Consider setting:
-  #
-  #  networking.firewall.checkReversePath = "loose";
+  # Tailscale VPN
+  # "warning: Strict reverse path filtering breaks Tailscale exit node use
+  # and some subnet routing setups."
+  networking.firewall.checkReversePath = "loose";
   services.tailscale.enable = true;
 
   # Enable periodic TRIM for SSDs
@@ -146,6 +147,7 @@
       user = "samh";
       dataDir = "/home/samh/Documents";    # Default folder for new synced folders
       configDir = "/home/samh/.config/syncthing";   # Folder for Syncthing's settings and keys
+      openDefaultPorts = true;
 
       overrideDevices = true;     # overrides any devices added or deleted through the WebUI
       overrideFolders = true;     # overrides any folders added or deleted through the WebUI
@@ -204,6 +206,11 @@
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
+
+  # virbr2 is the libvirt host-only interface
+  # 4656 = pulseaudio
+  networking.firewall.interfaces.virbr2.allowedTCPPorts = [ 4656 ];
+
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
