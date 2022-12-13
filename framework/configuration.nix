@@ -140,7 +140,13 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    extraConfig = ''
+      # Restrict SSH to only these users
+      AllowUsers samh
+    '';
+  };
   # Enable Tailscale
   services.tailscale.enable = true;
   # Enable periodic TRIM for SSDs

@@ -108,7 +108,13 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    extraConfig = ''
+      # Restrict SSH to only these users
+      AllowUsers samh
+    '';
+  };
   programs.ssh.startAgent = true;
 
   # trace: warning: Strict reverse path filtering breaks Tailscale exit node use and some subnet routing setups. Consider setting:
