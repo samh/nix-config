@@ -58,6 +58,7 @@
   environment.systemPackages = with pkgs; [
     bitwarden
     bwm_ng # console network/disk monitor
+    catclock # provides 'xclock'
     doit
     duf
     element-desktop
@@ -70,9 +71,12 @@
     kdiff3
     keepassxc
     neofetch
+    nix-index
     #obsidian  # Installed via Flatpak
+    pulseaudioFull
     rclone
     #remmina  # trying Flatpak
+    spice-gtk
     syncthing
     thunderbird
     #vim
