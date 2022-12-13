@@ -3,6 +3,10 @@
 # VFIO configuration.
 # See https://forum.level1techs.com/t/nixos-vfio-pcie-passthrough/130916
 {
+  imports = [
+    ./virt-manager.nix
+  ];
+
   boot.kernelParams = [ "intel_iommu=on" ];
 
   # One of the issues of vfio passthrough is the graphic drivers loading onto
@@ -18,19 +22,4 @@
   # Attach the video card to the vfio-pci driver
   # This should be the PCI ids of your GPU and GPU sound card
   boot.extraModprobeConfig = "options vfio-pci ids=10de:1e84,10de:10f8,10de:1ad8,10de:1ad9";
-
-  virtualisation = {
-    libvirtd = {
-      enable = true;
-      qemu.ovmf.enable = true;
-      qemu.swtpm.enable = true;
-    };
-  };
-
-  environment.systemPackages = with pkgs; [
-    pciutils # lspci
-    virt-manager
-  ];
-
-  #users.groups.libvirtd.members = [ "root" "samh" ];
 }
