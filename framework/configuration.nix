@@ -104,8 +104,6 @@
     rclone
     syncthing
     thunderbird
-    tmuxPlugins.continuum
-    tmuxPlugins.resurrect
     usbimager  # minimal graphical alternative to e.g. Etcher
     #vim
     vimHugeX # gvim

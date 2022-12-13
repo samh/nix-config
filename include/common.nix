@@ -12,8 +12,8 @@
   };
 
   # Enable sound.
-  #sound.enable = true;
-  #hardware.pulseaudio.enable = true;
+  sound.enable = true;
+  hardware.pulseaudio.enable = false;
   # Pipewire
   # rtkit is optional but recommended
   security.rtkit.enable = true;
@@ -49,5 +49,14 @@
     wget
   ];
 
-  programs.tmux.enable = true;
+  programs.tmux = {
+    enable = true;
+    plugins = with pkgs.tmuxPlugins; [ continuum resurrect ];
+  };
+
+  boot.kernel.sysctl = {
+    # for Syncthing
+    # https://github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size
+    "net.core.rmem_max" = 2500000;
+  };
 }

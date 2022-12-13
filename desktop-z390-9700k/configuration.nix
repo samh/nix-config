@@ -75,9 +75,6 @@
     #remmina  # trying Flatpak
     syncthing
     thunderbird
-    tmux
-    tmuxPlugins.continuum
-    tmuxPlugins.resurrect
     #vim
     vimHugeX # gvim
     vscode.fhs
