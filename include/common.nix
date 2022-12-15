@@ -40,10 +40,17 @@
    };
 
   environment.systemPackages = with pkgs; [
+    autorestic
+    borgbackup
+    borgmatic
+    btrbk
     cryptsetup
     git
+    gsmartcontrol
     ncdu
     pavucontrol
+    restic
+    smartmontools
     tmux
     tree
     wget
