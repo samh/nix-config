@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
       ./mounts.nix
       /etc/nixos/include/common.nix
+      /etc/nixos/include/ext-mounts.nix
       /etc/nixos/include/kde.nix
       /etc/nixos/include/vfio-host.nix
     ];

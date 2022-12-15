@@ -11,6 +11,7 @@
       # https://github.com/NixOS/nixos-hardware
       <nixos-hardware/framework/12th-gen-intel>
       /etc/nixos/include/common.nix
+      /etc/nixos/include/ext-mounts.nix
       /etc/nixos/include/kde.nix
       /etc/nixos/include/virt-manager.nix
       # Include the results of the hardware scan.

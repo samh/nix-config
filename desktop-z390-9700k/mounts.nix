@@ -83,28 +83,4 @@
 #      fsType = "btrfs";
 #      options = [ "compress=zstd:9" "x-systemd.device-timeout=0" ];
 #    };
-
-  # External 12TB WD EasyStore
-  fileSystems."/media/12TB-ext-backup-2" =
-  { device = "/dev/disk/by-uuid/7a2664f3-753f-42a8-87ab-7f41983ceefe";
-    fsType = "btrfs";
-    options = [ "noauto" "noatime" "compress=zstd:9" "x-systemd.device-timeout=0" ];
-  };
-  fileSystems."/media/ext-retro" =
-  { device = "/dev/disk/by-label/12TB-external-1";
-    fsType = "btrfs";
-    options = [ "noauto" "noatime" "subvol=@retro" "compress=zstd:9" "x-systemd.device-timeout=0" ];
-  };
-  fileSystems."/media/ext-video" =
-  { device = "/dev/disk/by-label/12TB-external-1";
-    fsType = "btrfs";
-    options = [ "noauto" "noatime" "subvol=@video" "compress=zstd:9" "x-systemd.device-timeout=0" ];
-  };
-
-  # External 14TB WD EasyStore
-  fileSystems."/media/14TB-2021-WUHL" =
-  { device = "/dev/disk/by-label/14TB-2021-WUHL";
-    fsType = "btrfs";
-    options = [ "noauto" "noatime" "compress=zstd:9" "x-systemd.device-timeout=0" ];
-  };
 }
