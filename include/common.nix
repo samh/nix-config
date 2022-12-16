@@ -45,12 +45,16 @@
     borgmatic
     btrbk
     cryptsetup
+    file
     git
     gsmartcontrol
     ncdu
     pavucontrol
+    pv
+    python3
     restic
     smartmontools
+    sshfs
     tmux
     tree
     wget

@@ -71,9 +71,11 @@
     junction # choose which application to open links
     kdiff3
     keepassxc
+    mpv
     neofetch
     nix-index
     #obsidian  # Installed via Flatpak
+    pika-backup  # borg frontend - testing it out
     pulseaudioFull
     rclone
     #remmina  # trying Flatpak
