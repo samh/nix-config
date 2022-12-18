@@ -57,9 +57,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    ansible
     bitwarden
     bwm_ng # console network/disk monitor
     catclock # provides 'xclock'
+    distrobox
     doit
     duf
     element-desktop
@@ -76,6 +78,7 @@
     nix-index
     #obsidian  # Installed via Flatpak
     pika-backup  # borg frontend - testing it out
+    podman-compose
     pulseaudioFull
     rclone
     #remmina  # trying Flatpak
@@ -129,6 +132,17 @@
   # and some subnet routing setups."
   networking.firewall.checkReversePath = "loose";
   services.tailscale.enable = true;
+
+  virtualisation = {
+    docker.enable = false;
+    podman = {
+      enable = true;
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.dnsname.enable = true;
+    };
+  };
 
   # Enable periodic TRIM for SSDs
   services.fstrim.enable = true;

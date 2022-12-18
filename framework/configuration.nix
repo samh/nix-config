@@ -88,6 +88,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    ansible
     bitwarden
     bwm_ng # console network/disk monitor
     doit

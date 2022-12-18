@@ -49,6 +49,7 @@
     git
     gsmartcontrol
     ncdu
+    ntfs3g
     pavucontrol
     pv
     python3
@@ -57,7 +58,9 @@
     sshfs
     tmux
     tree
+    unzip
     wget
+    zip
   ];
 
   programs.tmux = {
