@@ -7,9 +7,9 @@
       options = [ "subvol=@home-nixos" "compress=zstd:9" ];
     };
   fileSystems."/samh" =
-    { device = "/dev/nvme/samh";
+    { device = "/dev/nvme2/home";
       fsType = "btrfs";
-      options = [ "subvol=@home" "compress=zstd:9" ];
+      options = [ "subvol=@home-common" "compress=zstd:9" ];
     };
   fileSystems."/var/lib/flatpak" =
     { device = "/dev/nvme2/flatpak";
@@ -31,7 +31,7 @@
 
   # libvirt qemu configuration; on Ubuntu and Fedora this is /etc/libvirt/qemu
   fileSystems."/var/lib/libvirt/qemu" =
-    { device = "/dev/nvme/samh";
+    { device = "/dev/nvme2/home";
       fsType = "btrfs";
       options = [ "subvol=@qemu-nixos" "compress=zstd:9" ];
     };
