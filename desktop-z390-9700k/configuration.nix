@@ -73,6 +73,7 @@
     junction # choose which application to open links
     kdiff3
     keepassxc
+    libsecret
     mpv
     neofetch
     nix-index
@@ -81,7 +82,7 @@
     podman-compose
     pulseaudioFull
     rclone
-    #remmina  # trying Flatpak
+    remmina
     spice-gtk
     syncthing
     thunderbird
