@@ -163,6 +163,9 @@
       dataDir = "/home/samh/Documents";    # Default folder for new synced folders
       configDir = "/home/samh/.config/syncthing";   # Folder for Syncthing's settings and keys
 
+      # Open firewall ports
+      openDefaultPorts = true;
+
       overrideDevices = true;     # overrides any devices added or deleted through the WebUI
       overrideFolders = true;     # overrides any folders added or deleted through the WebUI
       devices = {
