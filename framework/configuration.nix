@@ -149,6 +149,7 @@
       AllowUsers samh
     '';
   };
+  programs.ssh.startAgent = true;
   # Enable Tailscale
   services.tailscale.enable = true;
   # Enable periodic TRIM for SSDs
