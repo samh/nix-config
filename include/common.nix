@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./common-options.nix
+  ];
+
   time.timeZone = "America/New_York";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

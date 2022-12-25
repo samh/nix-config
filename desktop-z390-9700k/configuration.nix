@@ -57,7 +57,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    ansible
     bitwarden
     bwm_ng # console network/disk monitor
     catclock # provides 'xclock'
@@ -73,7 +72,6 @@
     junction # choose which application to open links
     kdiff3
     keepassxc
-    libsecret
     mpv
     neofetch
     nix-index
@@ -250,6 +248,9 @@
     "d /mnt 0755 root root"
     "d /pool 0700 root root"
   ];
+
+  # Local (personal) configuration settings
+  local.common.ansible.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
