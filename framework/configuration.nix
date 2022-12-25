@@ -88,48 +88,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    ansible
-    bitwarden
-    bwm_ng # console network/disk monitor
-    doit
-    duf
-    element-desktop
-    firefox
-    gnupg
-    #gparted
-    htop
-    jetbrains.pycharm-professional
-    junction # choose which application to open links
-    keepassxc
-    neofetch
-    #obsidian  # Installed via Flatpak
-    rclone
-    syncthing
-    thunderbird
-    usbimager  # minimal graphical alternative to e.g. Etcher
-    #vim
-    vimHugeX # gvim
-    vscode.fhs
-    #vscodium-fhs
-    yadm
-
-    # XFCE
-    #xfce.xfce4-panel-profiles
-    #xfce.xfce4-pulseaudio-plugin
-    #xfce.xfce4-whiskermenu-plugin
   ];
-
-  # TODO: only allow per package
-  # Obsidian, PyCharm, maybe others I didn't realize...
-  nixpkgs.config.allowUnfree = true;
-  #allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-  #  "obsidian"
-  #  "jetbrains.pycharm-professional"
-  #  "vscode.fhs"
-  #];
-
-  programs.partition-manager.enable = true; # KDE Partition Manager
-  programs.tmux.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -229,6 +188,10 @@
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
   # system.copySystemConfiguration = true;
+
+  # Local (personal) configuration settings
+  local.common.ansible.enable = true;
+  local.common.extras.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -49,9 +49,12 @@
     borgmatic
     btrbk
     cryptsetup
+    duf
     file
+    firefox
     git
     gsmartcontrol
+    htop
     ncdu
     ntfs3g
     pavucontrol

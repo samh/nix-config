@@ -57,38 +57,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    bitwarden
-    bwm_ng # console network/disk monitor
-    catclock # provides 'xclock'
-    distrobox
-    doit
-    duf
-    element-desktop
-    firefox
-    gnupg
-    #gparted
-    htop
-    jetbrains.pycharm-professional
-    junction # choose which application to open links
-    kdiff3
-    keepassxc
-    mpv
-    neofetch
-    nix-index
-    #obsidian  # Installed via Flatpak
     pika-backup  # borg frontend - testing it out
-    podman-compose
-    pulseaudioFull
-    rclone
-    remmina
     spice-gtk
-    syncthing
-    thunderbird
-    #vim
-    vimHugeX # gvim
-    vscode.fhs
-    #vscodium-fhs
-    yadm
 
     # XFCE
     #xfce.xfce4-panel-profiles
@@ -103,8 +73,6 @@
   #  "jetbrains.pycharm-professional"
   #  "vscode.fhs"
   #];
-
-  programs.partition-manager.enable = true; # KDE Partition Manager
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -251,6 +219,7 @@
 
   # Local (personal) configuration settings
   local.common.ansible.enable = true;
+  local.common.extras.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
