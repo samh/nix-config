@@ -20,7 +20,10 @@
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
+  # Default mode cuts off a lot of info
+  boot.loader.systemd-boot.consoleMode = "max";
   boot.loader.efi.canTouchEfiVariables = true;
+
   # Boot parameters for Framework laptop per
   # https://dov.dev/blog/nixos-on-the-framework-12th-gen
   #boot.kernelPackages = pkgs.linuxPackages_6_0;
