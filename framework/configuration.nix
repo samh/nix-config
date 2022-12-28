@@ -112,8 +112,13 @@
     '';
   };
   programs.ssh.startAgent = true;
-  # Enable Tailscale
+
+  # Tailscale VPN
+  # "warning: Strict reverse path filtering breaks Tailscale exit node use
+  # and some subnet routing setups."
+  networking.firewall.checkReversePath = "loose";
   services.tailscale.enable = true;
+
   # Enable periodic TRIM for SSDs
   services.fstrim.enable = true;
   # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd
