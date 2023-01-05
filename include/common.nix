@@ -67,6 +67,7 @@
     tree
     unzip
     wget
+    xorg.xkill
     zip
   ];
 

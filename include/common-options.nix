@@ -1,3 +1,6 @@
+# This file contains various optional configurations, which can be enabled
+# or disabled per-host.
+
 { config, lib, pkgs, ... }:
 
 with lib;
@@ -28,6 +31,7 @@ in {
         doit
         element-desktop
         gnupg
+        gocryptfs
         #gparted
         jetbrains.pycharm-professional
         junction # choose which application to open links
@@ -40,6 +44,7 @@ in {
         podman-compose
         pulseaudioFull
         rclone
+        rclone-browser
         remmina
         thunderbird
         usbimager  # minimal graphical alternative to e.g. Etcher
