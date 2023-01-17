@@ -45,9 +45,12 @@
 
   environment.systemPackages = with pkgs; [
     autorestic
+    bindfs
     borgbackup
     borgmatic
+    btdu # btrfs usage tool
     btrbk
+    compsize # btrfs compression report
     cryptsetup
     duf
     file
@@ -75,6 +78,9 @@
     enable = true;
     plugins = with pkgs.tmuxPlugins; [ continuum resurrect ];
   };
+
+  # Allow using FUSE filesystems across users, especially e.g. bindfs.
+  programs.fuse.userAllowOther = true;
 
   boot.kernel.sysctl = {
     # for Syncthing

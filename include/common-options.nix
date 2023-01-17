@@ -30,6 +30,7 @@ in {
         distrobox
         doit
         element-desktop
+        filezilla
         gnupg
         gocryptfs
         #gparted
@@ -43,20 +44,27 @@ in {
         #obsidian  # Installed via Flatpak
         podman-compose
         pulseaudioFull
+        #rar # seems like it requires downloading a binary from rarlab.com
         rclone
         rclone-browser
         remmina
+        shellcheck # shell script linter
+        shfmt # shell script formatter
+        smplayer
         thunderbird
+        unrar
         usbimager  # minimal graphical alternative to e.g. Etcher
         #vim
         vimHugeX # gvim
+        vlc
         vscode.fhs
         #vscodium-fhs
         yadm
       ];
 
       # TODO: only allow per package
-      # Obsidian, PyCharm, maybe others I didn't realize...
+      # Obsidian, PyCharm, rar, unrar
+      # maybe others I didn't realize...
       nixpkgs.config.allowUnfree = true;
       #allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       #  "obsidian"
