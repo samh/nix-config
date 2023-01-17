@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 
 # VFIO configuration.
-# See https://forum.level1techs.com/t/nixos-vfio-pcie-passthrough/130916
+# See:
+# - https://forum.level1techs.com/t/nixos-vfio-pcie-passthrough/130916
+# - https://alexbakker.me/post/nixos-pci-passthrough-qemu-vfio.html - also
+#   tells how to set up Looking Glass and Scream.
 {
   imports = [
     ./virt-manager.nix
