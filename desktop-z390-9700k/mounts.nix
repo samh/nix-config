@@ -1,6 +1,19 @@
 { config, pkgs, ... }:
 
 {
+  services.btrfs.autoScrub.enable = true;
+  services.btrfs.autoScrub.interval = "monthly";
+  # Make sure not to list duplicates (i.e. multiple mount points that
+  # point to the same underlying volume)!
+  services.btrfs.autoScrub.fileSystems = [
+    "/pool/nvme-nixos" # /
+    #"/pool/nvme-samh" # old - everything moved
+    "/pool/nvme2-home" # /home, /samh, /var/lib/libvirt/qemu
+    "/var/lib/flatpak"
+    "/media/data1"
+    "/media/backup"
+  ];
+
   fileSystems."/home" =
     { device = "/dev/nvme2/home";
       fsType = "btrfs";
@@ -77,6 +90,11 @@
     { device = "/dev/nvme2/home";
       fsType = "btrfs";
       options = [ "compress=zstd:9" "x-systemd.device-timeout=0" ];
+    };
+  fileSystems."/pool/data1" =
+    { device = "/dev/storage/data1";
+      fsType = "btrfs";
+      options = [ "nofail" "compress=zstd:9" "x-systemd.device-timeout=0" ];
     };
 #  fileSystems."/pool/fedora2020" =
 #    { device = "/dev/nvme/nvme-fedora2020";
