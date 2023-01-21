@@ -57,6 +57,7 @@ in {
         #vim
         vimHugeX # gvim
         vlc
+        vorta
         vscode.fhs
         #vscodium-fhs
         yadm

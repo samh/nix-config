@@ -9,6 +9,7 @@
   environment.systemPackages = with pkgs; [
     ark # archive manager
     kate # includes kwrite
+    kcalc
   ];
 
   programs.partition-manager.enable = true; # KDE Partition Manager
