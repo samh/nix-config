@@ -24,6 +24,15 @@
       fsType = "btrfs";
       options = [ "subvol=@home-common" "compress=zstd:9" ];
     };
+  # FHS: "/srv contains site-specific data which is served by this system."
+  # "This main purpose of specifying this is so that users may find the
+  # location of the data files for a particular service"
+  fileSystems."/srv" =
+    { device = "/dev/nvme2/home";
+      fsType = "btrfs";
+      options = [ "subvol=@srv" "compress=zstd:9" ];
+    };
+
   fileSystems."/var/lib/flatpak" =
     { device = "/dev/nvme2/flatpak";
       fsType = "btrfs";
