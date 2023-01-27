@@ -143,7 +143,8 @@
         "storage-server" = { id = "AL433J4-2HM6N7D-C4HP5FT-6FNPCPI-MYW4T36-7RIEF5B-7J66U2W-BYW7CQ3"; };
         "framework-laptop" = { id = "DQ5PQ5T-OEQQGJ5-C67RF4Y-SJR5NIZ-WPFSJQT-YNXFOET-37356WL-P7LWNQH"; };
         "pixel4a" = { id = "NPVNVC5-J2CKZF6-6LUH6NF-3NYG6GP-GUERNAO-O35UZUC-L6ADKSK-SPRA3AL"; };
-        "work-laptop" = { id = "RNF52NS-62AEXH6-OX6QEAG-ELSLT7R-QLMPMW2-OBQS35Z-ZUDVRUF-PNOH3Q4"; };
+        "work-laptop" = { id = "ME2B765-2HQWLAO-A7PRWE3-RP44QKE-UIJTZSH-467P3GF-JE7FSWY-ZYCPQQA"; }; # 2013
+        "work-laptop-old" = { id = "RNF52NS-62AEXH6-OX6QEAG-ELSLT7R-QLMPMW2-OBQS35Z-ZUDVRUF-PNOH3Q4"; };
       };
       folders = {
         "Sync-Linux" = {        # Name of folder in Syncthing, also the folder ID
@@ -164,7 +165,7 @@
           id = "evgke-fvs53";
           enable = true;
           path = "/home/samh/Notes/Notes-Shared";
-          devices = [ "storage-server" "framework-laptop" "work-laptop" "pixel4a" ];
+          devices = [ "storage-server" "framework-laptop" "work-laptop-old" "work-laptop" "pixel4a" ];
           versioning = {
             type = "staggered";
             params = {

@@ -141,15 +141,16 @@
       overrideFolders = true;     # overrides any folders added or deleted through the WebUI
       devices = {
         "storage-server-2021" = { id = "AL433J4-2HM6N7D-C4HP5FT-6FNPCPI-MYW4T36-7RIEF5B-7J66U2W-BYW7CQ3"; };
-        "fedora2020desktop" = { id = "4JP4C67-VSQX646-E4BRJDC-ZQ2ZTNJ-CKWNUSS-2FC46OK-MDN7DB7-JCKBXQW"; };
+        "desktop-z390-9700k" = { id = "4JP4C67-VSQX646-E4BRJDC-ZQ2ZTNJ-CKWNUSS-2FC46OK-MDN7DB7-JCKBXQW"; };
         "pixel4a" = { id = "NPVNVC5-J2CKZF6-6LUH6NF-3NYG6GP-GUERNAO-O35UZUC-L6ADKSK-SPRA3AL"; };
+        "work-laptop" = { id = "ME2B765-2HQWLAO-A7PRWE3-RP44QKE-UIJTZSH-467P3GF-JE7FSWY-ZYCPQQA"; }; # 2013
       };
       folders = {
         "Sync-Linux" = {        # Name of folder in Syncthing, also the folder ID
           id = "Sync-Linux";
           enable = true;
           path = "/home/samh/Sync";    # Which folder to add to Syncthing
-          devices = [ "fedora2020desktop" ];      # Which devices to share the folder with
+          devices = [ "desktop-z390-9700k" ];      # Which devices to share the folder with
           versioning = {
             type = "staggered";
             params = {
@@ -163,7 +164,7 @@
           id = "evgke-fvs53";
           enable = true;
           path = "/home/samh/Notes/Notes-Shared";
-          devices = [ "fedora2020desktop" "pixel4a" ];
+          devices = [ "desktop-z390-9700k" "pixel4a" "work-laptop" ];
           versioning = {
             type = "staggered";
             params = {
@@ -176,7 +177,7 @@
           id = "jjbsv-stmrg";
           enable = true;
           path = "/home/samh/Notes/Notes-Personal";
-          devices = [ "fedora2020desktop" "pixel4a" ];
+          devices = [ "desktop-z390-9700k" "pixel4a" ];
           versioning = {
             type = "staggered";
             params = {
