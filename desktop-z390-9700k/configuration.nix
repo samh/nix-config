@@ -145,6 +145,10 @@
         "pixel4a" = { id = "NPVNVC5-J2CKZF6-6LUH6NF-3NYG6GP-GUERNAO-O35UZUC-L6ADKSK-SPRA3AL"; };
         "work-laptop" = { id = "ME2B765-2HQWLAO-A7PRWE3-RP44QKE-UIJTZSH-467P3GF-JE7FSWY-ZYCPQQA"; }; # 2013
         "work-laptop-old" = { id = "RNF52NS-62AEXH6-OX6QEAG-ELSLT7R-QLMPMW2-OBQS35Z-ZUDVRUF-PNOH3Q4"; };
+        # VFIO VM (Windows) - maybe a Samba shared folder would be better, to
+        # avoid having to run Syncthing in the VM.
+        # Linux VFIO VMs can use a 9p shared folder from the host.
+        "vfio-windows" = { id = "CNJBSUE-KIERN7M-6WKA2YC-OO4EDQB-FKM2YJT-HZIOYOF-WKQ6NPJ-CEAHJAU"; };
       };
       folders = {
         "Sync-Linux" = {        # Name of folder in Syncthing, also the folder ID
@@ -165,7 +169,14 @@
           id = "evgke-fvs53";
           enable = true;
           path = "/home/samh/Notes/Notes-Shared";
-          devices = [ "storage-server" "framework-laptop" "work-laptop-old" "work-laptop" "pixel4a" ];
+          devices = [
+            "vfio-windows"
+            "storage-server"
+            "framework-laptop"
+            "work-laptop-old"
+            "work-laptop"
+            "pixel4a"
+          ];
           versioning = {
             type = "staggered";
             params = {
@@ -178,7 +189,7 @@
           id = "jjbsv-stmrg";
           enable = true;
           path = "/home/samh/Notes/Notes-Personal";
-          devices = [ "storage-server" "framework-laptop" "pixel4a" ];
+          devices = [ "vfio-windows" "storage-server" "framework-laptop" "pixel4a" ];
           versioning = {
             type = "staggered";
             params = {
