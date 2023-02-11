@@ -10,6 +10,7 @@
     ark # archive manager
     kate # includes kwrite
     kcalc
+    xorg.xhost
   ];
 
   programs.partition-manager.enable = true; # KDE Partition Manager
