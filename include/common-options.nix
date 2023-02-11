@@ -31,6 +31,7 @@ in {
         doit
         element-desktop
         filezilla
+        fira-code
         gnupg
         gocryptfs
         #gparted
@@ -40,6 +41,7 @@ in {
         kdiff3
         mpv
         neofetch
+        #nerdfonts # has to download a bunch of files from GitHub, extract, etc.
         nix-index
         #obsidian  # Installed via Flatpak
         podman-compose
