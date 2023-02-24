@@ -61,6 +61,7 @@
     ncdu
     ntfs3g
     pavucontrol
+    python310Packages.pipx # looks like NixOS unstable has "pipx"
     pv
     python3
     restic
