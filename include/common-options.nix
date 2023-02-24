@@ -11,6 +11,9 @@ in {
   options.local.common.extras = {
     enable = mkEnableOption "Extra packages";
   };
+  options.local.common.podman = {
+    enable = mkEnableOption "Podman containers";
+  };
   options.local.common.ansible = {
     enable = mkEnableOption "Ansible controller";
   };
@@ -20,6 +23,21 @@ in {
       environment.systemPackages = with pkgs; [
         ansible
         libsecret # provides secret-tool
+      ];
+    })
+    (mkIf cfg.podman.enable {
+      virtualisation = {
+        docker.enable = false;
+        podman = {
+          enable = true;
+          # Create a `docker` alias for podman, to use it as a drop-in replacement
+          dockerCompat = true;
+          # Required for containers under podman-compose to be able to talk to each other.
+          defaultNetwork.dnsname.enable = true;
+        };
+      };
+      environment.systemPackages = with pkgs; [
+        podman-compose
       ];
     })
     (mkIf cfg.extras.enable {
@@ -44,7 +62,6 @@ in {
         #nerdfonts # has to download a bunch of files from GitHub, extract, etc.
         nix-index
         #obsidian  # Installed via Flatpak
-        podman-compose
         pulseaudioFull
         #rar # seems like it requires downloading a binary from rarlab.com
         rclone

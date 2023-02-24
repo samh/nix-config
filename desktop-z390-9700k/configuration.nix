@@ -100,17 +100,6 @@
   networking.firewall.checkReversePath = "loose";
   services.tailscale.enable = true;
 
-  virtualisation = {
-    docker.enable = false;
-    podman = {
-      enable = true;
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
-      dockerCompat = true;
-      # Required for containers under podman-compose to be able to talk to each other.
-      defaultNetwork.dnsname.enable = true;
-    };
-  };
-
   # Enable periodic TRIM for SSDs
   services.fstrim.enable = true;
   # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd
@@ -232,6 +221,7 @@
   # Local (personal) configuration settings
   local.common.ansible.enable = true;
   local.common.extras.enable = true;
+  local.common.podman.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

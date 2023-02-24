@@ -204,6 +204,7 @@
   # Local (personal) configuration settings
   local.common.ansible.enable = true;
   local.common.extras.enable = true;
+  local.common.podman.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
