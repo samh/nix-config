@@ -22,6 +22,7 @@ in {
     (mkIf cfg.ansible.enable {
       environment.systemPackages = with pkgs; [
         ansible
+        ansible-lint
         libsecret # provides secret-tool
       ];
     })
