@@ -21,6 +21,9 @@
   boot.loader.systemd-boot.consoleMode = "max";
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Use the latest kernel instead of the default
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   networking.hostName = "nixos-2022-desktop"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
