@@ -190,6 +190,24 @@
             };
           };
         };
+        # Calibre work library (technical reference material, including
+        # e.g. books, manuals, quick reference cards)
+        "Calibre-Work" = {
+          id = "nqtzd-2klbn";
+          enable = true;
+          path = "/samh/Calibre-Work";
+          devices = [
+            "storage-server"
+            "work-laptop"
+          ];
+          versioning = {
+            type = "staggered";
+            params = {
+              cleanInterval = "3600";
+              maxAge = "1000";
+            };
+          };
+        };
       };
     };
   };
