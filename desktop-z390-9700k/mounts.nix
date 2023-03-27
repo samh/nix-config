@@ -45,8 +45,14 @@
 #      options = [ "subvol=kderoot" "compress=zstd:9" ];
 #    };
 
-  fileSystems."/media/vm1" =
+  # VM data stores
+  fileSystems."/media/vm1" = # VM data on first NVMe drive (1TB)
     { device = "/dev/nvme/vm1";
+      fsType = "ext4";
+      options = [ "x-systemd.device-timeout=0" ];
+    };
+  fileSystems."/media/vm3" = # VM data on 2nd NVMe drive (2TB)
+    { device = "/dev/nvme2/vm3";
       fsType = "ext4";
       options = [ "x-systemd.device-timeout=0" ];
     };
