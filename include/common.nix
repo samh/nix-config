@@ -41,7 +41,16 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-   };
+  };
+
+  # Automatic Garbage Collection
+  # To run manually with a different timeframe:
+  # sudo nix-collect-garbage --delete-older-than 7d
+  nix.gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 365d";
+  };
 
   environment.systemPackages = with pkgs; [
     autorestic
