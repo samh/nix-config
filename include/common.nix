@@ -63,7 +63,10 @@
     cryptsetup
     duf
     file
-    firefox
+    # Maybe it's better to run Firefox from a Flatpak, so it can be updated
+    # without a rebuild (since updates happen often, and usually contain
+    # security fixes).
+    #firefox
     git
     gsmartcontrol
     htop
