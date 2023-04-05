@@ -46,6 +46,7 @@ in {
         bitwarden
         bwm_ng # console network/disk monitor
         catclock # provides 'xclock'
+        cope # A colourful wrapper for terminal programs (Perl)
         distrobox
         doit
         element-desktop

@@ -61,6 +61,7 @@
     ncdu
     ntfs3g
     pavucontrol
+    psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
     python310Packages.pipx # looks like NixOS unstable has "pipx"
     pv
     python3
@@ -69,6 +70,7 @@
     sshfs
     tmux
     tree
+    usbutils # lsusb
     unzip
     wget
     xorg.xkill
