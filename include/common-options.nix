@@ -46,7 +46,9 @@ in {
         bitwarden
         bwm_ng # console network/disk monitor
         catclock # provides 'xclock'
-        cope # A colourful wrapper for terminal programs (Perl)
+        # cope provides nice colors for things like lsusb, but it was also
+        # breaking "ls" for me. Seems to work fine in nix-shell.
+        #cope # A colourful wrapper for terminal programs (Perl)
         distrobox
         doit
         element-desktop
