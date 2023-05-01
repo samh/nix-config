@@ -34,6 +34,21 @@
     #jack.enable = true;
   };
 
+  # Fonts
+  # https://nixos.wiki/wiki/Fonts
+  fonts.fonts = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    # mplus-outline-fonts.githubRelease
+    # dina-font
+    # proggyfonts
+  ];
+  fonts.fontDir.enable = true;
+
   # Enable scanner support (also needs extra user groups)
   # https://nixos.wiki/wiki/Scanners
   hardware.sane.enable = lib.mkDefault true;
