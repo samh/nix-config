@@ -24,6 +24,7 @@ in {
         ansible
         ansible-lint
         libsecret # provides secret-tool
+        sshpass
       ];
     })
     (mkIf cfg.podman.enable {
