@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -11,7 +11,11 @@
   users.users.samh = {
     uid = 1000;
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" ];
+    extraGroups = [
+      "wheel" "audio" "networkmanager"
+      # Scanner support - https://nixos.wiki/wiki/Scanners
+      "scanner" "lp"
+    ];
     shell = pkgs.fish;
   };
 
@@ -29,6 +33,13 @@
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
   };
+
+  # Enable scanner support (also needs extra user groups)
+  # https://nixos.wiki/wiki/Scanners
+  hardware.sane.enable = lib.mkDefault true;
+  hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+  # WARNING: hplip is downloaded from HP's website and compiled.
+  #hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ]; # for HP scanner
 
   # Enable Flatpak
   services.flatpak.enable = true;
