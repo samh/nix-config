@@ -25,6 +25,7 @@ in {
         ansible-lint
         libsecret # provides secret-tool
         sshpass
+        yamllint
       ];
     })
     (mkIf cfg.podman.enable {
@@ -67,6 +68,7 @@ in {
         #nerdfonts # has to download a bunch of files from GitHub, extract, etc.
         nix-index
         #obsidian  # Installed via Flatpak
+        pre-commit
         pulseaudioFull
         #rar # seems like it requires downloading a binary from rarlab.com
         rclone
