@@ -56,6 +56,7 @@ in {
         element-desktop
         filezilla
         fira-code
+        gnumake
         gnupg
         gocryptfs
         #gparted
