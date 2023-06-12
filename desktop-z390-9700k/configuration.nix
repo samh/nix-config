@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports =
@@ -246,6 +246,17 @@
   local.common.ansible.enable = true;
   local.common.extras.enable = true;
   local.common.podman.enable = true;
+
+  # nix-ld
+  # Testing for using VS Code remote
+  # https://nixos.wiki/wiki/Visual_Studio_Code#Remote_SSH
+  programs.nix-ld.enable = true;
+  environment.variables = {
+    NIX_LD_LIBRARY_PATH = lib.makeLibraryPath [
+      pkgs.stdenv.cc.cc
+    ];
+    NIX_LD = lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker";
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
