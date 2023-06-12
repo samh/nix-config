@@ -92,7 +92,13 @@
     file
     # Maybe it's better to run Firefox from a Flatpak, so it can be updated
     # without a rebuild (since updates happen often, and usually contain
-    # security fixes).
+    # security fixes). Using Home Manager is another possibility.
+    #
+    # For the flatpak, might want to give access to `~/.mozilla` (to use
+    # same profile(s)) and Downloads.
+    #
+    # Flatpak doesn't seem to work with CJK fonts, so might want to stick
+    # to system-level, home-manager, or nix-env.
     #firefox
     git
     gsmartcontrol

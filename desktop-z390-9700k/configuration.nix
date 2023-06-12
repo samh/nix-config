@@ -63,6 +63,9 @@
     pika-backup  # borg frontend - testing it out
     spice-gtk
 
+    # Using system-level Firefox for now (see more notes in common.nix).
+    firefox
+
     # XFCE
     #xfce.xfce4-panel-profiles
     #xfce.xfce4-pulseaudio-plugin
