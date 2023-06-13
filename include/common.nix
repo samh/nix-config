@@ -18,6 +18,7 @@
     ];
     shell = pkgs.fish;
   };
+  programs.fish.enable = true;
 
   # Enable sound.
   sound.enable = true;

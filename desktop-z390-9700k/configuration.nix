@@ -232,9 +232,6 @@
   # accidentally delete configuration.nix.
   # system.copySystemConfiguration = true;
 
-  # Console fonts are too big on 2560x1440 monitors with HiDPI enabled
-  hardware.video.hidpi.enable = false;
-
   systemd.tmpfiles.rules = [
     # I like to have these directories around for mounts
     "d /media 0755 root root"
@@ -250,13 +247,14 @@
   # nix-ld
   # Testing for using VS Code remote
   # https://nixos.wiki/wiki/Visual_Studio_Code#Remote_SSH
-  programs.nix-ld.enable = true;
-  environment.variables = {
-    NIX_LD_LIBRARY_PATH = lib.makeLibraryPath [
-      pkgs.stdenv.cc.cc
-    ];
-    NIX_LD = lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker";
-  };
+  # Causing error on NixOS 23.05.
+#  programs.nix-ld.enable = true;
+#  environment.variables = {
+#    NIX_LD_LIBRARY_PATH = lib.makeLibraryPath [
+#      pkgs.stdenv.cc.cc
+#    ];
+#    NIX_LD = lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker";
+#  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -26,4 +26,5 @@
   };
 
   #users.groups.libvirtd.members = [ "root" "samh" ];
+  users.users.samh.extraGroups = [ "libvirtd" ];
 }
