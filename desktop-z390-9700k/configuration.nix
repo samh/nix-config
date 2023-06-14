@@ -12,6 +12,7 @@
       /etc/nixos/include/common.nix
       /etc/nixos/include/ext-mounts.nix
       /etc/nixos/include/kde.nix
+      /etc/nixos/include/nix-ld.nix
       /etc/nixos/include/vfio-host.nix
     ];
 
@@ -255,6 +256,10 @@
 #    ];
 #    NIX_LD = lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker";
 #  };
+
+  # Mount a magic /usr/bin to make shebangs work
+  # https://github.com/Mic92/envfs
+  services.envfs.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
