@@ -16,9 +16,8 @@
       # Scanner support - https://nixos.wiki/wiki/Scanners
       "scanner" "lp"
     ];
-    shell = pkgs.fish;
+    shell = lib.mkDefault pkgs.fish;
   };
-  programs.fish.enable = true;
 
   # Enable sound.
   sound.enable = true;
@@ -122,6 +121,10 @@
     xorg.xkill
     zip
   ];
+
+  # Make shells available
+  programs.fish.enable = true;
+  programs.zsh.enable = true;
 
   programs.tmux = {
     enable = true;

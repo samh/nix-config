@@ -86,6 +86,9 @@
   #zramSwap.algorithm = "zstd";
   #zramSwap.memoryPercent = 50;
 
+  # Set shell to zsh for testing fleek
+  users.users.samh.shell = pkgs.zsh;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
