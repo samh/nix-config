@@ -13,6 +13,7 @@
       /etc/nixos/include/common.nix
       /etc/nixos/include/ext-mounts.nix
       /etc/nixos/include/kde.nix
+      /etc/nixos/include/nix-ld.nix
       /etc/nixos/include/virt-manager.nix
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -202,6 +203,10 @@
   local.common.ansible.enable = true;
   local.common.extras.enable = true;
   local.common.podman.enable = true;
+
+  # Mount a magic /usr/bin to make shebangs work
+  # https://github.com/Mic92/envfs
+  services.envfs.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

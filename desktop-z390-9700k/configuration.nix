@@ -245,18 +245,6 @@
   local.common.extras.enable = true;
   local.common.podman.enable = true;
 
-  # nix-ld
-  # Testing for using VS Code remote
-  # https://nixos.wiki/wiki/Visual_Studio_Code#Remote_SSH
-  # Causing error on NixOS 23.05.
-#  programs.nix-ld.enable = true;
-#  environment.variables = {
-#    NIX_LD_LIBRARY_PATH = lib.makeLibraryPath [
-#      pkgs.stdenv.cc.cc
-#    ];
-#    NIX_LD = lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker";
-#  };
-
   # Mount a magic /usr/bin to make shebangs work
   # https://github.com/Mic92/envfs
   services.envfs.enable = true;
