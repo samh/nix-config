@@ -16,7 +16,9 @@
       # Scanner support - https://nixos.wiki/wiki/Scanners
       "scanner" "lp"
     ];
-    shell = lib.mkDefault pkgs.fish;
+    # mkDefault (which is mkOverride 1000) doesn't work here; looks like
+    # it conflicts with the built-in default user shell.
+    shell = lib.mkOverride 999 pkgs.fish;
   };
 
   # Enable sound.
