@@ -89,6 +89,20 @@
   # Set shell to zsh for testing fleek
   users.users.samh.shell = pkgs.zsh;
 
+  # Define a user account.
+  # Initial setup - see NixOS manual:
+  # 1. Initial login: su - grace -c "true"
+  # 2. Set a password: passwd grace
+  users.users.grace = {
+    uid = 1009;
+    isNormalUser = true;
+    home = "/home/grace";
+    extraGroups = [
+      "audio" "networkmanager"
+    ];
+    shell = pkgs.fish;
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
