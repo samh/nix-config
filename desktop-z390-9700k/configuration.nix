@@ -151,7 +151,7 @@
           id = "Sync-Linux";
           enable = true;
           path = "/home/samh/Sync";    # Which folder to add to Syncthing
-          devices = [ "framework-laptop" ];      # Which devices to share the folder with
+          devices = [ "framework-laptop" "storage-server" ];      # Which devices to share the folder with
           versioning = {
             type = "staggered";
             params = {
