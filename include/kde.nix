@@ -8,9 +8,15 @@
 
   environment.systemPackages = with pkgs; [
     ark # archive manager
+    k4dirstat # disk usage analyzer (qdirstat is also available)
     kate # includes kwrite
-    kcalc
+    kcalc # calculator
+    libsForQt5.kcharselect # character map
     xorg.xhost
+
+    # Try to fix missing icons in virt-manager
+#    gnome.adwaita-icon-theme
+#    breeze-icons
   ];
 
   programs.partition-manager.enable = true; # KDE Partition Manager

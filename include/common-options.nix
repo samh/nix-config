@@ -66,6 +66,7 @@ in {
         kdiff3
         mpv
         neofetch
+        nixfmt
         #nerdfonts # has to download a bunch of files from GitHub, extract, etc.
         nix-index
         #obsidian  # Installed via Flatpak
