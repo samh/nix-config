@@ -7,7 +7,6 @@
   # point to the same underlying volume)!
   services.btrfs.autoScrub.fileSystems = [
     "/pool/nvme-nixos" # /
-    #"/pool/nvme-samh" # old - everything moved
     "/pool/nvme2-home" # /home, /samh, /var/lib/libvirt/qemu
     "/var/lib/flatpak"
     "/media/data1"
@@ -93,11 +92,6 @@
   # Root pools for btrbk backups
   fileSystems."/pool/nvme-nixos" =
     { device = "/dev/mapper/nvme-nixos";
-      fsType = "btrfs";
-      options = [ "compress=zstd:9" "x-systemd.device-timeout=0" ];
-    };
-  fileSystems."/pool/nvme-samh" =
-    { device = "/dev/nvme/samh";
       fsType = "btrfs";
       options = [ "compress=zstd:9" "x-systemd.device-timeout=0" ];
     };
