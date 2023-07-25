@@ -20,7 +20,7 @@
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/7495-DDEB";
+    { device = "/dev/disk/by-label/ESP-Z390";
       fsType = "vfat";
     };
 
