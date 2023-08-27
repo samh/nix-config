@@ -50,6 +50,7 @@
     # dina-font
     # proggyfonts
   ];
+  fonts.enableDefaultFonts = true;
   fonts.fontDir.enable = true;
 
   # Enable scanner support (also needs extra user groups)
