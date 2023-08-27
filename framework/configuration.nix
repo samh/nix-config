@@ -19,11 +19,17 @@
       ./hardware-configuration.nix
     ];
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  # Default mode cuts off a lot of info
-  boot.loader.systemd-boot.consoleMode = "max";
+  # Grub boot loader
+  # https://nixos.wiki/wiki/Dual_Booting_NixOS_and_Windows
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.configurationLimit = 25;
+  # Try to boot Windows by default. Another option would be to set to
+  # "saved" to boot the previously-used option.
+  boot.loader.grub.default = 2;
 
   # Boot parameters for Framework laptop per
   # https://dov.dev/blog/nixos-on-the-framework-12th-gen
