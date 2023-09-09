@@ -7,14 +7,11 @@
 {
   imports =
     [
-      # A collection of NixOS modules covering hardware quirks.
-      # https://github.com/NixOS/nixos-hardware
-      <nixos-hardware/framework/12th-gen-intel>
-      /etc/nixos/include/common.nix
-      /etc/nixos/include/ext-mounts.nix
-      /etc/nixos/include/kde.nix
-      /etc/nixos/include/nix-ld.nix
-      /etc/nixos/include/virt-manager.nix
+      ../include/common.nix
+      ../include/ext-mounts.nix
+      ../include/kde.nix
+      ../include/nix-ld.nix
+      ../include/virt-manager.nix
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];

@@ -9,11 +9,11 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./mounts.nix
-      /etc/nixos/include/common.nix
-      /etc/nixos/include/ext-mounts.nix
-      /etc/nixos/include/kde.nix
-      /etc/nixos/include/nix-ld.nix
-      /etc/nixos/include/vfio-host.nix
+      ../include/common.nix
+      ../include/ext-mounts.nix
+      ../include/kde.nix
+      ../include/nix-ld.nix
+      ../include/vfio-host.nix
     ];
 
   # Use the systemd-boot EFI boot loader.

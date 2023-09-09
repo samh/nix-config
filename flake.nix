@@ -16,14 +16,19 @@
     # nix-colors.url = "github:misterio77/nix-colors";
   };
 
-  outputs = { nixpkgs, home-manager, ... }@inputs: {
+  outputs = { nixpkgs, home-manager, hardware, ... }@inputs: {
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       fwnixos = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; }; # Pass flake inputs to our config
-        # > Our main nixos configuration file <
-        modules = [ ./framework/configuration.nix ];
+        modules = [
+          # A collection of NixOS modules covering hardware quirks.
+          # https://github.com/NixOS/nixos-hardware
+          hardware.nixosModules.framework-12th-gen-intel
+          # > Our main nixos configuration file <
+          ./framework/configuration.nix
+        ];
       };
     };
 
