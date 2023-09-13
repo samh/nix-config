@@ -46,9 +46,20 @@
     liberation_ttf
     fira-code
     fira-code-symbols
+    d2coding # Monospace font with support for Korean and latin characters
+    victor-mono # A programming font with semi-connected cursive italics and symbol ligatures
     # mplus-outline-fonts.githubRelease
     # dina-font
     # proggyfonts
+
+    # Trying to find a variety of fonts for general use
+    andika # A family designed especially for literacy use taking into account the needs of beginning readers
+    barlow
+    carlito # A sans-serif font metric-compatible with Microsoft Calibri
+    charis-sil # A family of highly readable fonts for broad multilingual use
+    comfortaa # A clean and modern font suitable for headings and logos
+    dotcolon-fonts # Font Collection by Sora Sagano
+    # recursive # A variable font family for code & UI
   ];
   fonts.enableDefaultFonts = true;
   fonts.fontDir.enable = true;
