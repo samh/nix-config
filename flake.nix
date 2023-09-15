@@ -20,6 +20,7 @@
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
+      # Framework Laptop
       fwnixos = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
@@ -28,6 +29,20 @@
           hardware.nixosModules.framework-12th-gen-intel
           # > Our main nixos configuration file <
           ./framework/configuration.nix
+        ];
+      };
+      # Desktop PC - Gigabyte Z390 Designare + Intel Core i7-9700k (2019)
+      desktop-z390-9700k = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        modules = [
+          ./desktop-z390-9700k/configuration.nix
+        ];
+      };
+      # New Storage Server - Z77 + Intel Core i5-3770k (2012)
+      yoshi = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        modules = [
+          ./yoshi/configuration.nix
         ];
       };
     };
