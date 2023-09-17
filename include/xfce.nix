@@ -2,6 +2,10 @@
 
 # Xfce Desktop
 {
+  imports = [
+    ./common-gui.nix
+  ];
+
   # Enable the Xfce Desktop Environment.
   services.xserver.desktopManager.xfce.enable = true;
   programs.thunar.enable = true;
