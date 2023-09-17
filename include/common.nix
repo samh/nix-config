@@ -93,6 +93,10 @@
   # Allow using FUSE filesystems across users, especially e.g. bindfs.
   programs.fuse.userAllowOther = true;
 
+  # Disable wait online as it's causing trouble at rebuild
+  # See: https://github.com/NixOS/nixpkgs/issues/180175
+  systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
+
   boot.kernel.sysctl = {
     # for Syncthing
     # https://github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size
