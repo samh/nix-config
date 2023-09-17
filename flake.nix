@@ -19,6 +19,9 @@
   outputs = { nixpkgs, home-manager, hardware, ... }@inputs: {
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
+    # (defaults to system hostname if not specified, and if
+    # /etc/nixos/flake.nix exists then that will be used without
+    # needing the "--flake" option).
     nixosConfigurations = {
       # Framework Laptop
       fwnixos = nixpkgs.lib.nixosSystem {
@@ -32,7 +35,7 @@
         ];
       };
       # Desktop PC - Gigabyte Z390 Designare + Intel Core i7-9700k (2019)
-      desktop-z390-9700k = nixpkgs.lib.nixosSystem {
+      nixos-2022-desktop = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
           ./desktop-z390-9700k/configuration.nix
