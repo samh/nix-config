@@ -27,7 +27,7 @@ I haven't found a remote management solution that I like yet, so I'm using
 plain `ssh` for now with a simple wrapper script:
 
 ```shell
-./yoshi/nixos-rebuild.sh boot
+./hosts/yoshi/nixos-rebuild.sh boot
 ```
 
 ## Source Layout

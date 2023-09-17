@@ -45,7 +45,7 @@
       yoshi = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
-          ./yoshi/configuration.nix
+          ./hosts/yoshi/configuration.nix
         ];
       };
     };
