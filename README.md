@@ -22,6 +22,14 @@ sudo nixos-rebuild boot
 # or switch, etc.
 ```
 
+## Remote Builds
+I haven't found a remote management solution that I like yet, so I'm using
+plain `ssh` for now with a simple wrapper script:
+
+```shell
+./yoshi/nixos-rebuild.sh boot
+```
+
 ## Source Layout
 
 Each machine has its own subdirectory, which is included from the main
