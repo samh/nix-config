@@ -91,21 +91,6 @@
 
   # List services that you want to enable:
 
-  # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    extraConfig = ''
-      # Restrict SSH to only these users
-      AllowUsers samh
-    '';
-  };
-  programs.ssh.startAgent = true;
-
-  # Enable periodic TRIM for SSDs
-  services.fstrim.enable = true;
-  # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd
-  services.fwupd.enable = true;
-
   users.users.vm1 = {
     uid = 5010; # in fedora2020 it was 1001, change to be more unique
     isNormalUser = true;
