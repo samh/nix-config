@@ -17,6 +17,7 @@
   xdg.portal.enable = true;
 
   environment.systemPackages = with pkgs; [
+    galculator # GTK calculator
     xfce.xfce4-panel-profiles
     xfce.xfce4-whiskermenu-plugin
     xorg.xhost
