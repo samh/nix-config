@@ -12,6 +12,14 @@ from the flake to `/etc/nixos`:
 ln -s $(pwd)/flake.nix /etc/nixos/
 ```
 
+It looks like you should be able to do the same for Home Manager:
+
+```shell
+mkdir -p ~/.config/home-manager
+ln -s $(pwd)/flake.nix ~/.config/home-manager/
+```
+
+
 ### Non-Declarative Configuration
 - Tailscale: `sudo tailscale up [options...]`
 

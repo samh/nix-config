@@ -52,8 +52,13 @@
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
+    # If you don't have home-manager installed, try
+    # `nix shell nixpkgs#home-manager`.
     homeConfigurations = {
-      "samh@fwnixos" = home-manager.lib.homeManagerConfiguration {
+      # Looks like the homeConfigurations can be host-specific, such
+      # as samh@yoshi, or just "samh".
+      # If I have both, is the host-specific one used?
+      "samh" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
