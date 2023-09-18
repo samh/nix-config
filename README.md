@@ -21,7 +21,10 @@ ln -s $(pwd)/flake.nix ~/.config/home-manager/
 
 
 ### Non-Declarative Configuration
+- User password
 - Tailscale: `sudo tailscale up [options...]`
+- Wireless networks (could be declared; see for example
+  <https://github.com/Misterio77/nix-config/blob/main/hosts/common/optional/wireless.nix>)
 
 ## nixos-rebuild
 Since `nixos-rebuild` defaults to the flake pointed at by a symbolic link at
