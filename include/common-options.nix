@@ -17,6 +17,9 @@ in {
   options.local.common.ansible = {
     enable = mkEnableOption "Ansible controller";
   };
+  options.local.common.tailscale = {
+    enable = mkEnableOption "Tailscale VPN";
+  };
 
   config = mkMerge [
     (mkIf cfg.ansible.enable {
@@ -42,6 +45,13 @@ in {
       environment.systemPackages = with pkgs; [
         podman-compose
       ];
+    })
+    (mkIf cfg.tailscale.enable {
+      # Tailscale VPN
+      # "warning: Strict reverse path filtering breaks Tailscale exit node use
+      # and some subnet routing setups."
+      networking.firewall.checkReversePath = "loose";
+      services.tailscale.enable = true;
     })
     (mkIf cfg.extras.enable {
       environment.systemPackages = with pkgs; [

@@ -101,12 +101,6 @@
   };
   programs.ssh.startAgent = true;
 
-  # Tailscale VPN
-  # "warning: Strict reverse path filtering breaks Tailscale exit node use
-  # and some subnet routing setups."
-  networking.firewall.checkReversePath = "loose";
-  services.tailscale.enable = true;
-
   # Enable periodic TRIM for SSDs
   services.fstrim.enable = true;
   # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd
@@ -244,6 +238,7 @@
   local.common.ansible.enable = true;
   local.common.extras.enable = true;
   local.common.podman.enable = true;
+  local.common.tailscale.enable = true;
 
   # Mount a magic /usr/bin to make shebangs work
   # https://github.com/Mic92/envfs
