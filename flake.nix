@@ -1,4 +1,7 @@
 {
+  # Nix configurations; flake initially based on
+  # https://github.com/Misterio77/nix-starter-configs
+  # (See also https://github.com/misterio77/nix-config)
   description = "Your new nix config";
 
   inputs = {
