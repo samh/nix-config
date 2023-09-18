@@ -6,6 +6,9 @@
     ./common-gui.nix
   ];
 
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+
   # Enable the Xfce Desktop Environment.
   services.xserver.desktopManager.xfce.enable = true;
   programs.thunar.enable = true;
