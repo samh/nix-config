@@ -90,7 +90,7 @@
   #zramSwap.memoryPercent = 50;
 
   # Set shell to zsh for testing fleek
-  users.users.samh.shell = pkgs.zsh;
+  #users.users.samh.shell = pkgs.zsh;
 
   # Define a user account.
   # Initial setup - see NixOS manual:
@@ -112,6 +112,9 @@
     # syncthingtray Plasmoid issue:
     # https://github.com/NixOS/nixpkgs/issues/199596
     syncthingtray-minimal
+
+    # Using system-level Firefox for now (see more notes in common.nix).
+    firefox
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
