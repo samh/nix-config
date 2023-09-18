@@ -6,9 +6,13 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      ../include/common.nix
+      ../include/ext-mounts.nix
+      ../include/xfce.nix
+      #../include/virt-manager.nix
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../include/xfce.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -57,22 +61,10 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.samh = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUXbz1JybJ80kgBWGFG8a0QOjmeMfpCH7l4uZTZTCo7 fedora2020desktop-2022-02-05"
-    ];
-    packages = with pkgs; [
-      firefox
-      tree
-    ];
-  };
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    firefox
     git # required for building flakes
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
