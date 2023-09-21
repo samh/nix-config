@@ -11,6 +11,7 @@
       ../include/ext-mounts.nix
       ../include/xfce.nix
       #../include/virt-manager.nix
+      ./mounts.nix
       ./nvidia-660ti.nix
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
