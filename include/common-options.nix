@@ -55,6 +55,7 @@ in {
     })
     (mkIf cfg.extras.enable {
       environment.systemPackages = with pkgs; [
+        alejandra # Nix formatter
         bitwarden
         bwm_ng # console network/disk monitor
         catclock # provides 'xclock'
@@ -76,7 +77,7 @@ in {
         kdiff3
         mpv
         neofetch
-        nixfmt
+        #nixfmt
         #nerdfonts # has to download a bunch of files from GitHub, extract, etc.
         nix-index
         #obsidian  # Installed via Flatpak
