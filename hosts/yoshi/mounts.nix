@@ -24,6 +24,11 @@
     fsType = "btrfs";
     options = ["nofail" "subvol=@disk3" "compress=zstd:9" "x-systemd.device-timeout=0"];
   };
+  fileSystems."media/disk4.4TB.raid1" = {
+    device = "LABEL=disk4.4TB.raid1";
+    fsType = "btrfs";
+    options = ["nofail" "subvol=@disk4" "compress=zstd:9" "x-systemd.device-timeout=0"];
+  };
 
   # Mergerfs pool
   fileSystems."/storage" = {
@@ -57,6 +62,11 @@
   };
   fileSystems."/pool/16TB.2023.3GPN" = {
     device = "LABEL=16TB-2023-3GPN";
+    fsType = "btrfs";
+    options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
+  };
+  fileSystems."/pool/disk4.4TB.raid1" = {
+    device = "LABEL=disk4.4TB.raid1";
     fsType = "btrfs";
     options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
   };
