@@ -51,8 +51,10 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    dua # Disk Usage Analyzer (ncdu alternative)
     firefox
     git # required for building flakes
+    gparted
     mergerfs
     mergerfs-tools
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
@@ -60,6 +62,8 @@
   ];
 
   # List services that you want to enable:
+
+  #virtualisation.oci-containers.backend = "podman";
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
