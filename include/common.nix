@@ -112,6 +112,15 @@
   # See: https://github.com/NixOS/nixpkgs/issues/180175
   systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
 
+  # I like to have these directories around for mounts.
+  # Adding them here creates the directories as needed, plus declaratively
+  # sets the permissions (/pool should be readable only by root).
+  systemd.tmpfiles.rules = [
+    "d /media 0755 root root"
+    "d /mnt 0755 root root"
+    "d /pool 0700 root root"
+  ];
+
   boot.kernel.sysctl = {
     # for Syncthing
     # https://github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size

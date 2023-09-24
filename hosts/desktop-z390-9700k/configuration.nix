@@ -212,13 +212,6 @@
   # accidentally delete configuration.nix.
   # system.copySystemConfiguration = true;
 
-  systemd.tmpfiles.rules = [
-    # I like to have these directories around for mounts
-    "d /media 0755 root root"
-    "d /mnt 0755 root root"
-    "d /pool 0700 root root"
-  ];
-
   # Local (personal) configuration settings
   local.common.ansible.enable = true;
   local.common.extras.enable = true;
