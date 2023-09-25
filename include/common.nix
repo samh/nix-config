@@ -20,6 +20,10 @@
       # Scanner support - https://nixos.wiki/wiki/Scanners
       "scanner" "lp"
     ];
+    # Note: stored in /etc/ssh/authorized_keys.d/, not ~/.ssh/authorized_keys
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUXbz1JybJ80kgBWGFG8a0QOjmeMfpCH7l4uZTZTCo7 fedora2020desktop-2022-02-05"
+    ];
     # mkDefault (which is mkOverride 1000) doesn't work here; looks like
     # it conflicts with the built-in default user shell.
     shell = lib.mkOverride 999 pkgs.fish;
