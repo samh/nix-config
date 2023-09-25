@@ -17,11 +17,13 @@
 
   # Use the grub boot loader (EFI mode)
   boot.loader.systemd-boot.enable = false;
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "nodev";
-  boot.loader.grub.efiSupport = true;
-  boot.loader.grub.useOSProber = true;
-  boot.loader.grub.configurationLimit = 30;
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev";
+    efiSupport = true;
+    useOSProber = false; # There's no other OS on this machine.
+    configurationLimit = 30;
+  };
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "kirby"; # Define your hostname.
