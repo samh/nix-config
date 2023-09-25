@@ -60,6 +60,8 @@
 
   # List services that you want to enable:
 
+  services.uptime-kuma.enable = true;
+
   #virtualisation.oci-containers.backend = "podman";
 
   # Open ports in the firewall.
