@@ -5,7 +5,8 @@
 #
 # Things that should be edited:
 #
-#  - The hostname (probably fine to leave it as a placeholder)
+#  - The hostname - should be set so the correct flake is selected by default
+#    when building the real config
 #  - Disable or change desktop manager if desired
 #
 # Edit this configuration file to define what should be installed on
@@ -85,6 +86,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    git # Required to build flakes
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
   ];
