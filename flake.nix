@@ -51,6 +51,13 @@
           ./hosts/yoshi/configuration.nix
         ];
       };
+      # Dell OptiPlex 7050 Micro - Intel Core i5 i5-6600T (2023)
+      kirby = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        modules = [
+          ./hosts/kirby/configuration.nix
+        ];
+      };
     };
 
     # Standalone home-manager configuration entrypoint
