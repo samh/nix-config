@@ -11,6 +11,8 @@
       ../include/ext-mounts.nix
       ../include/xfce.nix
       ../include/virt-manager.nix
+
+      ./borg-backup.nix
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
