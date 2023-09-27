@@ -16,7 +16,7 @@
     mkBorgmaticConfig = name: {
       storage = {
         # NOTE: need to deploy password file somehow
-        encryption_passcommand = "cat /var/lib/secrets/root/borg-pass-${name}";
+        encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass-${name}";
         compression = "auto,zstd,9";
       };
       retention = {
@@ -28,14 +28,16 @@
       };
     };
   in {
-    "appdata" =
-      mkBorgmaticConfig "appdata"
+    "general" =
+      mkBorgmaticConfig "general"
       // {
-        source_directories = [
-          "/var/lib/private/uptime-kuma"
-          "/var/lib/tailscale"
-        ];
-        repositories = ["ssh://f66k66p2@f66k66p2.repo.borgbase.com/./repo"];
+        location = {
+          source_directories = [
+            "/var/lib/private/uptime-kuma"
+            "/var/lib/tailscale"
+          ];
+          repositories = ["ssh://f66k66p2@f66k66p2.repo.borgbase.com/./repo"];
+        };
         hooks = {
           # Healthchecks ping URL or UUID to notify when a backup
           # begins, ends, or errors. Create an account at
