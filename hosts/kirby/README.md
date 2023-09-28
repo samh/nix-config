@@ -9,9 +9,11 @@
 - `/root/.ssh/id_ed25519.pub` - root's SSH key
   - `ssh-keygen -t ed25519`
   - Needs to be added to BorgBase
-- `/var/lib/secrets/root` - directory that holds secrets that should only be
-  readable by the root user
+- `/root` - used for secrets that should only be
+  readable by the root user, since only root can read it by default.
   - Borg passphrases for each repo ([borg-backup.nix](./borg-backup.nix))
+  - `borgmatic.env`:
+    - `HEALTHCHECKS_URL=https://hc-ping.com/...`
 
 ### Backups
 - BorgBase - repos need to be initialized

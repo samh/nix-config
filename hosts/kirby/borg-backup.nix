@@ -43,9 +43,12 @@
           # begins, ends, or errors. Create an account at
           # https://healthchecks.io if you'd like to use this service.
           # See borgmatic monitoring documentation for details.
-          # TODO: healthchecks.io URL is a secret; not sure if it's possible to use this
-          #healthchecks = "{{ borgmatic_healthcheck_url }}";
+          # The URL is a secret, so get it from the EnvironmentFile.
+          healthchecks = "\${HEALTHCHECKS_URL}";
         };
       };
   };
+
+  # Add environment file to borgmatic service, to pass HEALTHCHECKS_URL
+  systemd.services.borgmatic.serviceConfig.EnvironmentFile = "/root/borgmatic.env";
 }
