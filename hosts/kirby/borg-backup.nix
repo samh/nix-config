@@ -43,8 +43,15 @@
           # begins, ends, or errors. Create an account at
           # https://healthchecks.io if you'd like to use this service.
           # See borgmatic monitoring documentation for details.
+          #
           # The URL is a secret, so get it from the EnvironmentFile.
-          healthchecks = "\${HEALTHCHECKS_URL}";
+          # Use ":-" to try to make it easier
+          # to run commands like "borgmatic list" without sourcing the
+          # environment file.
+          # I tried making it an empty string, but that gave an error:
+          # Healthchecks error: 400 Client Error: Bad Request for url: https://hc-ping.com/$%7BHEALTHCHECKS_URL:-%7D
+          # Seems to work if we give it some arbitrary string.
+          healthchecks = "\${HEALTHCHECKS_URL:-empty}";
         };
       };
   };
