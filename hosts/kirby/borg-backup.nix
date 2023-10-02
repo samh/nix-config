@@ -33,7 +33,13 @@
       // {
         location = {
           source_directories = [
-            "/var/lib/private/uptime-kuma"
+            "/root"
+            # contains uid/gid mappings; might be useful to keep
+            # permissions consistent
+            "/var/lib/nixos"
+            # Service data (StateDirectory) when DynamicUser=true,
+            # for example for 'uptime-kuma'
+            "/var/lib/private"
             "/var/lib/tailscale"
           ];
           repositories = ["ssh://f66k66p2@f66k66p2.repo.borgbase.com/./repo"];
