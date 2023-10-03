@@ -6,7 +6,9 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      ./borg-backup.nix
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./mounts.nix
       ../include/common.nix
