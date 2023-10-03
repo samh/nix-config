@@ -34,7 +34,8 @@ ln -s $(pwd)/flake.nix ~/.config/home-manager/
   - Needs to be added to BorgBase
 - `/root` - used for secrets that should only be
   readable by the root user, since only root can read it by default.
-  - Borg passphrases for each repo ([borg-backup.nix](./borg-backup.nix))
+  - Borg passphrases for each repo
+    - `/root/borg-pass` (default)
   - `/root/borgmatic.env`:
     - `HEALTHCHECKS_URL=https://hc-ping.com/...`
 

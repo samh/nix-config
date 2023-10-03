@@ -12,6 +12,7 @@
     ../include/ext-mounts.nix
     ../include/xfce.nix
     #../include/virt-manager.nix
+    ./borg-backup.nix
     ./mounts.nix
     ./nvidia-660ti.nix
     # Include the results of the hardware scan.
@@ -64,9 +65,9 @@
 
   # List services that you want to enable:
 
-  services.jellyfin.enable = false;
+  services.jellyfin.enable = true;
   # https://jellyfin.org/docs/general/networking/index.html
-  networking.firewall = mkIf config.services.jellyfin.enable {
+  networking.firewall = lib.mkIf config.services.jellyfin.enable {
     # 8096/tcp is used by default for HTTP traffic. You can change this in the dashboard.
     # 8920/tcp is used by default for HTTPS traffic. You can change this in the dashboard.
     allowedTCPPorts = [8096 8920];
