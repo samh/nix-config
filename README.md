@@ -51,3 +51,7 @@ Each machine has its own subdirectory, which is included from the main
 
 Shared modules are stored under the `include` subdirectory
 (for lack of a better name).
+
+### Things Specific to This Repo
+- `options.local` / `config.local` refers to my personal configurations
+  (i.e. things that are locally defined, local to the repo)
