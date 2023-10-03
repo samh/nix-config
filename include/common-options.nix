@@ -64,6 +64,7 @@ in {
         #cope # A colourful wrapper for terminal programs (Perl)
         distrobox
         doit
+        dua # Disk Usage Analyzer (ncdu alternative)
         element-desktop
         filezilla
         fira-code
@@ -77,6 +78,7 @@ in {
         kdiff3
         mpv
         neofetch
+        nil # Nix LSP
         #nixfmt
         #nerdfonts # has to download a bunch of files from GitHub, extract, etc.
         nix-index
