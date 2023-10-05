@@ -14,6 +14,7 @@
     ../include/virt-manager.nix
 
     ./borg-backup.nix
+    ./samba.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
