@@ -1,21 +1,22 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-
-{ config, lib, pkgs, ... }:
-
 {
-  imports =
-    [
-      ../include/common.nix
-      ../include/ext-mounts.nix
-      ../include/xfce.nix
-      ../include/virt-manager.nix
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [
+    ../include/common.nix
+    ../include/ext-mounts.nix
+    ../include/xfce.nix
+    ../include/virt-manager.nix
 
-      ./borg-backup.nix
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+    ./borg-backup.nix
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the grub boot loader (EFI mode)
   boot.loader.systemd-boot.enable = false;
@@ -31,7 +32,7 @@
   networking.hostName = "kirby"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -88,5 +89,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 }
