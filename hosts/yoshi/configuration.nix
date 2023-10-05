@@ -57,14 +57,34 @@
     firefox
     git # required for building flakes
     gparted
+    intel-gpu-tools # intel_gpu_top for checking Jellyfin transcoding
+    lshw
     mergerfs
     mergerfs-tools
+    pciutils # lspci
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
   ];
 
   # List services that you want to enable:
 
+  # Enable vaapi on OS-level for Jellyfin transcoding
+  # From https://nixos.wiki/wiki/Jellyfin
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
+  };
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      vaapiIntel
+      vaapiVdpau
+      libvdpau-va-gl
+      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+    ];
+  };
+
+  # Jellyfin
   services.jellyfin.enable = true;
   # Bind the library directory to the same place as it was in the container
   # on the old server, because it takes some database editing to change it.
