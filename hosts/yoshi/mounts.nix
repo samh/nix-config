@@ -54,6 +54,24 @@
     ];
   };
 
+  # Network filesystems
+  system.fsPackages = [pkgs.sshfs];
+  # Temporarily mount old Storage Server
+  fileSystems."/media/storage.old" = {
+    device = "samh@192.168.5.45:/storage/";
+    fsType = "sshfs";
+    options = [
+      # Filesystem options
+      "allow_other" # for non-root access
+      "_netdev" # this is a network fs
+      "x-systemd.automount" # mount on demand
+
+      # SSH options
+      "reconnect" # handle connection drops
+      "ServerAliveInterval=15" # keep connections alive
+    ];
+  };
+
   # Root pools for btrbk backups
   fileSystems."/pool/ssd-root" = {
     device = "LABEL=nixos";
