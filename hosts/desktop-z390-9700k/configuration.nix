@@ -63,16 +63,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    pika-backup  # borg frontend - testing it out
+    # pika-backup  # borg frontend - testing it out
     spice-gtk
 
     # Using system-level Firefox for now (see more notes in common.nix).
     firefox
-
-    # XFCE
-    #xfce.xfce4-panel-profiles
-    #xfce.xfce4-pulseaudio-plugin
-    #xfce.xfce4-whiskermenu-plugin
   ];
   # TODO: only allow per package
   # Obsidian, PyCharm, maybe others I didn't realize...
