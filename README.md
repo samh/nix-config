@@ -43,6 +43,13 @@ ln -s $(pwd)/flake.nix ~/.config/home-manager/
 - BorgBase - repos need to be initialized
   - `borgmatic init -e repokey-blake2`
 
+#### Service State
+- Usually stored under `/var/lib` for each service
+  - In particular, the systemd option `StateDirectory` creates a directory
+    under `/var/lib` for the service
+  - When `DynamicUser=true`, it will be under `/var/lib/private` with a
+    symbolic link under `/var/lib`.
+
 ## nixos-rebuild
 Since `nixos-rebuild` defaults to the flake pointed at by a symbolic link at
 `/etc/nixos/flake.nix` and the configuration matching the hostname, we should
