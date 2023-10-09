@@ -6,3 +6,12 @@
 
 ## State / Manual Setup Steps
 1. *See [top-level README.md](../../README.md) for common steps.*
+
+## Notable Systemd Units
+
+```
+borgmatic.service
+borgmatic.timer
+jellyfin.service
+tailscaled.service
+```
