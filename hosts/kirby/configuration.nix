@@ -66,6 +66,31 @@
 
   services.uptime-kuma.enable = true;
 
+  services.postgresql = {
+    enable = true;
+    package = pkgs.postgresql_15;
+    # Checksums seems like a good idea in general, but if running on
+    # btrfs it seems redundant. Arch wiki suggests it "If your database
+    # files reside on a file system without checksumming".
+    #initdbArgs = [ "--data-checksums"];
+  };
+
+  # Configure the paperless service.
+  #
+  # Tried "services.postgresql.ensureUsers" and "services.postgresql.ensureDatabases"
+  # but the don't seem to work very well for this, at least not right now. See
+  # https://github.com/NixOS/nixpkgs/pull/107342 and various other linked issues.
+  # The PostgreSQL user and database need to be created manually.
+  services.paperless = {
+    enable = false;
+    extraConfig = {
+      PAPERLESS_DBENGINE = "postgresql";
+      PAPERLESS_DBHOST = "/run/postgresql";
+      PAPERLESS_OCR_LANGUAGE = "eng";
+      PAPERLESS_FILENAME_FORMAT = "{created_year}/{correspondent}/{title}";
+    };
+  };
+
   #virtualisation.oci-containers.backend = "podman";
 
   # Open ports in the firewall.
