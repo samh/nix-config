@@ -28,6 +28,10 @@
   boot.loader.grub.configurationLimit = 25;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Load the kernel module for the Blu-Ray drive.
+  # Found from https://discourse.nixos.org/t/makemkv-cant-find-my-usb-blu-ray-drive/23714/3
+  boot.kernelModules = ["sg"];
+
   networking.hostName = "yoshi"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
