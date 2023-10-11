@@ -9,17 +9,12 @@
 with lib; let
   cfg = config.local.common;
 in {
-  options.local.common.extras = {
-    enable = mkEnableOption "Extra packages";
-  };
-  options.local.common.podman = {
-    enable = mkEnableOption "Podman containers";
-  };
-  options.local.common.ansible = {
-    enable = mkEnableOption "Ansible controller";
-  };
-  options.local.common.tailscale = {
-    enable = mkEnableOption "Tailscale VPN";
+  options.local.common = {
+    extras.enable = mkEnableOption "Extra packages";
+    extra-fonts.enable = mkEnableOption "Extra fonts";
+    podman.enable = mkEnableOption "Podman containers";
+    ansible.enable = mkEnableOption "Ansible controller";
+    tailscale.enable = mkEnableOption "Tailscale VPN";
   };
 
   config = mkMerge [
@@ -114,6 +109,45 @@ in {
       #  "jetbrains.pycharm-professional"
       #  "vscode.fhs"
       #];
+    })
+    (mkIf cfg.extra-fonts.enable {
+      fonts.fonts = with pkgs; [
+        fira-code
+        fira-code-symbols
+        d2coding # Monospace font with support for Korean and latin characters
+        victor-mono # A programming font with semi-connected cursive italics and symbol ligatures
+        # mplus-outline-fonts.githubRelease
+        # dina-font
+        # proggyfonts
+
+        # Trying to find a variety of fonts for general use
+        andika # A family designed especially for literacy use taking into account the needs of beginning readers
+        barlow
+        carlito # A sans-serif font metric-compatible with Microsoft Calibri
+        charis-sil # A family of highly readable fonts for broad multilingual use
+        comfortaa # A clean and modern font suitable for headings and logos
+        dotcolon-fonts # Font Collection by Sora Sagano
+        # linux-libertine # Libertine Fonts is a collection of libre multilingual fonts.
+        # open-fonts # A collection of beautiful free and open source fonts
+        open-sans
+        # recursive # A variable font family for code & UI
+
+        # Roboto: Google’s signature family of fonts, the default font on Android
+        # and Chrome OS, and the recommended font for Google’s visual language,
+        # Material Design.
+        # roboto
+        # roboto-serif
+
+        # "The world's biggest collection of classic text mode fonts, system fonts
+        # and BIOS fonts from DOS-era IBM PCs and compatibles - preserving raster
+        # typography from pre-GUI times"
+        # https://int10h.org/oldschool-pc-fonts/
+        ultimate-oldschool-pc-font-pack
+
+        unfonts-core # Korean Hangul typeface collection https://kldp.net/unfonts/
+
+        zilla-slab # A custom family for Mozilla by Typotheque
+      ];
     })
   ];
 }

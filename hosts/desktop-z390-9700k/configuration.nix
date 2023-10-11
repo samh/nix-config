@@ -63,6 +63,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    libreoffice-qt
     # pika-backup  # borg frontend - testing it out
     spice-gtk
 
@@ -211,6 +212,7 @@
 
   # Local (personal) configuration settings
   local.common.ansible.enable = true;
+  local.common.extra-fonts.enable = true;
   local.common.extras.enable = true;
   local.common.podman.enable = true;
   local.common.tailscale.enable = true;

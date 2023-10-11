@@ -204,6 +204,7 @@
   # Local (personal) configuration settings
   # (see common-options.nix)
   local.common.ansible.enable = true;
+  local.common.extra-fonts.enable = true;
   local.common.extras.enable = true;
   local.common.podman.enable = true;
   local.common.tailscale.enable = true;
