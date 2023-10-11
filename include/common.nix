@@ -1,5 +1,10 @@
-{ inputs, config, lib, pkgs, ... }:
-
+{
+  inputs,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 # Common - should be things that can be enabled everywhere
 # (except maybe very minimal systems?).
 # Should not include anything desktop-related (see common-desktop.nix
@@ -16,9 +21,12 @@
     uid = 1000;
     isNormalUser = true;
     extraGroups = [
-      "wheel" "audio" "networkmanager"
+      "wheel"
+      "audio"
+      "networkmanager"
       # Scanner support - https://nixos.wiki/wiki/Scanners
-      "scanner" "lp"
+      "scanner"
+      "lp"
     ];
     # Note: stored in /etc/ssh/authorized_keys.d/, not ~/.ssh/authorized_keys
     openssh.authorizedKeys.keys = [
@@ -32,7 +40,7 @@
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
-    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
+    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
 
     # This will additionally add your inputs to the system's legacy channels
     # Making legacy nix commands consistent as well, awesome!
@@ -50,9 +58,9 @@
   # To run manually with a different timeframe:
   # sudo nix-collect-garbage --delete-older-than 7d
   nix.gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 365d";
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 365d";
   };
 
   environment.systemPackages = with pkgs; [
@@ -91,7 +99,7 @@
 
   programs.tmux = {
     enable = true;
-    plugins = with pkgs.tmuxPlugins; [ continuum resurrect ];
+    plugins = with pkgs.tmuxPlugins; [continuum resurrect];
   };
 
   # Allow using FUSE filesystems across users, especially e.g. bindfs.

@@ -1,11 +1,12 @@
 # This file contains various optional configurations, which can be enabled
 # or disabled per-host.
-
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   cfg = config.local.common;
 in {
   options.local.common.extras = {
@@ -94,11 +95,11 @@ in {
         smplayer
         thunderbird
         unrar
-        usbimager  # minimal graphical alternative to e.g. Etcher
+        usbimager # minimal graphical alternative to e.g. Etcher
         #vim
         vimHugeX # gvim
         vlc
-        vorta
+        vorta # Borg backup GUI
         vscode.fhs
         #vscodium-fhs
         yadm
