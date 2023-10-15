@@ -73,6 +73,10 @@
     # btrfs it seems redundant. Arch wiki suggests it "If your database
     # files reside on a file system without checksumming".
     #initdbArgs = [ "--data-checksums"];
+
+    # Potentially worse for security, but for convenience of connecting from GUIs,
+    # it may be worth allowing TCP/IP connections.
+    enableTCPIP = true;
   };
 
   # Configure the paperless service.
@@ -82,7 +86,7 @@
   # https://github.com/NixOS/nixpkgs/pull/107342 and various other linked issues.
   # The PostgreSQL user and database need to be created manually.
   services.paperless = {
-    enable = false;
+    enable = true;
     extraConfig = {
       PAPERLESS_DBENGINE = "postgresql";
       PAPERLESS_DBHOST = "/run/postgresql";

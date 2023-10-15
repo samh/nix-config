@@ -18,9 +18,11 @@
         location = {
           source_directories = [
             "/root"
-            # contains uid/gid mappings; might be useful to keep
+            # /var/lib/nixos contains uid/gid mappings; might be useful to keep
             # permissions consistent
             "/var/lib/nixos"
+            # Service data
+            "/var/lib/paperless"
             # Service data (StateDirectory) when DynamicUser=true,
             # for example for 'uptime-kuma'
             "/var/lib/private"
@@ -29,6 +31,18 @@
           repositories = ["ssh://f66k66p2@f66k66p2.repo.borgbase.com/./repo"];
         };
         hooks = {
+          # Note: since borgmatic is running as root, I created a "root" user
+          # in the database who can read all databases; it's using the default
+          # peer authentication. See README.md.
+          postgresql_databases = [
+            {
+              # "all" to dump all databases on the host.
+              name = "all";
+              # dumps each database to a separate file in "custom" format
+              format = "custom";
+            }
+          ];
+
           # Healthchecks ping URL or UUID to notify when a backup
           # begins, ends, or errors. Create an account at
           # https://healthchecks.io if you'd like to use this service.
@@ -48,4 +62,12 @@
 
   # Add environment file to borgmatic service, to pass HEALTHCHECKS_URL
   #  systemd.services.borgmatic.serviceConfig.EnvironmentFile = "/root/borgmatic.env";
+
+  # Add packages to borgmatic service PATH.
+  # PostgreSQL is needed for the postgresql_databases hook.
+  # TODO: is it possible to add to the path of the "borgmatic" wrapper script,
+  #       so it works when running that directly?
+  systemd.services.borgmatic.path = [
+    config.services.postgresql.package
+  ];
 }
