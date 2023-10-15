@@ -6,7 +6,9 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  host_domain = "${config.networking.hostName}.${config.local.base_domain}";
+in {
   imports = [
     ../include/common.nix
     ../include/ext-mounts.nix
@@ -64,7 +66,17 @@
 
   # List services that you want to enable:
 
+  services.nginx.enable = true;
+
   services.uptime-kuma.enable = true;
+  services.nginx.virtualHosts."uptime-kuma" = {
+    serverName = "uptime-kuma.${host_domain}";
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString config.services.uptime-kuma.settings.PORT}";
+      proxyWebsockets = true;
+    };
+    forceSSL = false;
+  };
 
   services.postgresql = {
     enable = true;
@@ -94,11 +106,18 @@
       PAPERLESS_FILENAME_FORMAT = "{created_year}/{correspondent}/{title}";
     };
   };
+  services.nginx.virtualHosts."paperless" = {
+    serverName = "paperless.${host_domain}";
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString config.services.paperless.port}";
+    };
+    forceSSL = false;
+  };
 
   #virtualisation.oci-containers.backend = "podman";
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [80 443];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

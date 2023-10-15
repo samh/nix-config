@@ -16,6 +16,11 @@ in {
     ansible.enable = mkEnableOption "Ansible controller";
     tailscale.enable = mkEnableOption "Tailscale VPN";
   };
+  options.local.base_domain = mkOption {
+    type = types.str;
+    default = "hartsfield.xyz";
+    description = "Base domain name for services (option in case we want to override for some testing purpose)";
+  };
 
   config = mkMerge [
     (mkIf cfg.ansible.enable {
