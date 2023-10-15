@@ -127,6 +127,7 @@ in {
         charis-sil # A family of highly readable fonts for broad multilingual use
         comfortaa # A clean and modern font suitable for headings and logos
         dotcolon-fonts # Font Collection by Sora Sagano
+        league-of-moveable-type # Font Collection by The League of Moveable Type https://www.theleagueofmoveabletype.com/
         # linux-libertine # Libertine Fonts is a collection of libre multilingual fonts.
         # open-fonts # A collection of beautiful free and open source fonts
         open-sans
