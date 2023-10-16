@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
-
+{
+  config,
+  pkgs,
+  ...
+}:
 # KDE Plasma
 {
   imports = [
@@ -19,8 +22,8 @@
     xorg.xhost
 
     # Try to fix missing icons in virt-manager
-#    gnome.adwaita-icon-theme
-#    breeze-icons
+    #    gnome.adwaita-icon-theme
+    #    breeze-icons
   ];
 
   programs.partition-manager.enable = true; # KDE Partition Manager

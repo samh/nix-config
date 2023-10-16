@@ -52,7 +52,7 @@
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
       # Restrict who is allowed to use nix
-      allowed-users = [ "@wheel" ];
+      allowed-users = ["@wheel"];
     };
   };
 

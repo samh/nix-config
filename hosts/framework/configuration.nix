@@ -1,20 +1,20 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [
-      ../include/common.nix
-      ../include/ext-mounts.nix
-      ../include/kde.nix
-      ../include/nix-ld.nix
-      ../include/virt-manager.nix
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    ../include/common.nix
+    ../include/ext-mounts.nix
+    ../include/kde.nix
+    ../include/nix-ld.nix
+    ../include/virt-manager.nix
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Grub boot loader
   # https://nixos.wiki/wiki/Dual_Booting_NixOS_and_Windows
@@ -32,12 +32,12 @@
   # https://dov.dev/blog/nixos-on-the-framework-12th-gen
   #boot.kernelPackages = pkgs.linuxPackages_6_0;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "module_blacklist=hid_sensor_hub" ];
+  boot.kernelParams = ["module_blacklist=hid_sensor_hub"];
 
   networking.hostName = "fwnixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -79,7 +79,7 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  services.printing.drivers = [ pkgs.hplip ];
+  services.printing.drivers = [pkgs.hplip];
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
@@ -101,7 +101,8 @@
     isNormalUser = true;
     home = "/home/grace";
     extraGroups = [
-      "audio" "networkmanager"
+      "audio"
+      "networkmanager"
     ];
     shell = pkgs.fish;
   };
@@ -131,32 +132,33 @@
     syncthing = {
       enable = true;
       user = "samh";
-      dataDir = "/home/samh/Documents";    # Default folder for new synced folders
-      configDir = "/home/samh/.config/syncthing";   # Folder for Syncthing's settings and keys
+      dataDir = "/home/samh/Documents"; # Default folder for new synced folders
+      configDir = "/home/samh/.config/syncthing"; # Folder for Syncthing's settings and keys
 
       # Open firewall ports
       openDefaultPorts = true;
 
-      overrideDevices = true;     # overrides any devices added or deleted through the WebUI
-      overrideFolders = true;     # overrides any folders added or deleted through the WebUI
+      overrideDevices = true; # overrides any devices added or deleted through the WebUI
+      overrideFolders = true; # overrides any folders added or deleted through the WebUI
       devices = {
-        "storage-server" = { id = "AL433J4-2HM6N7D-C4HP5FT-6FNPCPI-MYW4T36-7RIEF5B-7J66U2W-BYW7CQ3"; };
-        "desktop-z390-9700k" = { id = "4JP4C67-VSQX646-E4BRJDC-ZQ2ZTNJ-CKWNUSS-2FC46OK-MDN7DB7-JCKBXQW"; };
-        "pixel4a" = { id = "NPVNVC5-J2CKZF6-6LUH6NF-3NYG6GP-GUERNAO-O35UZUC-L6ADKSK-SPRA3AL"; };
-        "work-laptop" = { id = "ME2B765-2HQWLAO-A7PRWE3-RP44QKE-UIJTZSH-467P3GF-JE7FSWY-ZYCPQQA"; }; # 2013
+        "storage-server" = {id = "AL433J4-2HM6N7D-C4HP5FT-6FNPCPI-MYW4T36-7RIEF5B-7J66U2W-BYW7CQ3";};
+        "desktop-z390-9700k" = {id = "4JP4C67-VSQX646-E4BRJDC-ZQ2ZTNJ-CKWNUSS-2FC46OK-MDN7DB7-JCKBXQW";};
+        "pixel4a" = {id = "NPVNVC5-J2CKZF6-6LUH6NF-3NYG6GP-GUERNAO-O35UZUC-L6ADKSK-SPRA3AL";};
+        "work-laptop" = {id = "ME2B765-2HQWLAO-A7PRWE3-RP44QKE-UIJTZSH-467P3GF-JE7FSWY-ZYCPQQA";}; # 2013
       };
       folders = {
-        "Sync-Linux" = {        # Name of folder in Syncthing, also the folder ID
+        "Sync-Linux" = {
+          # Name of folder in Syncthing, also the folder ID
           id = "Sync-Linux";
           enable = true;
-          path = "/home/samh/Sync";    # Which folder to add to Syncthing
-          devices = [ "desktop-z390-9700k" "storage-server" ];      # Which devices to share the folder with
+          path = "/home/samh/Sync"; # Which folder to add to Syncthing
+          devices = ["desktop-z390-9700k" "storage-server"]; # Which devices to share the folder with
           versioning = {
             type = "staggered";
             params = {
               cleanInterval = "3600";
-              maxAge = "365";  # Syncthing doc says days; is Nix version the same?
-#              versionsPath = ".stversions";
+              maxAge = "365"; # Syncthing doc says days; is Nix version the same?
+              #              versionsPath = ".stversions";
             };
           };
         };
@@ -164,7 +166,7 @@
           id = "evgke-fvs53";
           enable = true;
           path = "/home/samh/Notes/Notes-Shared";
-          devices = [ "desktop-z390-9700k" "pixel4a" "work-laptop" "storage-server" ];
+          devices = ["desktop-z390-9700k" "pixel4a" "work-laptop" "storage-server"];
           versioning = {
             type = "staggered";
             params = {
@@ -177,7 +179,7 @@
           id = "jjbsv-stmrg";
           enable = true;
           path = "/home/samh/Notes/Notes-Personal";
-          devices = [ "desktop-z390-9700k" "pixel4a" "storage-server" ];
+          devices = ["desktop-z390-9700k" "pixel4a" "storage-server"];
           versioning = {
             type = "staggered";
             params = {
@@ -226,6 +228,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.05"; # Did you read the comment?
-
 }
-

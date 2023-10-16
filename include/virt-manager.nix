@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
-
+{
+  config,
+  pkgs,
+  ...
+}:
 # Virtualization using KVM with virt-manager
 {
   virtualisation = {
@@ -26,5 +29,5 @@
   };
 
   #users.groups.libvirtd.members = [ "root" "samh" ];
-  users.users.samh.extraGroups = [ "libvirtd" ];
+  users.users.samh.extraGroups = ["libvirtd"];
 }

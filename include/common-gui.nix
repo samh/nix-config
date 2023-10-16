@@ -1,5 +1,10 @@
-{ inputs, config, lib, pkgs, ... }:
-
+{
+  inputs,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 # Common options for systems with a graphical desktop.
 {
   #users.users.samh.extraGroups = [ "libvirtd" ];
@@ -37,14 +42,14 @@
   # Enable scanner support (also needs extra user groups)
   # https://nixos.wiki/wiki/Scanners
   hardware.sane.enable = lib.mkDefault true;
-  hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+  hardware.sane.extraBackends = [pkgs.sane-airscan];
   # WARNING: hplip is downloaded from HP's website and compiled.
   #hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ]; # for HP scanner
 
   # Enable Flatpak
   services.flatpak.enable = true;
   # For the sandboxed apps to work correctly, desktop integration portals need to be installed.
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
 
   environment.systemPackages = with pkgs; [
     # Maybe it's better to run Firefox from a Flatpak, so it can be updated
