@@ -65,6 +65,14 @@
     options = "--delete-older-than 365d";
   };
 
+  # Limit the systemd journal to X MB of disk or the
+  # last Y days of logs, whichever happens first.
+  # From https://xeiaso.net/blog/morph-setup-2021-04-25/
+  services.journald.extraConfig = ''
+    SystemMaxUse=200M
+    MaxFileSec=14day
+  '';
+
   environment.systemPackages = with pkgs; [
     #autorestic
     bindfs
