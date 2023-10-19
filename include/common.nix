@@ -76,12 +76,10 @@
   environment.systemPackages = with pkgs; [
     #autorestic
     bindfs
-    borgbackup
-    borgmatic
     btdu # btrfs usage tool
-    btrbk
     compsize # btrfs compression report
     cryptsetup
+    dig
     duf
     file
     git
@@ -92,7 +90,6 @@
     pipx
     pv # monitor progress of data through a pipe
     python3
-    restic
     smartmontools
     sshfs
     tmux
