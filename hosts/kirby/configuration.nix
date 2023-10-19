@@ -6,9 +6,7 @@
   lib,
   pkgs,
   ...
-}: let
-  host_domain = "${config.networking.hostName}.${config.local.base_domain}";
-in {
+}: {
   imports = [
     ../include/common.nix
     ../include/ext-mounts.nix
@@ -71,13 +69,13 @@ in {
 
   services.uptime-kuma.enable = true;
   services.nginx.virtualHosts."uptime-kuma" = {
-    serverName = "uptime-kuma.${host_domain}";
+    serverName = "uptime-kuma.${config.local.hostDomain}";
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString config.services.uptime-kuma.settings.PORT}";
       proxyWebsockets = true;
     };
     forceSSL = true;
-    useACMEHost = "kirby.${config.local.base_domain}";
+    useACMEHost = config.local.hostDomain;
   };
 
   services.postgresql = {
@@ -109,12 +107,12 @@ in {
     };
   };
   services.nginx.virtualHosts."paperless" = {
-    serverName = "paperless.${host_domain}";
+    serverName = "paperless.${config.local.hostDomain}";
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString config.services.paperless.port}";
     };
     forceSSL = true;
-    useACMEHost = "kirby.${config.local.base_domain}";
+    useACMEHost = config.local.hostDomain;
   };
 
   #virtualisation.oci-containers.backend = "podman";

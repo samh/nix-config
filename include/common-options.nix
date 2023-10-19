@@ -21,6 +21,11 @@ in {
     default = "hartsfield.xyz";
     description = "Base domain name for services (option in case we want to override for some testing purpose)";
   };
+  options.local.hostDomain = mkOption {
+    type = types.str;
+    default = "${config.networking.hostName}.${config.local.base_domain}";
+    description = "Domain name for this host (usually a subdomain of the base domain)";
+  };
 
   config = mkMerge [
     (mkIf cfg.ansible.enable {
