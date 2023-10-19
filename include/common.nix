@@ -160,4 +160,8 @@
     192.168.5.50 paperless.kirby.${dom}
     192.168.5.50 uptime-kuma.kirby.${dom}
   '';
+
+  # Set defaults for Let's Encrypt / ACME certificates
+  security.acme.acceptTerms = true;
+  security.acme.defaults.email = "acme@mail.hartsfield.xyz";
 }

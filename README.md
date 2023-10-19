@@ -38,6 +38,7 @@ ln -s $(pwd)/flake.nix ~/.config/home-manager/
     - `/root/borg-pass` (default)
   - `/root/borgmatic.env`:
     - `HEALTHCHECKS_URL=https://hc-ping.com/...`
+  - `/root/acme.env` - secrets for ACME certificates (Let's Encrypt)
 
 #### Backups
 - BorgBase - repos need to be initialized

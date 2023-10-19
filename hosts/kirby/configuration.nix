@@ -15,6 +15,7 @@ in {
     ../include/xfce.nix
     ../include/virt-manager.nix
 
+    ./acme.nix
     ./borg-backup.nix
     ./samba.nix
     # Include the results of the hardware scan.
@@ -75,7 +76,8 @@ in {
       proxyPass = "http://127.0.0.1:${toString config.services.uptime-kuma.settings.PORT}";
       proxyWebsockets = true;
     };
-    forceSSL = false;
+    forceSSL = true;
+    useACMEHost = "kirby.${config.local.base_domain}";
   };
 
   services.postgresql = {
@@ -111,7 +113,8 @@ in {
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString config.services.paperless.port}";
     };
-    forceSSL = false;
+    forceSSL = true;
+    useACMEHost = "kirby.${config.local.base_domain}";
   };
 
   #virtualisation.oci-containers.backend = "podman";
