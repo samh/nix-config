@@ -100,6 +100,7 @@
   services.paperless = {
     enable = true;
     extraConfig = {
+      PAPERLESS_URL = "https://paperless.${config.local.hostDomain}";
       PAPERLESS_DBENGINE = "postgresql";
       PAPERLESS_DBHOST = "/run/postgresql";
       PAPERLESS_OCR_LANGUAGE = "eng";
