@@ -94,6 +94,7 @@
   services.nginx = {
     enable = true;
     clientMaxBodySize = "20M"; # jellyfin: default "might not be enough for some posters"
+    recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
