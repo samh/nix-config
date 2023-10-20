@@ -12,7 +12,9 @@
     ../include/ext-mounts.nix
     ../include/xfce.nix
     #../include/virt-manager.nix
+    ./acme.nix
     ./borg-backup.nix
+    ./jellyfin.nix
     ./mounts.nix
     ./nvidia-660ti.nix
     # Include the results of the hardware scan.
@@ -88,27 +90,15 @@
     ];
   };
 
-  # Jellyfin
-  services.jellyfin.enable = true;
-  # Bind the library directory to the same place as it was in the container
-  # on the old server, because it takes some database editing to change it.
-  # The mount is only visible inside the jellyfin service.
-  systemd.services.jellyfin.serviceConfig.BindPaths = "/media/storage.old/Library:/data";
-  systemd.services.jellyfin.serviceConfig.RequiresMountsFor = "/media/storage.old/Library";
-  # https://jellyfin.org/docs/general/networking/index.html
-  networking.firewall = lib.mkIf config.services.jellyfin.enable {
-    # 8096/tcp is used by default for HTTP traffic. You can change this in the dashboard.
-    # 8920/tcp is used by default for HTTPS traffic. You can change this in the dashboard.
-    allowedTCPPorts = [8096 8920];
-    # 1900/udp is used for service auto-discovery. This is not configurable.
-    # (DLNA also uses this port and is required to be in the local subnet.)
-    #
-    # 7359/udp is also used for auto-discovery. This is not configurable.
-    # Allows clients to discover Jellyfin on the local network. A broadcast
-    # message to this port with Who is JellyfinServer? will get a JSON
-    # response that includes the server address, ID, and name.
-    allowedUDPPorts = [1900 7359];
+  # nginx for reverse proxy
+  services.nginx = {
+    enable = true;
+    clientMaxBodySize = "20M"; # jellyfin: default "might not be enough for some posters"
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
   };
+  networking.firewall.allowedTCPPorts = [80 443];
 
   #virtualisation.oci-containers.backend = "podman";
 
