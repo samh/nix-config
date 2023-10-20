@@ -155,7 +155,6 @@
   # running, will be sufficient.
   networking.extraHosts = let
     dom = config.local.base_domain;
-    fqdn = "kirby.${config.local.base_domain}";
   in ''
     192.168.5.50 kirby.${dom} kirby
     192.168.5.50 paperless.kirby.${dom}
