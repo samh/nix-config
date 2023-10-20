@@ -116,11 +116,42 @@
     useACMEHost = config.local.hostDomain;
   };
 
+  services.blocky = {
+    enable = true;
+    settings = {
+      ports = {
+        dns = lib.mkDefault 53;
+        http = lib.mkDefault 4000;
+      };
+      connectIPVersion = "v4";
+      # Cloudflare upstream DNS servers
+      upstream.default = [
+        "https://one.one.one.one/dns-query"
+        "https://dns.quad9.net/dns-query"
+      ];
+      bootstrapDns = {
+        upstream = "https://one.one.one.one/dns-query";
+        ips = ["1.1.1.1" "1.0.0.1"];
+      };
+      queryLog = {
+        # Defaults to console if not set, which gets logged to the journal.
+        type = "none";
+      };
+    };
+  };
+  # Configure to use own local DNS server
+  networking.nameservers = ["127.0.0.1"];
+
   #virtualisation.oci-containers.backend = "podman";
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [80 443];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [
+    53
+    80
+    443
+  ];
+  networking.firewall.allowedUDPPorts = [53];
+
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
