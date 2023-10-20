@@ -90,6 +90,7 @@
     pipx
     pv # monitor progress of data through a pipe
     python3
+    ripgrep
     smartmontools
     sshfs
     tmux
