@@ -64,6 +64,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    jellyfin-media-player
     libreoffice-qt
     # pika-backup  # borg frontend - testing it out
     spice-gtk
