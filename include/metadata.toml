@@ -1,0 +1,6 @@
+[hosts.kirby]
+ip_address = "192.168.5.50"
+tailscale_address = "100.108.110.99"
+
+[hosts.yoshi]
+ip_address = "192.168.5.40"
