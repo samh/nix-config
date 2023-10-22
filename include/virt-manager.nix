@@ -28,6 +28,6 @@
     "net.ipv4.ip_forward" = 1;
   };
 
-  #users.groups.libvirtd.members = [ "root" "samh" ];
-  users.users.samh.extraGroups = ["libvirtd"];
+  #users.groups.libvirtd.members = [ "root" "${config.my.user}" ];
+  users.users."${config.my.user}".extraGroups = ["libvirtd"];
 }

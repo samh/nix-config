@@ -90,7 +90,7 @@
   #zramSwap.memoryPercent = 50;
 
   # Set shell to zsh for testing fleek
-  #users.users.samh.shell = pkgs.zsh;
+  #users.users."${config.my.user}".shell = pkgs.zsh;
 
   # Define a user account.
   # Initial setup - see NixOS manual:
@@ -131,9 +131,9 @@
   services = {
     syncthing = {
       enable = true;
-      user = "samh";
-      dataDir = "/home/samh/Documents"; # Default folder for new synced folders
-      configDir = "/home/samh/.config/syncthing"; # Folder for Syncthing's settings and keys
+      user = "${config.my.user}";
+      dataDir = "${config.my.homeDir}/Documents"; # Default folder for new synced folders
+      configDir = "${config.my.homeDir}/.config/syncthing"; # Folder for Syncthing's settings and keys
 
       # Open firewall ports
       openDefaultPorts = true;

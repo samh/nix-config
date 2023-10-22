@@ -25,7 +25,7 @@ in {
     shell = "/sbin/nologin";
   };
   # Also allow my user to access the scanner share directory
-  users.users.samh.extraGroups = ["${scanner_group}"];
+  users.users."${config.my.user}".extraGroups = ["${scanner_group}"];
 
   # Create the share directory
   systemd.tmpfiles.rules = [

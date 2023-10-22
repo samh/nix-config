@@ -124,7 +124,7 @@
     enable = true;
     extraConfig = ''
       # Restrict SSH to only these users
-      AllowUsers samh
+      AllowUsers ${config.my.user}
     '';
   };
   programs.ssh.startAgent = true;

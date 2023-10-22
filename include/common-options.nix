@@ -9,22 +9,34 @@
 with lib; let
   cfg = config.local.common;
 in {
-  options.local.common = {
-    extras.enable = mkEnableOption "Extra packages";
-    extra-fonts.enable = mkEnableOption "Extra fonts";
-    podman.enable = mkEnableOption "Podman containers";
-    ansible.enable = mkEnableOption "Ansible controller";
-    tailscale.enable = mkEnableOption "Tailscale VPN";
-  };
-  options.local.base_domain = mkOption {
-    type = types.str;
-    default = "hartsfield.xyz";
-    description = "Base domain name for services (option in case we want to override for some testing purpose)";
-  };
-  options.local.hostDomain = mkOption {
-    type = types.str;
-    default = "${config.networking.hostName}.${config.local.base_domain}";
-    description = "Domain name for this host (usually a subdomain of the base domain)";
+  options = {
+    local.common = {
+      extras.enable = mkEnableOption "Extra packages";
+      extra-fonts.enable = mkEnableOption "Extra fonts";
+      podman.enable = mkEnableOption "Podman containers";
+      ansible.enable = mkEnableOption "Ansible controller";
+      tailscale.enable = mkEnableOption "Tailscale VPN";
+    };
+    local.base_domain = mkOption {
+      type = types.str;
+      default = "hartsfield.xyz";
+      description = "Base domain name for services (option in case we want to override for some testing purpose)";
+    };
+    local.hostDomain = mkOption {
+      type = types.str;
+      default = "${config.networking.hostName}.${config.local.base_domain}";
+      description = "Domain name for this host (usually a subdomain of the base domain)";
+    };
+    my.user = mkOption {
+      type = types.str;
+      default = "samh";
+      description = "My main username";
+    };
+    my.homeDir = mkOption {
+      type = types.str;
+      default = "/home/${config.my.user}";
+      description = "My home directory";
+    };
   };
 
   config = mkMerge [
