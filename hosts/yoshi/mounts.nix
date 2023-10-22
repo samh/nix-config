@@ -12,6 +12,13 @@
     "/pool/16TB.2023.3GPN" # 16 TB WD Red Pro (2023)
   ];
 
+  # Data for e.g. containers
+  fileSystems."/data" = {
+    device = "LABEL=10TB-WD-SWTP";
+    fsType = "btrfs";
+    options = ["subvol=@data" "compress=zstd:9" "x-systemd.device-timeout=0"];
+  };
+
   # Storage (HDD)
   #
   # The "nofail" option tells systemd to mount them asynchronously, instead
@@ -19,6 +26,16 @@
   # faster.
   #
   # Disks backing mergerfs pool
+  fileSystems."/media/disk1" = {
+    device = "LABEL=4TB-2014-2282";
+    fsType = "btrfs";
+    options = ["nofail" "subvol=@disk1" "compress=zstd:9" "x-systemd.device-timeout=0"];
+  };
+  fileSystems."/media/disk2" = {
+    device = "LABEL=10TB-WD-SWTP";
+    fsType = "btrfs";
+    options = ["nofail" "subvol=@disk2" "compress=zstd:9" "x-systemd.device-timeout=0"];
+  };
   fileSystems."/media/disk3" = {
     device = "LABEL=16TB-2023-3GPN";
     fsType = "btrfs";
@@ -86,6 +103,16 @@
   };
   fileSystems."/pool/disk4.4TB.raid1" = {
     device = "LABEL=disk4.4TB.raid1";
+    fsType = "btrfs";
+    options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
+  };
+  fileSystems."/pool/10TB.2020.SWTP" = {
+    device = "LABEL=10TB-WD-SWTP";
+    fsType = "btrfs";
+    options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
+  };
+  fileSystems."4TB.2014.2282" = {
+    device = "LABEL=4TB-2014-2282";
     fsType = "btrfs";
     options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
   };
