@@ -9,14 +9,17 @@ with lib; let
 in {
   config = lib.mkMerge [
     {
-      services.jellyfin.enable = false;
+      services.jellyfin = {
+        enable = true;
+        group = "multimedia";
+      };
     }
     (lib.mkIf config.services.jellyfin.enable {
       # Bind the library directory to the same place as it was in the container
       # on the old server, because it takes some database editing to change it.
       # The mount is only visible inside the jellyfin service.
-      systemd.services.jellyfin.serviceConfig.BindPaths = "/media/storage.old/Library:/data";
-      systemd.services.jellyfin.serviceConfig.RequiresMountsFor = "/media/storage.old/Library";
+      systemd.services.jellyfin.serviceConfig.BindPaths = "/storage/Library:/data";
+      systemd.services.jellyfin.serviceConfig.RequiresMountsFor = "/storage/Library";
       # https://jellyfin.org/docs/general/networking/index.html
       # 8096/tcp is used by default for HTTP traffic. You can change this in the dashboard.
       # 8920/tcp is used by default for HTTPS traffic. You can change this in the dashboard.
