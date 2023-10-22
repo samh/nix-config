@@ -14,7 +14,7 @@
     #../include/virt-manager.nix
     ./acme.nix
     ./borg-backup.nix
-    ./jellyfin.nix
+    #./jellyfin.nix
     ./mounts.nix
     ./nvidia-660ti.nix
     # Include the results of the hardware scan.
