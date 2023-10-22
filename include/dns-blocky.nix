@@ -37,7 +37,7 @@
         };
         customDNS = let
           dom = config.local.base_domain;
-          hosts = config.myMetadata.hosts;
+          hosts = config.my.metadata.hosts;
         in {
           # Don't make TTL too long, since we want to be able to change
           # IP addresses quickly or fix mistakes.

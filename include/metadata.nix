@@ -14,7 +14,7 @@
 }: let
   metadata = lib.importTOML ./metadata.toml;
 in {
-  options.myMetadata = lib.mkOption {
+  options.my.metadata = lib.mkOption {
     type = lib.types.attrs;
     default = metadata;
     description = "Data about hosts, network, etc.";
