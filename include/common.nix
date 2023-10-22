@@ -16,6 +16,11 @@
 
   time.timeZone = "America/New_York";
 
+  # Define a group for access to multimedia files, e.g. videos, music.
+  users.groups.multimedia = {
+    gid = 20050;
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.samh = {
     uid = 1000;
@@ -23,6 +28,7 @@
     extraGroups = [
       "wheel"
       "audio"
+      "multimedia"
       "networkmanager"
       # Scanner support - https://nixos.wiki/wiki/Scanners
       "scanner"
