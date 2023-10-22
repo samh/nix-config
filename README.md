@@ -10,6 +10,8 @@ from the flake to `/etc/nixos`:
 
 ```shell
 ln -s $(pwd)/flake.nix /etc/nixos/
+# for remote machines:
+ln -s /home/samh/nixos-sync/flake.nix /etc/nixos/flake.nix
 ```
 
 It looks like you should be able to do the same for Home Manager:
