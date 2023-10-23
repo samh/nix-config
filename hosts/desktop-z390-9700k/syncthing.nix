@@ -36,7 +36,6 @@ in {
           "vfio-windows"
           "yoshi"
           "fwnixos"
-          "work-laptop-old"
           "work-laptop"
           "pixel4a"
         ];
