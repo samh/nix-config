@@ -13,6 +13,7 @@ syncthing_id = "4JP4C67-VSQX646-E4BRJDC-ZQ2ZTNJ-CKWNUSS-2FC46OK-MDN7DB7-JCKBXQW"
 
 # Framework Laptop
 [hosts.fwnixos]
+ip_address = "192.168.5.64"
 syncthing_id = "DQ5PQ5T-OEQQGJ5-C67RF4Y-SJR5NIZ-WPFSJQT-YNXFOET-37356WL-P7LWNQH"
 
 [hosts.pixel4a]

@@ -9,6 +9,7 @@
 }: {
   imports = [
     ../include/common.nix
+    ../include/dns-blocky.nix
     ../include/ext-mounts.nix
     ../include/xfce.nix
     #../include/virt-manager.nix
@@ -118,6 +119,13 @@
   # Local (personal) configuration settings
   # (see common-options.nix)
   local.common.tailscale.enable = true;
+
+  # Enable DNS server.
+  # yoshi serves as a backup DNS server for the network in case kirby goes down.
+  my.dns.blocky = {
+    enable = true;
+    openFirewall = true;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

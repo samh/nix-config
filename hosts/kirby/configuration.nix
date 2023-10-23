@@ -122,15 +122,9 @@
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
-    # Serve DNS for the network
-    53
     # Serve HTTP and HTTPS
     80
     443
-  ];
-  networking.firewall.allowedUDPPorts = [
-    # Serve DNS for the network
-    53
   ];
 
   # Or disable the firewall altogether.
@@ -144,6 +138,13 @@
   # Local (personal) configuration settings
   # (see common-options.nix)
   local.common.tailscale.enable = true;
+
+  # Enable DNS server.
+  # Serves DNS for the rest of the network.
+  my.dns.blocky = {
+    enable = true;
+    openFirewall = true;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
