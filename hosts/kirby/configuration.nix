@@ -16,6 +16,7 @@
 
     ./acme.nix
     ./borg-backup.nix
+    ./mounts.nix
     ./samba.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
