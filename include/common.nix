@@ -145,8 +145,9 @@
   #   btrfs-scrub-pool-4TB.2014.2282.timer
   #   btrfs-scrub-pool-4TB.2014.2282.service
   #
-  services.btrfs.autoScrub.enable = true;
+  services.btrfs.autoScrub.enable = lib.mkDefault true;
   services.btrfs.autoScrub.interval = "monthly";
+  # This will cause a failure if empty, which is what I want for sanity checking.
   services.btrfs.autoScrub.fileSystems = let
     # Get all btrfs filesystems
     btrfsFileSystems = lib.filterAttrs (name: value: value.fsType == "btrfs") config.fileSystems;

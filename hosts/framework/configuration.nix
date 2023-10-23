@@ -131,6 +131,18 @@
 
   # List services that you want to enable:
 
+  # Disable btrfs auto-scrub, because I don't think it takes into account
+  # whether we're on battery power - something to look into. Also it doesn't
+  # auto-resume if cancelled because of a suspend (should be possible, I
+  # think - there is a 'btrfs scrub resume' command).
+  #
+  # See:
+  # - Discussion about not preventing suspend/shutdown:
+  #   https://github.com/NixOS/nixpkgs/pull/80141
+  # - Module:
+  #   https://github.com/symphorien/nixpkgs/blob/master/nixos/modules/tasks/filesystems/btrfs.nix
+  services.btrfs.autoScrub.enable = false;
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
