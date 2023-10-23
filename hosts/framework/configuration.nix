@@ -12,6 +12,9 @@
     ../include/kde.nix
     ../include/nix-ld.nix
     ../include/virt-manager.nix
+
+    ./syncthing.nix
+
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
@@ -127,70 +130,6 @@
   # };
 
   # List services that you want to enable:
-
-  services = {
-    syncthing = {
-      enable = true;
-      user = "${config.my.user}";
-      dataDir = "${config.my.homeDir}/Documents"; # Default folder for new synced folders
-      configDir = "${config.my.homeDir}/.config/syncthing"; # Folder for Syncthing's settings and keys
-
-      # Open firewall ports
-      openDefaultPorts = true;
-
-      overrideDevices = true; # overrides any devices added or deleted through the WebUI
-      overrideFolders = true; # overrides any folders added or deleted through the WebUI
-      devices = {
-        "storage-server" = {id = "AL433J4-2HM6N7D-C4HP5FT-6FNPCPI-MYW4T36-7RIEF5B-7J66U2W-BYW7CQ3";};
-        "desktop-z390-9700k" = {id = "4JP4C67-VSQX646-E4BRJDC-ZQ2ZTNJ-CKWNUSS-2FC46OK-MDN7DB7-JCKBXQW";};
-        "pixel4a" = {id = "NPVNVC5-J2CKZF6-6LUH6NF-3NYG6GP-GUERNAO-O35UZUC-L6ADKSK-SPRA3AL";};
-        "work-laptop" = {id = "ME2B765-2HQWLAO-A7PRWE3-RP44QKE-UIJTZSH-467P3GF-JE7FSWY-ZYCPQQA";}; # 2013
-      };
-      folders = {
-        "Sync-Linux" = {
-          # Name of folder in Syncthing, also the folder ID
-          id = "Sync-Linux";
-          enable = true;
-          path = "/home/samh/Sync"; # Which folder to add to Syncthing
-          devices = ["desktop-z390-9700k" "storage-server"]; # Which devices to share the folder with
-          versioning = {
-            type = "staggered";
-            params = {
-              cleanInterval = "3600";
-              maxAge = "365"; # Syncthing doc says days; is Nix version the same?
-              #              versionsPath = ".stversions";
-            };
-          };
-        };
-        "Notes-Shared" = {
-          id = "evgke-fvs53";
-          enable = true;
-          path = "/home/samh/Notes/Notes-Shared";
-          devices = ["desktop-z390-9700k" "pixel4a" "work-laptop" "storage-server"];
-          versioning = {
-            type = "staggered";
-            params = {
-              cleanInterval = "3600";
-              maxAge = "365";
-            };
-          };
-        };
-        "Notes-Personal" = {
-          id = "jjbsv-stmrg";
-          enable = true;
-          path = "/home/samh/Notes/Notes-Personal";
-          devices = ["desktop-z390-9700k" "pixel4a" "storage-server"];
-          versioning = {
-            type = "staggered";
-            params = {
-              cleanInterval = "3600";
-              maxAge = "365";
-            };
-          };
-        };
-      };
-    };
-  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

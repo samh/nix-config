@@ -6,6 +6,7 @@ tailscale_address = "100.108.110.99"
 ip_address = "192.168.5.40"
 syncthing_id = "JWHC7VW-IBHY6KB-6AHKCBS-3Q6J4ID-R57YAWM-7ZRMWGR-F2YRGHB-F7JHTAN"
 
+# Desktop PC - Z390 Core i7-9700K (2019)
 [hosts.nixos-2022-desktop]
 ip_address = "192.168.4.32"
 syncthing_id = "4JP4C67-VSQX646-E4BRJDC-ZQ2ZTNJ-CKWNUSS-2FC46OK-MDN7DB7-JCKBXQW"
@@ -16,3 +17,13 @@ syncthing_id = "DQ5PQ5T-OEQQGJ5-C67RF4Y-SJR5NIZ-WPFSJQT-YNXFOET-37356WL-P7LWNQH"
 
 [hosts.pixel4a]
 syncthing_id = "NPVNVC5-J2CKZF6-6LUH6NF-3NYG6GP-GUERNAO-O35UZUC-L6ADKSK-SPRA3AL"
+
+# Work Laptop - Dell Latitude 5530 (2023)
+[hosts.work-laptop]
+syncthing_id = "ME2B765-2HQWLAO-A7PRWE3-RP44QKE-UIJTZSH-467P3GF-JE7FSWY-ZYCPQQA"
+
+# VFIO VM (Windows) - maybe a Samba shared folder would be better, to
+# avoid having to run Syncthing in the VM.
+# Linux VFIO VMs can use a 9p shared folder from the host.
+[hosts.vfio-windows]
+syncthing_id = "CNJBSUE-KIERN7M-6WKA2YC-OO4EDQB-FKM2YJT-HZIOYOF-WKQ6NPJ-CEAHJAU"

@@ -25,47 +25,22 @@ in {
         id = "Sync-Linux";
         enable = true;
         path = "${config.my.homeDir}/Sync"; # Which folder to add to Syncthing
-        devices = ["fwnixos" "yoshi"]; # Which devices to share the folder with
+        devices = ["nixos-2022-desktop" "yoshi"]; # Which devices to share the folder with
         versioning = defaultVersioning;
       };
       "Notes-Shared" = {
         id = "evgke-fvs53";
         enable = true;
         path = "${config.my.homeDir}/Notes/Notes-Shared";
-        devices = [
-          "vfio-windows"
-          "yoshi"
-          "fwnixos"
-          "work-laptop-old"
-          "work-laptop"
-          "pixel4a"
-        ];
+        devices = ["nixos-2022-desktop" "pixel4a" "work-laptop" "yoshi"];
         versioning = defaultVersioning;
       };
       "Notes-Personal" = {
         id = "jjbsv-stmrg";
         enable = true;
         path = "${config.my.homeDir}/Notes/Notes-Personal";
-        devices = ["vfio-windows" "yoshi" "fwnixos" "pixel4a"];
+        devices = ["nixos-2022-desktop" "pixel4a" "yoshi"];
         versioning = defaultVersioning;
-      };
-      # Calibre work library (technical reference material, including
-      # e.g. books, manuals, quick reference cards)
-      "Calibre-Work" = {
-        id = "nqtzd-2klbn";
-        enable = true;
-        path = "/samh/Calibre-Work";
-        devices = [
-          "yoshi"
-          "work-laptop"
-        ];
-        versioning = {
-          type = "staggered";
-          params = {
-            cleanInterval = "3600";
-            maxAge = "1000";
-          };
-        };
       };
     };
   };
