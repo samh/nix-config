@@ -111,7 +111,7 @@
     fsType = "btrfs";
     options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
   };
-  fileSystems."4TB.2014.2282" = {
+  fileSystems."/pool/4TB.2014.2282" = {
     device = "LABEL=4TB-2014-2282";
     fsType = "btrfs";
     options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
