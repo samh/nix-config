@@ -131,6 +131,32 @@
 
   # Enable periodic TRIM for SSDs
   services.fstrim.enable = true;
+
+  # Regularly scrub btrfs filesystems.
+  #
+  # Make sure not to list duplicates (i.e. multiple mount points that
+  # point to the same underlying volume)!
+  # To avoid duplicates, use all of the "/pool" mount points, which are
+  # (by my personal convention) the top-level subvolumes of each btrfs
+  # filesystem.
+  #
+  # This creates a systemd timer and service for each filesystem, for
+  # example:
+  #   btrfs-scrub-pool-4TB.2014.2282.timer
+  #   btrfs-scrub-pool-4TB.2014.2282.service
+  #
+  services.btrfs.autoScrub.enable = true;
+  services.btrfs.autoScrub.interval = "monthly";
+  services.btrfs.autoScrub.fileSystems = let
+    # Get all btrfs filesystems
+    btrfsFileSystems = lib.filterAttrs (name: value: value.fsType == "btrfs") config.fileSystems;
+    # Get the names (i.e. paths) of those filesystems
+    btrfsFileSystemMounts = builtins.attrNames btrfsFileSystems;
+    # Include only the /pool mount points
+    btrfsPoolFileSystems = builtins.filter (x: lib.strings.hasPrefix "/pool/" x) btrfsFileSystemMounts;
+  in
+    btrfsPoolFileSystems;
+
   # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd
   services.fwupd.enable = true;
 

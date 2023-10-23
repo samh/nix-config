@@ -3,15 +3,6 @@
   pkgs,
   ...
 }: {
-  services.btrfs.autoScrub.enable = true;
-  services.btrfs.autoScrub.interval = "monthly";
-  # Make sure not to list duplicates (i.e. multiple mount points that
-  # point to the same underlying volume)!
-  services.btrfs.autoScrub.fileSystems = [
-    "/pool/ssd-root" # /
-    "/pool/16TB.2023.3GPN" # 16 TB WD Red Pro (2023)
-  ];
-
   # Data for e.g. containers
   fileSystems."/data" = {
     device = "LABEL=10TB-WD-SWTP";
@@ -97,6 +88,7 @@
     options = ["compress=zstd:9" "x-systemd.device-timeout=0"];
   };
   fileSystems."/pool/16TB.2023.3GPN" = {
+    # 16 TB WD Red Pro (2023)
     device = "LABEL=16TB-2023-3GPN";
     fsType = "btrfs";
     options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];

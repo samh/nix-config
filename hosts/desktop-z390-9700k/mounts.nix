@@ -3,15 +3,9 @@
   pkgs,
   ...
 }: {
-  services.btrfs.autoScrub.enable = true;
-  services.btrfs.autoScrub.interval = "monthly";
-  # Make sure not to list duplicates (i.e. multiple mount points that
-  # point to the same underlying volume)!
+  # Scrub for pools is in common.nix. This adds to that list.
   services.btrfs.autoScrub.fileSystems = [
-    "/pool/nvme-nixos" # /
-    "/pool/nvme2-home" # /home, /samh, /var/lib/libvirt/qemu
     "/var/lib/flatpak"
-    "/media/data1"
     "/media/backup"
   ];
 
