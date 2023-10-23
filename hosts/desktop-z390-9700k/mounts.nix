@@ -89,7 +89,8 @@
     options = ["nofail" "noatime" "x-systemd.device-timeout=0"];
   };
 
-  # Root pools for btrbk backups
+  # Root pools for btrbk backups and general management.
+  # Also, /pool mounts are automatically enabled for autoScrub in common.nix.
   fileSystems."/pool/nvme-nixos" = {
     device = "/dev/mapper/nvme-nixos";
     fsType = "btrfs";

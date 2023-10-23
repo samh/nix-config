@@ -81,7 +81,8 @@
   #    ];
   #  };
 
-  # Root pools for btrbk backups
+  # Root pools for btrbk backups and general management.
+  # Also, /pool mounts are automatically enabled for autoScrub in common.nix.
   fileSystems."/pool/ssd-root" = {
     device = "LABEL=nixos";
     fsType = "btrfs";
