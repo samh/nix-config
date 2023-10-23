@@ -15,6 +15,9 @@
     };
   };
 in {
+  imports = [
+    ../include/metadata.nix
+  ];
   services = {
     syncthing = {
       enable = true;
@@ -26,8 +29,8 @@ in {
       overrideDevices = true; # overrides any devices added or deleted through the WebUI
       overrideFolders = true; # overrides any folders added or deleted through the WebUI
       devices = {
-        "framework-laptop" = {id = "DQ5PQ5T-OEQQGJ5-C67RF4Y-SJR5NIZ-WPFSJQT-YNXFOET-37356WL-P7LWNQH";};
-        "pixel4a" = {id = "NPVNVC5-J2CKZF6-6LUH6NF-3NYG6GP-GUERNAO-O35UZUC-L6ADKSK-SPRA3AL";};
+        "framework-laptop" = {id = config.my.metadata.hosts.fwnixos.syncthing_id;};
+        "pixel4a" = {id = config.my.metadata.hosts.pixel4a.syncthing_id;};
         "work-laptop" = {id = "ME2B765-2HQWLAO-A7PRWE3-RP44QKE-UIJTZSH-467P3GF-JE7FSWY-ZYCPQQA";}; # 2023
         "work-laptop-old" = {id = "RNF52NS-62AEXH6-OX6QEAG-ELSLT7R-QLMPMW2-OBQS35Z-ZUDVRUF-PNOH3Q4";};
         "yoshi" = {id = config.my.metadata.hosts.yoshi.syncthing_id;};
