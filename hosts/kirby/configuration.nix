@@ -6,7 +6,9 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  homeAssistantIP = "192.168.122.64";
+in {
   imports = [
     ../include/common.nix
     ../include/dns-blocky.nix
@@ -67,7 +69,14 @@
 
   # List services that you want to enable:
 
-  services.nginx.enable = true;
+  # nginx for reverse proxy
+  services.nginx = {
+    enable = true;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+  };
 
   services.uptime-kuma.enable = true;
   services.nginx.virtualHosts."uptime-kuma" = {
@@ -118,6 +127,33 @@
     useACMEHost = config.local.hostDomain;
   };
 
+  # Home Assistant
+  # Use nginx to proxy the ports.
+  # Could also have used some kind of iptables forwarding
+  # but this seemed easier. 'virtualisation.forwardPorts' does
+  # *not* work; what about 'networking.nat.forwardPorts'?
+  services.nginx.streamConfig = ''
+    # MQTT (TCP)
+    server {
+      listen 1883;
+      proxy_pass ${homeAssistantIP}:1883;
+    }
+    # CoIoT (UDP) - for Shelly gen1 devices
+    server {
+      listen 5683 udp;
+      proxy_pass ${homeAssistantIP}:5683;
+    }
+  '';
+  services.nginx.virtualHosts."ha" = {
+    serverName = "ha.${config.local.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://${homeAssistantIP}:8123";
+      proxyWebsockets = true;
+    };
+    forceSSL = true;
+    useACMEHost = config.local.hostDomain;
+  };
+
   #virtualisation.oci-containers.backend = "podman";
 
   # Open ports in the firewall.
@@ -125,6 +161,12 @@
     # Serve HTTP and HTTPS
     80
     443
+    # MQTT
+    1883
+  ];
+  networking.firewall.allowedUDPPorts = [
+    # CoIoT
+    5683
   ];
 
   # Or disable the firewall altogether.
