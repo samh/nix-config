@@ -33,6 +33,14 @@
    sudo systemctl start --all paperless\*
    ```
 
+#### zigbee2mqtt Secrets
+1. Create a `secret.yaml` file in `/var/lib/zigbee2mqtt` with the following
+   contents:
+   ```
+   auth_token: <token>
+   mqtt_password: <password>
+   ```
+
 ## Notable Systemd Units
 
 ```
