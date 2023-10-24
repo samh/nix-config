@@ -35,6 +35,7 @@
             "pf:/samh/Documents/Notes/Notes-Crypt"
             "pf:/samh/Downloads"
             "pf:/samh/opt/jetbrains-toolbox"
+            "pf:/samh/src/nixpkgs" # currently ~4GB
             "pf:/root/.ssh/id_ed25519" # be paranoid and don't include this private key
             # Shell-style patterns, selector sh:
             "sh:**/venv/"
@@ -42,7 +43,6 @@
             "*.pyc"
             "/home/*/.cache"
             "**/[Cc]ache*"
-            #/samh/src/decode-config
             # Programs that store too-big stuff under .config
             "/home/samh/.config/Code" # stores cache here 🤮
             "/home/samh/.config/vivaldi-backup"
