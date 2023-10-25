@@ -10,16 +10,28 @@ in {
     enable = true;
 
     # https://www.zigbee2mqtt.io/guide/configuration/
+    #
+    # For secrets we can either include from a separate file
+    # (see https://www.zigbee2mqtt.io/guide/configuration/mqtt.html)
+    # or use environment variables.
+    # (see https://www.zigbee2mqtt.io/guide/configuration/#environment-variables)
     settings = {
-      # Let new devices join our zigbee network
+      # Join should not be enabled here in the configuration; it can be enabled
+      # temporarily via the frontend GUI, or via MQTT.
+      # See https://www.zigbee2mqtt.io/guide/usage/pairing_devices.html
+      #
       # > It's important that permit_join is set to false in your configuration.yaml
       # > after initial setup is done to keep your Zigbee network safe and to avoid
       # > accidental joining of other Zigbee devices.
       # https://www.zigbee2mqtt.io/guide/configuration/zigbee-network.html#permit-join
-      # Should be able to enable temporarily via frontend!
       permit_join = false;
 
-      homeassistant = false;
+      homeassistant = {
+        # I'm not entirely clear on what these are for, but 'legacy' sounds
+        # like something we should avoid when setting up something new.
+        legacy_entity_attributes = false;
+        legacy_triggers = false;
+      };
 
       # https://www.zigbee2mqtt.io/guide/configuration/frontend.html
       frontend = {
@@ -44,9 +56,6 @@ in {
         # MQTT server URL
         server = "mqtt://127.0.0.1:1883";
         user = "zigbee2mqtt";
-        # Set password by the environment variable ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD
-        # or by a separate file.
-        #password = "zigbee2mqtt";
         password = "!secret.yaml mqtt_password";
       };
       serial = {
@@ -69,12 +78,4 @@ in {
     forceSSL = true;
     useACMEHost = config.local.hostDomain;
   };
-
-  # Use an environment file to set the password.
-  # https://www.zigbee2mqtt.io/guide/configuration/#environment-variables
-  # Should contain:
-  # ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD="mypassword"
-  # Could also use a separate file; see
-  # https://www.zigbee2mqtt.io/guide/configuration/mqtt.html
-  #systemd.services.zigbee2mqtt.serviceConfig.EnvironmentFile = lib.mkDefault "/root/zigbee2mqtt.env";
 }
