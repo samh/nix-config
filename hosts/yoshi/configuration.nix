@@ -11,6 +11,7 @@
     ../include/common.nix
     ../include/dns-blocky.nix
     ../include/ext-mounts.nix
+    ../include/nginx.nix
     ../include/xfce.nix
     #../include/virt-manager.nix
     ./acme.nix
@@ -93,15 +94,10 @@
   };
 
   # nginx for reverse proxy
-  services.nginx = {
+  my.nginx = {
     enable = true;
-    clientMaxBodySize = "20M"; # jellyfin: default "might not be enough for some posters"
-    recommendedGzipSettings = true;
-    recommendedOptimisation = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
+    openFirewall = true;
   };
-  networking.firewall.allowedTCPPorts = [80 443];
 
   #virtualisation.oci-containers.backend = "podman";
 

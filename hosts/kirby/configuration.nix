@@ -13,6 +13,7 @@ in {
     ../include/common.nix
     ../include/dns-blocky.nix
     ../include/ext-mounts.nix
+    ../include/nginx.nix
     ../include/xfce.nix
     ../include/virt-manager.nix
 
@@ -71,12 +72,9 @@ in {
   # List services that you want to enable:
 
   # nginx for reverse proxy
-  services.nginx = {
+  my.nginx = {
     enable = true;
-    recommendedGzipSettings = true;
-    recommendedOptimisation = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
+    openFirewall = true;
   };
 
   services.uptime-kuma.enable = true;
@@ -159,9 +157,6 @@ in {
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
-    # Serve HTTP and HTTPS
-    80
-    443
     # MQTT
     1883
   ];
