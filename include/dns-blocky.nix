@@ -46,19 +46,21 @@ in {
             hosts = config.my.metadata.hosts;
             # Filter all hosts that have an IP address
             hostsWithIp = lib.filterAttrs (name: host: host ? ip_address) hosts;
-          in {
-            # Don't make TTL too long, since we want to be able to change
-            # IP addresses quickly or fix mistakes.
-            customTTL = "5m";
-            # Result should be mapping of host name to IP address.
-            # For example: { "myhost.domain.xyz" = "1.2.3.4"; }
             # Use mapAttrs' ("map attrs prime") to map the name as well as the value.
-            mapping = lib.attrsets.mapAttrs' (name: value:
+            fqdnMappings = lib.attrsets.mapAttrs' (name: value:
               # Add domain to name
                 lib.attrsets.nameValuePair "${name}.${dom}"
                 # Value is the IP address
                 (value.ip_address))
-            hostsWithIp;
+            hostsWithIp; # <--input to "mapAttrs'"
+          in {
+            # Don't make TTL too long, since we want to be able to change
+            # IP addresses quickly or fix mistakes.
+            customTTL = "5m";
+            # Result should be mapping (attribute set) of host names to IP
+            # addresses.
+            # For example: { "myhost.domain.xyz" = "1.2.3.4"; }
+            mapping = fqdnMappings;
           };
         };
       };
