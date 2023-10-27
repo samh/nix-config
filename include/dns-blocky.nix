@@ -62,6 +62,15 @@ in {
             # For example: { "myhost.domain.xyz" = "1.2.3.4"; }
             mapping = fqdnMappings;
           };
+
+          conditional = {
+            mapping = {
+              # Direct all *unqualified* hostnames (e.g. just "yoshi") to the
+              # router. In particular this allows looking up things like IoT
+              # devices that we might not have in our hosts list.
+              "." = "192.168.5.1";
+            };
+          };
         };
       };
       # Configure to use own local DNS server
