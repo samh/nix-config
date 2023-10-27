@@ -10,8 +10,10 @@
 ## Notable Systemd Units
 
 ```
+blocky.service
 borgmatic.service
 borgmatic.timer
 jellyfin.service
+nginx.service
 tailscaled.service
 ```

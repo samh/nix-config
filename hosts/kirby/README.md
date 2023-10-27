@@ -44,11 +44,14 @@
 ## Notable Systemd Units
 
 ```
+blocky.service
 borgmatic.service
 borgmatic.timer
+nginx.service
 postgresql.service
 tailscaled.service
 uptime-kuma.service
+zigbee2mqtt.service
 ```
 
 Paperless:
