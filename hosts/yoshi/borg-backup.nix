@@ -42,5 +42,34 @@
           healthchecks = "\${HEALTHCHECKS_URL:-empty}";
         };
       };
+
+    "photos" = {
+      location = {
+        source_directories = [
+          "/storage/Pictures" # ~30G
+          "/data/Photos" # device backups - Syncthing ~25G
+          "/storage/Backup-Photos" # ~80G
+        ];
+        one_file_system = false;
+        repositories = [
+          "ssh://a7a635p6@a7a635p6.repo.borgbase.com/./repo"
+        ];
+      };
+      storage = {
+        # Note: this password was originally used on the previous storage server.
+        encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass-photos";
+        compression = "auto,zstd,9";
+      };
+      retention = {
+        keep_within = "24H";
+        keep_daily = 7;
+        keep_weekly = 4;
+        keep_monthly = 6;
+        keep_yearly = 1000;
+      };
+      hooks = {
+        healthchecks = "\${HEALTHCHECKS_URL_PHOTOS:-empty}";
+      };
+    };
   };
 }
