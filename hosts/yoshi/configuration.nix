@@ -45,6 +45,13 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+  # RDP remote desktop
+  services.xrdp = {
+    enable = true;
+    openFirewall = false; # Use SSH tunnel (Remmina has built-in support)
+    defaultWindowManager = "xfce4-session";
+  };
+
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
