@@ -180,20 +180,6 @@
     "net.core.rmem_max" = 2500000;
   };
 
-  # Add to /etc/hosts. Would like to make this generated from some common
-  # metadata, maybe like the TOML file in used by
-  # https://github.com/Xe/nixos-configs.git.
-  # I don't like the duplication of the service names for the subdomains.
-  # Probably keeping those in DNS (as a wildcard), once that is up and
-  # running, will be sufficient.
-  networking.extraHosts = let
-    dom = config.local.base_domain;
-  in ''
-    192.168.5.50 kirby.${dom} kirby
-    192.168.5.50 paperless.kirby.${dom}
-    192.168.5.50 uptime-kuma.kirby.${dom}
-  '';
-
   # Set defaults for Let's Encrypt / ACME certificates
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "acme@mail.hartsfield.xyz";
