@@ -38,8 +38,8 @@ in {
     securityType = "user";
     extraConfig = ''
       workgroup = WORKGROUP
-      server string = kirby
-      netbios name = kirby
+      server string = ${config.networking.hostName}
+      netbios name = ${config.networking.hostName}
       security = user
       #use sendfile = yes
       #max protocol = smb2
