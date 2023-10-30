@@ -83,6 +83,7 @@
     #autorestic
     bindfs
     btdu # btrfs usage tool
+    btrbk # even if not using for backups, it provides 'lsbtr' command
     compsize # btrfs compression report
     cryptsetup
     dig
