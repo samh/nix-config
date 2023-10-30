@@ -9,6 +9,9 @@
   scanner_user = "scanner";
   scanner_group = "inbox";
   scanner_share_dir = "/srv/shares/scanner";
+
+  ha_backup_share_dir = "/srv/shares/homeassistant-backup";
+  ha_ip = config.my.metadata.vms.homeassistant.internal_ip;
 in {
   # Add scanner user and group
   users.groups.${scanner_group} = {
@@ -27,9 +30,31 @@ in {
   # Also allow my user to access the scanner share directory
   users.users."${config.my.user}".extraGroups = ["${scanner_group}"];
 
-  # Create the share directory
+  # Add user and group for Home Assistant
+  users.groups.homeassistant = {
+    gid = 20020;
+  };
+  users.users.homeassistant = {
+    uid = 20020;
+    isNormalUser = false;
+    isSystemUser = true;
+    group = "homeassistant";
+    extraGroups = ["homeassistant"];
+    home = "/var/empty";
+    createHome = false;
+    shell = "/sbin/nologin";
+  };
+
+  # Create the share directories
+  # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html
   systemd.tmpfiles.rules = [
-    "d ${scanner_share_dir} 0750 ${scanner_user} ${scanner_group}"
+    # v = create btrfs subvolume if possible
+    "v ${scanner_share_dir} 0750 ${scanner_user} ${scanner_group}"
+    # For Home Assistant backups, clean up old backups using the
+    # age field.
+    # "cm" indicates that it should check creation and modification
+    # times but not access time.
+    "v ${ha_backup_share_dir} 0750 homeassistant homeassistant cm:1d"
   ];
 
   services.samba = {
@@ -43,9 +68,6 @@ in {
       security = user
       #use sendfile = yes
       #max protocol = smb2
-      # note: localhost is the ipv6 localhost ::1
-      hosts allow = ${allowed_ranges} 127.0.0.1 localhost
-      hosts deny = 0.0.0.0/0
       guest account = nobody
       map to guest = bad user
 
@@ -58,20 +80,45 @@ in {
     shares = {
       # Samba for scanner
       scanner = {
-        path = "${scanner_share_dir}";
-        public = "no";
-        browseable = "yes";
+        "path" = "${scanner_share_dir}";
+        "public" = "no";
+        "browseable" = "yes";
         "read only" = "no";
         "guest ok" = "no";
+        "hosts allow" = "${allowed_ranges} 127.0.0.1 ::1";
+        "hosts deny" = "0.0.0.0/0";
         "create mode" = "0644";
         "force create mode" = "0644";
         "create mask" = "0644";
         "directory mode" = "0755";
         "force directory mode" = "0755";
         "directory mask" = "0755";
-        "write list" = "+${scanner_group}";
+        "write list" = "@${scanner_group}";
         "force user" = "${scanner_user}";
         "force group" = "${scanner_group}";
+      };
+
+      # Samba share for Home Assisant backups
+      #
+      # Configured in Home Assistant at
+      # https://my.home-assistant.io/redirect/storage/
+      homeassistant-backup = {
+        "path" = "${ha_backup_share_dir}";
+        "public" = "no";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "hosts allow" = "${ha_ip}";
+        "hosts deny" = "0.0.0.0/0";
+        "create mode" = "0644";
+        "force create mode" = "0644";
+        "create mask" = "0644";
+        "directory mode" = "0755";
+        "force directory mode" = "0755";
+        "directory mask" = "0755";
+        "write list" = "@homeassistant";
+        "force user" = "homeassistant";
+        "force group" = "homeassistant";
       };
     };
   };

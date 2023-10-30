@@ -27,6 +27,8 @@
             # for example for 'uptime-kuma'
             "/var/lib/private"
             "/var/lib/tailscale"
+            # Home Assistant backups
+            "/srv/shares/homeassistant-backup"
           ];
           repositories = ["ssh://f66k66p2@f66k66p2.repo.borgbase.com/./repo"];
         };

@@ -7,7 +7,7 @@
   pkgs,
   ...
 }: let
-  homeAssistantIP = "192.168.122.64";
+  homeAssistantIP = config.my.metadata.vms.homeassistant.internal_ip;
 in {
   imports = [
     ../include/common.nix

@@ -6,6 +6,8 @@
 1. *See [top-level README.md](../../README.md) for common steps.*
 2. Run `smbpasswd -a scanner` to set the samba password for the scanner
    shared folder.
+3. Run `smbpasswd -a homeassistant` to set the samba password for the
+   Home Assistant shared folder.
 
 ### PostgreSQL Setup
 1. To allow `borgmatic` (running as root) to dump PostgreSQL databases,
