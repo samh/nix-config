@@ -39,6 +39,9 @@ in {
         auth_token = "!secret.yaml auth_token";
       };
 
+      # https://www.zigbee2mqtt.io/guide/configuration/device-availability.html
+      availability = true;
+
       # https://www.zigbee2mqtt.io/guide/configuration/zigbee-network.html
       advanced = {
         # My home WiFi is currently just on channel 6 for 2.4 GHz.
@@ -49,7 +52,20 @@ in {
         # See:
         # https://www.zigbee2mqtt.io/advanced/zigbee/02_improve_network_range_and_stability.html
         channel = 25;
+
+        # Whether to use legacy mode for the availability message payload (default: true)
+        # true = online/offline
+        # false = {"state":"online"} / {"state":"offline"}
+        legacy_availability_payload = false;
+
+        # https://www.zigbee2mqtt.io/guide/configuration/logging.html
+        # Every MQTT publish is logged at INFO. Can be adjusted at runtime
+        # via frontend GUI for troubleshooting.
+        log_level = "warn";
+        # Disable logging to file since the journal already saves logs.
+        log_output = ["console"];
       };
+
       mqtt = {
         # MQTT base topic for Zigbee2MQTT MQTT messages
         base_topic = "zigbee2mqtt";
@@ -58,6 +74,7 @@ in {
         user = "zigbee2mqtt";
         password = "!secret.yaml mqtt_password";
       };
+
       serial = {
         port = "/dev/serial/by-id/usb-Silicon_Labs_slae.sh_cc2652rb_stick_-_slaesh_s_iot_stuff_00_12_4B_00_25_9B_6C_0A-if00-port0";
       };
