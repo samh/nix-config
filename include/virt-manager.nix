@@ -5,6 +5,9 @@
 }:
 # Virtualization using KVM with virt-manager
 {
+  imports = [
+    ./sysctl.nix
+  ];
   virtualisation = {
     libvirtd = {
       enable = true;
@@ -23,10 +26,8 @@
     virt-manager
   ];
 
-  boot.kernel.sysctl = {
-    # Required for libvirt NAT to work
-    "net.ipv4.ip_forward" = 1;
-  };
+  # Required for libvirt NAT to work
+  my.sysctl.net.ipv4.ip_forward = true;
 
   #users.groups.libvirtd.members = [ "root" "${config.my.user}" ];
   users.users."${config.my.user}".extraGroups = ["libvirtd"];

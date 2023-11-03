@@ -12,6 +12,7 @@
 {
   imports = [
     ./common-options.nix
+    ./sysctl.nix
   ];
 
   time.timeZone = "America/New_York";

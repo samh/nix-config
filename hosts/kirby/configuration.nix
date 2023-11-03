@@ -37,6 +37,11 @@ in {
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Make sure IP forwarding is enabled for Tailscale subnet routing
+  # https://tailscale.com/kb/1019/subnets/?tab=linux
+  my.sysctl.net.ipv4.ip_forward = true;
+  my.sysctl.net.ipv6.conf.all.forwarding = true;
+
   networking.hostName = "kirby"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
