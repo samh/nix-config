@@ -19,3 +19,14 @@ jellyfin.service
 nginx.service
 tailscaled.service
 ```
+
+Nextcloud:
+```
+nextcloud-cron.service
+nextcloud-cron.timer
+nextcloud-setup.service
+nextcloud-update-plugins.service
+nextcloud-update-plugins.timer
+phpfpm-nextcloud.service
+redis-nextcloud.service
+```

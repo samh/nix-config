@@ -11,6 +11,7 @@
     ../include/common.nix
     ../include/dns-blocky.nix
     ../include/ext-mounts.nix
+    ../include/nextcloud.nix
     ../include/nginx.nix
     ../include/xfce.nix
     #../include/virt-manager.nix
@@ -129,6 +130,9 @@
     enable = true;
     openFirewall = true;
   };
+
+  # Enable Nextcloud
+  my.nextcloud.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

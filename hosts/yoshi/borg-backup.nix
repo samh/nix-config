@@ -15,18 +15,26 @@
       config.local.borg.borgmatic-defaults
       {
         location = {
-          source_directories = [
-            # /root may contain secrets we would like to save.
-            "/root"
-            # contains uid/gid mappings; might be useful to keep
-            # permissions consistent
-            "/var/lib/nixos"
-            # Jellyfin database, configuration, logs
-            "/var/lib/jellyfin"
-            # Service data (StateDirectory) when DynamicUser=true
-            "/var/lib/private"
-            "/var/lib/tailscale"
-          ];
+          source_directories =
+            [
+              # /root may contain secrets we would like to save.
+              "/root"
+              # contains uid/gid mappings; might be useful to keep
+              # permissions consistent
+              "/var/lib/nixos"
+              # Jellyfin database, configuration, logs
+              "/var/lib/jellyfin"
+              # Service data (StateDirectory) when DynamicUser=true
+              "/var/lib/private"
+              "/var/lib/tailscale"
+            ]
+            ++ (
+              if config.services.nextcloud.enable
+              then [
+                "${config.services.nextcloud.datadir}"
+              ]
+              else []
+            );
           # https://borgbackup.readthedocs.io/en/stable/usage/help.html#borg-help-patterns
           # Shell-style patterns, selector sh: (can use "**" for recursive globbing)
           # Path full-match, selector pf: (very fast)
