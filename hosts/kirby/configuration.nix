@@ -84,13 +84,13 @@ in {
 
   services.uptime-kuma.enable = true;
   services.nginx.virtualHosts."uptime-kuma" = {
-    serverName = "uptime-kuma.${config.local.hostDomain}";
+    serverName = "uptime-kuma.${config.my.hostDomain}";
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString config.services.uptime-kuma.settings.PORT}";
       proxyWebsockets = true;
     };
     forceSSL = true;
-    useACMEHost = config.local.hostDomain;
+    useACMEHost = config.my.hostDomain;
   };
 
   services.postgresql = {
@@ -115,7 +115,7 @@ in {
   services.paperless = {
     enable = true;
     extraConfig = {
-      PAPERLESS_URL = "https://paperless.${config.local.hostDomain}";
+      PAPERLESS_URL = "https://paperless.${config.my.hostDomain}";
       PAPERLESS_DBENGINE = "postgresql";
       PAPERLESS_DBHOST = "/run/postgresql";
       PAPERLESS_OCR_LANGUAGE = "eng";
@@ -123,12 +123,12 @@ in {
     };
   };
   services.nginx.virtualHosts."paperless" = {
-    serverName = "paperless.${config.local.hostDomain}";
+    serverName = "paperless.${config.my.hostDomain}";
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString config.services.paperless.port}";
     };
     forceSSL = true;
-    useACMEHost = config.local.hostDomain;
+    useACMEHost = config.my.hostDomain;
   };
 
   # Home Assistant
@@ -149,13 +149,13 @@ in {
     }
   '';
   services.nginx.virtualHosts."ha" = {
-    serverName = "ha.${config.local.hostDomain}";
+    serverName = "ha.${config.my.hostDomain}";
     locations."/" = {
       proxyPass = "http://${homeAssistantIP}:8123";
       proxyWebsockets = true;
     };
     forceSSL = true;
-    useACMEHost = config.local.hostDomain;
+    useACMEHost = config.my.hostDomain;
   };
 
   #virtualisation.oci-containers.backend = "podman";
@@ -180,7 +180,7 @@ in {
 
   # Local (personal) configuration settings
   # (see common-options.nix)
-  local.common.tailscale.enable = true;
+  my.common.tailscale.enable = true;
 
   # Enable DNS server.
   # Serves DNS for the rest of the network.

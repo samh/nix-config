@@ -81,12 +81,12 @@ in {
     };
   };
   services.nginx.virtualHosts."zigbee2mqtt" = {
-    serverName = "zigbee2mqtt.${config.local.hostDomain}";
+    serverName = "zigbee2mqtt.${config.my.hostDomain}";
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString zigbee2mqttPort}";
       proxyWebsockets = true;
     };
     forceSSL = true;
-    useACMEHost = config.local.hostDomain;
+    useACMEHost = config.my.hostDomain;
   };
 }

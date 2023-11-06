@@ -4,9 +4,9 @@
   pkgs,
   ...
 }: let
-  cfg = config.local.common;
+  cfg = config.my.borg;
 in {
-  options.local.borg = {
+  options.my.borg = {
     # Default options for borgmatic, that can be merged into borgmatic
     # configurations as needed.
     # Unfortunately this doesn't allow for using the configuration name

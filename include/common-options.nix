@@ -7,24 +7,24 @@
   ...
 }:
 with lib; let
-  cfg = config.local.common;
+  cfg = config.my.common;
 in {
   options = {
-    local.common = {
+    my.common = {
       extras.enable = mkEnableOption "Extra packages";
       extra-fonts.enable = mkEnableOption "Extra fonts";
       podman.enable = mkEnableOption "Podman containers";
       ansible.enable = mkEnableOption "Ansible controller";
       tailscale.enable = mkEnableOption "Tailscale VPN";
     };
-    local.base_domain = mkOption {
+    my.baseDomain = mkOption {
       type = types.str;
       default = "hartsfield.xyz";
       description = "Base domain name for services (option in case we want to override for some testing purpose)";
     };
-    local.hostDomain = mkOption {
+    my.hostDomain = mkOption {
       type = types.str;
-      default = "${config.networking.hostName}.${config.local.base_domain}";
+      default = "${config.networking.hostName}.${config.my.baseDomain}";
       description = "Domain name for this host (usually a subdomain of the base domain)";
     };
     my.user = mkOption {

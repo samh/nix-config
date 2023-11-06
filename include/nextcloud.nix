@@ -22,7 +22,7 @@ in {
           serverName = config.services.nextcloud.hostName;
           forceSSL = true;
           # Reuse host's wildcard certificate
-          useACMEHost = config.local.hostDomain;
+          useACMEHost = config.my.hostDomain;
         };
       };
 
@@ -46,7 +46,7 @@ in {
 
       services.nextcloud = {
         enable = true;
-        hostName = "nextcloud.${config.local.hostDomain}";
+        hostName = "nextcloud.${config.my.hostDomain}";
 
         # Use HTTPS for links
         https = true;

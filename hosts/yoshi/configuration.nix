@@ -122,7 +122,7 @@
 
   # Local (personal) configuration settings
   # (see common-options.nix)
-  local.common.tailscale.enable = true;
+  my.common.tailscale.enable = true;
 
   # Enable DNS server.
   # yoshi serves as a backup DNS server for the network in case kirby goes down.

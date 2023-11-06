@@ -156,11 +156,11 @@
 
   # Local (personal) configuration settings
   # (see common-options.nix)
-  local.common.ansible.enable = true;
-  local.common.extra-fonts.enable = true;
-  local.common.extras.enable = true;
-  local.common.podman.enable = true;
-  local.common.tailscale.enable = true;
+  my.common.ansible.enable = true;
+  my.common.extra-fonts.enable = true;
+  my.common.extras.enable = true;
+  my.common.podman.enable = true;
+  my.common.tailscale.enable = true;
 
   # Mount a magic /usr/bin to make shebangs work
   # https://github.com/Mic92/envfs

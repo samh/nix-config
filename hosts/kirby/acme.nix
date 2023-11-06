@@ -13,8 +13,8 @@
   #    dnsProvider = "cloudflare";
   #    credentialsFile = "/root/acme.env";
   #  };
-  security.acme.certs."kirby.${config.local.base_domain}" = {
-    domain = "*.kirby.${config.local.base_domain}";
+  security.acme.certs."kirby.${config.my.baseDomain}" = {
+    domain = "*.kirby.${config.my.baseDomain}";
     # This subdomain is currently delegated to DigitalOcean
     #dnsProvider = "cloudflare";
     dnsProvider = "digitalocean";

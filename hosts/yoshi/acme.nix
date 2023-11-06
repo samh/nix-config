@@ -8,8 +8,8 @@
   # /root/acme.env:
   #   CF_DNS_API_TOKEN=...
   #
-  security.acme.certs."${config.local.hostDomain}" = {
-    domain = "*.${config.local.hostDomain}";
+  security.acme.certs."${config.my.hostDomain}" = {
+    domain = "*.${config.my.hostDomain}";
     dnsProvider = "cloudflare";
     credentialsFile = "/root/acme.env";
     group = "nginx";

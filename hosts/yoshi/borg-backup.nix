@@ -12,7 +12,7 @@
   services.borgmatic.configurations = {
     "general" =
       lib.recursiveUpdate
-      config.local.borg.borgmatic-defaults
+      config.my.borg.borgmatic-defaults
       {
         location = {
           source_directories =

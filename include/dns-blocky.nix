@@ -42,7 +42,7 @@ in {
             type = "none";
           };
           customDNS = let
-            dom = config.local.base_domain;
+            dom = config.my.baseDomain;
             hosts = config.my.metadata.hosts;
             # Filter all hosts that have an IP address
             hostsWithIp = lib.filterAttrs (name: host: host ? ip_address) hosts;

@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  cfg = config.local.common;
+  cfg = config.my.common;
 in {
   config = lib.mkMerge [
     {
@@ -41,13 +41,13 @@ in {
       # nginx configuration.
       services.nginx.clientMaxBodySize = "20M"; # jellyfin: default "might not be enough for some posters"
       services.nginx.virtualHosts."jellyfin" = {
-        serverName = "jellyfin.${config.local.hostDomain}";
+        serverName = "jellyfin.${config.my.hostDomain}";
         locations."/" = {
           proxyPass = "http://127.0.0.1:8096";
           proxyWebsockets = true;
         };
         forceSSL = true;
-        useACMEHost = config.local.hostDomain;
+        useACMEHost = config.my.hostDomain;
       };
     })
   ];
