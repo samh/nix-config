@@ -39,8 +39,8 @@ in {
 
   # Make sure IP forwarding is enabled for Tailscale subnet routing
   # https://tailscale.com/kb/1019/subnets/?tab=linux
-  my.sysctl.net.ipv4.ip_forward = true;
-  my.sysctl.net.ipv6.conf.all.forwarding = true;
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+  boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 1;
 
   networking.hostName = "kirby"; # Define your hostname.
   # Pick only one of the below networking options.

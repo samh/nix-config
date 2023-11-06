@@ -42,7 +42,7 @@ in {
 
       # Redis wants overcommit_memory to be set to 1
       # See https://redis.io/docs/get-started/faq/
-      my.vm.overcommit_memory = 1;
+      boot.kernel.sysctl."vm.overcommit_memory" = 1;
 
       services.nextcloud = {
         enable = true;

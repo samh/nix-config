@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -27,7 +28,7 @@
   ];
 
   # Required for libvirt NAT to work
-  my.sysctl.net.ipv4.ip_forward = true;
+  boot.kernel.sysctl."net.ipv4.ip_forward" = lib.mkDefault 1;
 
   #users.groups.libvirtd.members = [ "root" "${config.my.user}" ];
   users.users."${config.my.user}".extraGroups = ["libvirtd"];
