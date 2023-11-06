@@ -11,6 +11,11 @@ in {
     # NixOS doesn't like when you define sysctl options multiple times, so
     # add the ones I want as options.
     my.sysctl = {
+      kernel.sysrq = mkOption {
+        type = types.int;
+        default = 1;
+        description = "Enable sysrq keyboard shortcuts; see https://wiki.archlinux.org/title/Keyboard_shortcuts#Kernel_(SysRq)";
+      };
       net.ipv4.ip_forward = mkOption {
         type = types.bool;
         default = true;
@@ -20,6 +25,11 @@ in {
         type = types.bool;
         default = true;
         description = "Enable IPv6 forwarding";
+      };
+      vm.overcommit_memory = mkOption {
+        type = types.int;
+        default = 0;
+        description = "Enable overcommitting of memory";
       };
     };
   };
@@ -31,5 +41,11 @@ in {
     (mkIf cfg.net.ipv6.conf.all.forwarding {
       boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 1;
     })
+    (mkIf (cfg.vm.overcommit_memory > 0) {
+      boot.kernel.sysctl."vm.overcommit_memory" = cfg.vm.overcommit_memory;
+    })
+    {
+      boot.kernel.sysctl."kernel.sysrq" = cfg.kernel.sysrq;
+    }
   ];
 }
