@@ -14,6 +14,10 @@
 
     hardware.url = "github:nixos/nixos-hardware";
 
+    nix-config-shared.url = "github:samh/nix-config-shared";
+    nix-config-shared.inputs.nixpkgs.follows = "nixpkgs";
+    nix-config-shared.inputs.home-manager.follows = "home-manager";
+
     # Shameless plug: looking for a way to nixify your themes and make
     # everything match nicely? Try nix-colors!
     # nix-colors.url = "github:misterio77/nix-colors";
