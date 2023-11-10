@@ -156,10 +156,15 @@
     btrfsFileSystems = lib.filterAttrs (name: value: value.fsType == "btrfs") config.fileSystems;
     # Get the names (i.e. paths) of those filesystems
     btrfsFileSystemMounts = builtins.attrNames btrfsFileSystems;
-    # Include only the /pool mount points
+    # Find the /pool mount points
     btrfsPoolFileSystems = builtins.filter (x: lib.strings.hasPrefix "/pool/" x) btrfsFileSystemMounts;
+    # If /pool mount points exist, use those, otherwise scrub any btrfs filesystems
+    scrubFileSystems =
+      if builtins.length btrfsPoolFileSystems > 0
+      then btrfsPoolFileSystems
+      else btrfsFileSystemMounts;
   in
-    btrfsPoolFileSystems;
+    scrubFileSystems;
 
   # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd
   services.fwupd.enable = true;
