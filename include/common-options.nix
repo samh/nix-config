@@ -116,6 +116,8 @@ in {
         vimHugeX # gvim
         vlc
         vorta # Borg backup GUI
+        # VS Code - FHS version "Should allow for easy usage of extensions
+        # without nix-specific modifications."
         vscode.fhs
         #vscodium-fhs
         yadm
