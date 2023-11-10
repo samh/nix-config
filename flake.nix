@@ -17,6 +17,8 @@
     nix-config-shared.url = "github:samh/nix-config-shared";
     nix-config-shared.inputs.nixpkgs.follows = "nixpkgs";
     nix-config-shared.inputs.home-manager.follows = "home-manager";
+    # Make sure unstable also follows, if we add it as a direct input.
+    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Shameless plug: looking for a way to nixify your themes and make
     # everything match nicely? Try nix-colors!
