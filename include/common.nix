@@ -105,6 +105,7 @@
     tree
     usbutils # lsusb
     unzip
+    vim
     wget
     zip
   ];

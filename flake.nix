@@ -2,7 +2,7 @@
   # Nix configurations; flake initially based on
   # https://github.com/Misterio77/nix-starter-configs
   # (See also https://github.com/misterio77/nix-config)
-  description = "Your new nix config";
+  description = "My personal nix config";
 
   inputs = {
     # Nixpkgs
@@ -61,6 +61,13 @@
         specialArgs = {inherit inputs;}; # Pass flake inputs to our config
         modules = [
           ./hosts/kirby/configuration.nix
+        ];
+      };
+      # Raspberry Pi 3, "pokey" (https://www.mariowiki.com/Pokey)
+      pokey = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;}; # Pass flake inputs to our config
+        modules = [
+          ./hosts/pokey/configuration.nix
         ];
       };
     };
