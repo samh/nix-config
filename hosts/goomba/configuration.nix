@@ -37,6 +37,9 @@
     wget
   ];
 
+  # Disable sudo password
+  security.sudo.wheelNeedsPassword = false;
+
   # List services that you want to enable:
 
   # nginx for reverse proxy
