@@ -76,6 +76,13 @@
           ./hosts/pokey/configuration.nix
         ];
       };
+      # Test VM on my desktop PC
+      goomba = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;}; # Pass flake inputs to our config
+        modules = [
+          ./hosts/goomba/configuration.nix
+        ];
+      };
     };
 
     # Standalone home-manager configuration entrypoint
