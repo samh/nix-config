@@ -36,30 +36,6 @@
         "type": "github"
       }
     },
-    "nix-config-shared": {
-      "inputs": {
-        "home-manager": [
-          "home-manager"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "nixpkgs-unstable": "nixpkgs-unstable"
-      },
-      "locked": {
-        "lastModified": 1699623790,
-        "narHash": "sha256-JIzUzw9veg9CbOSYN3W3u0AnOsj+aNwXUdQCM3stPCQ=",
-        "owner": "samh",
-        "repo": "nix-config-shared",
-        "rev": "764fefb49b7edd4310624db5bef7624fcd6507d8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "samh",
-        "repo": "nix-config-shared",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1699291058,
@@ -96,8 +72,35 @@
       "inputs": {
         "hardware": "hardware",
         "home-manager": "home-manager",
-        "nix-config-shared": "nix-config-shared",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "samh-shared": "samh-shared"
+      }
+    },
+    "samh-shared": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nixpkgs-unstable": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1699623790,
+        "narHash": "sha256-JIzUzw9veg9CbOSYN3W3u0AnOsj+aNwXUdQCM3stPCQ=",
+        "owner": "samh",
+        "repo": "nix-config-shared",
+        "rev": "764fefb49b7edd4310624db5bef7624fcd6507d8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "samh",
+        "repo": "nix-config-shared",
+        "type": "github"
       }
     }
   },
