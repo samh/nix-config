@@ -57,6 +57,7 @@
   home.packages = with pkgs; [
     shfmt # Formatter for shell scripts
     yadm
+    pkgs.unstable.podman
   ];
 
   programs.home-manager.enable = true;
