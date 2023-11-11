@@ -3,6 +3,7 @@
 ## Quick Reference
 - Update `flake.lock` and commit: `nix flake update --commit-lock-file`
 - Rebuild a host: `sudo nixos-rebuild boot` (or `switch`)
+- Auto-format: `nix fmt`
 
 ## Initial Setup
 To make this the default configuration for a machine, make a symbolic link
