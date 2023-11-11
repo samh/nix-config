@@ -129,11 +129,16 @@
       # Looks like the homeConfigurations can be host-specific, such
       # as samh@yoshi, or just "samh".
       # If I have both, is the host-specific one used?
+      "samh@nixos-2022-desktop" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [./home-manager/nixos-2022-desktop.nix];
+      };
       "samh" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraspecialArgs = {inherit inputs outputs;};
+        extraSpecialArgs = {inherit inputs outputs;};
         # > Our main home-manager configuration file <
-        modules = [./home-manager/home.nix];
+        modules = [./home-manager/generic.nix];
       };
     };
   };

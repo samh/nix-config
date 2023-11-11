@@ -48,8 +48,8 @@
   };
 
   home = {
-    username = "samh";
-    homeDirectory = "/home/samh";
+    username = lib.mkDefault "samh";
+    homeDirectory = lib.mkDefault "/home/${config.home.username}";
   };
 
   # Add stuff for your user as you see fit:
@@ -57,7 +57,6 @@
   home.packages = with pkgs; [
     shfmt # Formatter for shell scripts
     yadm
-    pkgs.unstable.podman
   ];
 
   programs.home-manager.enable = true;

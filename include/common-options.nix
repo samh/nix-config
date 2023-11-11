@@ -118,7 +118,7 @@ in {
         vorta # Borg backup GUI
         # VS Code - FHS version "Should allow for easy usage of extensions
         # without nix-specific modifications."
-        vscode.fhs
+        #vscode.fhs
         #vscodium-fhs
         yadm
       ];
