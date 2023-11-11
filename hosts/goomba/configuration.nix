@@ -2,6 +2,8 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 {
+  inputs,
+  outputs,
   config,
   lib,
   pkgs,
@@ -9,6 +11,10 @@
 }: {
   imports = [
     ../../include/common.nix
+
+    # Import home-manager's NixOS module (i.e. build home-manager profile
+    # at the same time as the system configuration with nixos-rebuild)
+    inputs.home-manager.nixosModules.home-manager
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -39,6 +45,14 @@
 
   # Disable sudo password
   security.sudo.wheelNeedsPassword = false;
+
+  home-manager = {
+    extraSpecialArgs = {inherit inputs outputs;};
+    users = {
+      # Import your home-manager configuration
+      samh = import ../../home-manager/home.nix;
+    };
+  };
 
   # List services that you want to enable:
 
