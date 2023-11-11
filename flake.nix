@@ -72,7 +72,10 @@
     nixosConfigurations = {
       # Framework Laptop
       fwnixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;}; # Pass flake inputs to our config
+        # Pass flake inputs to our config. This means that the 'inputs' and
+        # 'outputs' variables defined in this file are accessible by our
+        # modules if they declare 'inputs' and 'outputs' as arguments.
+        specialArgs = {inherit inputs outputs;};
         modules = [
           # A collection of NixOS modules covering hardware quirks.
           # https://github.com/NixOS/nixos-hardware
@@ -83,35 +86,35 @@
       };
       # Desktop PC - Gigabyte Z390 Designare + Intel Core i7-9700k (2019)
       nixos-2022-desktop = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;}; # Pass flake inputs to our config
+        specialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/desktop-z390-9700k/configuration.nix
         ];
       };
       # New Storage Server - Z77 + Intel Core i5-3770k (2012)
       yoshi = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;}; # Pass flake inputs to our config
+        specialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/yoshi/configuration.nix
         ];
       };
       # Dell OptiPlex 7050 Micro - Intel Core i5 i5-6600T (2023)
       kirby = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;}; # Pass flake inputs to our config
+        specialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/kirby/configuration.nix
         ];
       };
       # Raspberry Pi 3, "pokey" (https://www.mariowiki.com/Pokey)
       pokey = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;}; # Pass flake inputs to our config
+        specialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/pokey/configuration.nix
         ];
       };
       # Test VM on my desktop PC
       goomba = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;}; # Pass flake inputs to our config
+        specialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/goomba/configuration.nix
         ];
@@ -128,7 +131,7 @@
       # If I have both, is the host-specific one used?
       "samh" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs;}; # Pass flake inputs to our config
+        extraspecialArgs = {inherit inputs outputs;};
         # > Our main home-manager configuration file <
         modules = [./home-manager/home.nix];
       };
