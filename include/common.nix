@@ -84,6 +84,7 @@
     #autorestic
     bindfs
     btdu # btrfs usage tool
+    btop # another top, rewrite of bpytop in C++
     btrbk # even if not using for backups, it provides 'lsbtr' command
     compsize # btrfs compression report
     cryptsetup
