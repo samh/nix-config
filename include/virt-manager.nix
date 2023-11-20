@@ -28,7 +28,7 @@
     ]
     ++ (
       # Add virt-manager GUI if X is enabled
-      if services.xserver.enable
+      if config.services.xserver.enable
       then [
         virt-manager
       ]
