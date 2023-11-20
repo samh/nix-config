@@ -1,17 +1,3 @@
-#
-# This is a basic configuration.nix that can be used to install NixOS
-# on a new system (e.g. by copying to the install USB), with the intention
-# of being replaced later by the real configuration from my git repo.
-#
-# Things that should be edited:
-#
-#  - The hostname - should be set so the correct flake is selected by default
-#    when building the real config
-#  - Disable or change desktop manager if desired
-#
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
 {
   config,
   pkgs,
@@ -20,6 +6,8 @@
   imports = [
     ../../include/common.nix
     ../../include/virt-manager.nix
+
+    ./network.nix
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -38,9 +26,7 @@
   #boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "birdo"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  # For networking - see ./network.nix
 
   # Set your time zone.
   time.timeZone = "America/New_York";
