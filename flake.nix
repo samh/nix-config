@@ -119,6 +119,13 @@
           ./hosts/goomba/configuration.nix
         ];
       };
+      # Old PC - Q6600
+      birdo = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/birdo/configuration.nix
+        ];
+      };
     };
 
     # Standalone home-manager configuration entrypoint
