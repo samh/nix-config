@@ -68,6 +68,7 @@
   environment.systemPackages = with pkgs; [
     jellyfin-media-player
     libreoffice-qt
+    nextcloud-client
     # pika-backup  # borg frontend - testing it out
     spice-gtk
 
@@ -121,6 +122,9 @@
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
   # system.copySystemConfiguration = true;
+
+  programs.adb.enable = true;
+  users.users.samh.extraGroups = ["adbusers"];
 
   # Local (personal) configuration settings
   my.common.ansible.enable = true;

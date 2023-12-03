@@ -113,6 +113,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    nextcloud-client
     # syncthingtray Plasmoid issue:
     # https://github.com/NixOS/nixpkgs/issues/199596
     syncthingtray-minimal
