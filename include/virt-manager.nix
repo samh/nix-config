@@ -6,9 +6,6 @@
 }:
 # Virtualization using KVM with virt-manager
 {
-  imports = [
-    ./sysctl.nix
-  ];
   virtualisation = {
     libvirtd = {
       enable = true;
