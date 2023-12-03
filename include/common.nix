@@ -15,7 +15,7 @@
     ./sysctl.nix
   ];
 
-  time.timeZone = "America/New_York";
+  time.timeZone = lib.mkDefault "America/New_York";
 
   # Define a group for access to multimedia files, e.g. videos, music.
   users.groups.multimedia = {
@@ -94,7 +94,7 @@
     dig
     duf
     file
-    git
+    git # Required to build flakes
     htop
     ncdu
     ntfs3g
