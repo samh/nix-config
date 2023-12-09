@@ -66,6 +66,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    android-file-transfer
     jellyfin-media-player
     libreoffice-qt
     nextcloud-client

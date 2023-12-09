@@ -72,6 +72,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    android-file-transfer
     dua # Disk Usage Analyzer (ncdu alternative)
     firefox
     git # required for building flakes
