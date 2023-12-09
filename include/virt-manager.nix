@@ -19,18 +19,12 @@
     };
   };
 
-  environment.systemPackages = with pkgs;
-    [
-      pciutils # lspci
-    ]
-    ++ (
-      # Add virt-manager GUI if X is enabled
-      if config.services.xserver.enable
-      then [
-        virt-manager
-      ]
-      else []
-    );
+  environment.systemPackages = with pkgs; [
+    pciutils # lspci
+  ];
+
+  # Add virt-manager GUI if X is enabled
+  programs.virt-manager.enable = config.services.xserver.enable;
 
   # Required for libvirt NAT to work
   boot.kernel.sysctl."net.ipv4.ip_forward" = lib.mkDefault 1;

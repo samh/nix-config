@@ -27,16 +27,16 @@
   # Fonts
   # https://nixos.wiki/wiki/Fonts
   # Note: more fonts are in common-options.nix
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     # Beautiful and free fonts for many languages
     # https://fonts.google.com/noto
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     liberation_ttf
   ];
-  fonts.enableDefaultFonts = true;
+  fonts.enableDefaultPackages = true;
   fonts.fontDir.enable = true;
 
   # Enable scanner support (also needs extra user groups)

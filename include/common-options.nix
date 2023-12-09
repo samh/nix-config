@@ -134,7 +134,7 @@ in {
       #];
     })
     (mkIf cfg.extra-fonts.enable {
-      fonts.fonts = with pkgs; [
+      fonts.packages = with pkgs; [
         fira-code
         fira-code-symbols
         d2coding # Monospace font with support for Korean and latin characters
