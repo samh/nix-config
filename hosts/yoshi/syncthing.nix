@@ -14,6 +14,13 @@
       # versionsPath = ".stversions";
     };
   };
+  photoVersioning = {
+    type = "staggered";
+    params = {
+      cleanInterval = "3600";
+      maxAge = "0"; # Don't delete old photos, ever
+    };
+  };
 in {
   imports = [
     ../include/syncthing.nix
@@ -56,6 +63,29 @@ in {
           "nixos-2022-desktop"
           #"work-laptop"
         ];
+        versioning = defaultVersioning;
+      };
+      "Photos-Pixel4a" = {
+        id = "pixel_4a_d88y-photos";
+        enable = true;
+        type = "receiveonly";
+        path = "/media/disk2/Backup-Photos/Sam-Pixel4a-Syncthing";
+        devices = ["pixel4a"];
+        versioning = photoVersioning;
+      };
+      "Photos-Pixel8" = {
+        id = "pixel_8_22n8-photos";
+        enable = true;
+        type = "receiveonly";
+        path = "/media/disk2/Backup-Photos/Sam-Pixel8-Syncthing";
+        devices = ["pixel8"];
+        versioning = photoVersioning;
+      };
+      "PhoneTransfer" = {
+        id = "ntcgb-rnrl5";
+        enable = true;
+        path = "/storage/Sam/PhoneTransfer";
+        devices = ["pixel4a" "pixel8"];
         versioning = defaultVersioning;
       };
     };

@@ -32,14 +32,14 @@ in {
         id = "evgke-fvs53";
         enable = true;
         path = "${config.my.homeDir}/Notes/Notes-Shared";
-        devices = ["nixos-2022-desktop" "pixel4a" "work-laptop" "yoshi"];
+        devices = ["nixos-2022-desktop" "pixel8" "work-laptop" "yoshi"];
         versioning = defaultVersioning;
       };
       "Notes-Personal" = {
         id = "jjbsv-stmrg";
         enable = true;
         path = "${config.my.homeDir}/Notes/Notes-Personal";
-        devices = ["nixos-2022-desktop" "pixel4a" "yoshi"];
+        devices = ["nixos-2022-desktop" "pixel8" "yoshi"];
         versioning = defaultVersioning;
       };
     };
