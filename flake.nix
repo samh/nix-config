@@ -98,7 +98,7 @@
           ./hosts/yoshi/configuration.nix
         ];
       };
-      # Dell OptiPlex 7050 Micro - Intel Core i5 i5-6600T (2023)
+      # Dell OptiPlex 7050 Micro - Intel Core i5 i5-6600T (purchased 2023)
       kirby = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
@@ -124,6 +124,13 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/birdo/configuration.nix
+        ];
+      };
+      # Dell OptiPlex 5080 SFF - Intel Core i5-10500 (purchased 2023)
+      lakitu = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/lakitu/configuration.nix
         ];
       };
     };
