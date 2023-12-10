@@ -13,6 +13,7 @@
     ../include/nix-ld.nix
     ../include/virt-manager.nix
 
+    ./mounts.nix
     ./syncthing.nix
 
     # Include the results of the hardware scan.
