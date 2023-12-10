@@ -26,7 +26,7 @@ in {
     ../include/syncthing.nix
   ];
 
-  services.syncthing = {
+  services.syncthing.settings = {
     folders = {
       "Sync-Linux" = {
         # Name of folder in Syncthing, also the folder ID
