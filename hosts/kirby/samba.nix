@@ -87,12 +87,14 @@ in {
         "guest ok" = "no";
         "hosts allow" = "${allowed_ranges} 127.0.0.1 ::1";
         "hosts deny" = "0.0.0.0/0";
-        "create mode" = "0644";
-        "force create mode" = "0644";
+        # Allow group to write, so that paperless
+        # can clean up processed files.
+        "create mode" = "0664";
+        "force create mode" = "0664";
         "create mask" = "0644";
-        "directory mode" = "0755";
-        "force directory mode" = "0755";
-        "directory mask" = "0755";
+        "directory mode" = "0775";
+        "force directory mode" = "0775";
+        "directory mask" = "0775";
         "write list" = "@${scanner_group}";
         "force user" = "${scanner_user}";
         "force group" = "${scanner_group}";
