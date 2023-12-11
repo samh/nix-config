@@ -114,6 +114,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    android-file-transfer
     nextcloud-client
     # syncthingtray Plasmoid issue:
     # https://github.com/NixOS/nixpkgs/issues/199596
