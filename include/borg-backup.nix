@@ -12,26 +12,21 @@ in {
     # Unfortunately this doesn't allow for using the configuration name
     # e.g. as part of the passcommand. Maybe we can use a function instead?
     #
-    # Note '//' doesn't recursively merge, so if you want to
-    # e.g. override 'storage.encryption_passcommand' you lose the default
-    # 'storage.compression' setting; seems like 'lib.recursiveUpdate'
-    # works better for this case.
-    # In general it should be less of a problem once borgmatic is updated
-    # to the version that uses flatter configuration.
+    # Note '//' doesn't recursively merge, though 'lib.recursiveUpdate'
+    # does. This should be less of a problem as of NixOS 23.11, since
+    # borgmatic is updated to the version that uses flat configuration
+    # (e.g. 'storage.encryption_passcommand' is now just
+    # 'encryption_passcommand').
     borgmatic-defaults = lib.mkOption {
       type = lib.types.attrsOf lib.types.anything;
       default = {
-        storage = {
-          encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass";
-          compression = "auto,zstd,9";
-        };
-        retention = {
-          keep_within = "24H";
-          keep_daily = 7;
-          keep_weekly = 4;
-          keep_monthly = 6;
-          keep_yearly = 5;
-        };
+        encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass";
+        compression = "auto,zstd,9";
+        keep_within = "24H";
+        keep_daily = 7;
+        keep_weekly = 4;
+        keep_monthly = 6;
+        keep_yearly = 5;
       };
     };
   };
