@@ -126,7 +126,7 @@
           ./hosts/birdo/configuration.nix
         ];
       };
-      # Dell OptiPlex 5080 SFF - Intel Core i5-10500 (purchased 2023)
+      # Router - Dell OptiPlex 5080 SFF - Intel Core i5-10500 (purchased 2023)
       lakitu = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [

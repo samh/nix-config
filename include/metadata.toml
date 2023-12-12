@@ -16,6 +16,11 @@ syncthing_id = "4JP4C67-VSQX646-E4BRJDC-ZQ2ZTNJ-CKWNUSS-2FC46OK-MDN7DB7-JCKBXQW"
 ip_address = "192.168.5.64"
 syncthing_id = "DQ5PQ5T-OEQQGJ5-C67RF4Y-SJR5NIZ-WPFSJQT-YNXFOET-37356WL-P7LWNQH"
 
+[hosts.lakitu]
+# Temporary IP while setting up
+ip_address = "192.168.5.180"
+description = "Router - Dell OptiPlex 5080 SFF - Intel Core i5-10500 (purchased 2023)"
+
 [hosts.pixel4a]
 syncthing_id = "NPVNVC5-J2CKZF6-6LUH6NF-3NYG6GP-GUERNAO-O35UZUC-L6ADKSK-SPRA3AL"
 
