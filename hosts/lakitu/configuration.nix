@@ -25,6 +25,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "lakitu"; # Define your hostname.
+
   # For networking - see ./network.nix
 
   # Configure network proxy if necessary
@@ -75,6 +76,9 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  # There are no btrfs fileSystems on this host
+  services.btrfs.autoScrub.enable = false;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
