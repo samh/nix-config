@@ -63,8 +63,6 @@ in {
 
         # Increase the maximum file upload size to avoid problems uploading videos.
         maxUploadSize = "16G";
-        # Make sure legacy stuff is disabled
-        enableBrokenCiphersForSSE = false;
 
         # Auto-update Nextcloud Apps
         autoUpdateApps.enable = true;
