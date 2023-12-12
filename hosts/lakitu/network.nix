@@ -4,6 +4,12 @@
 # enp5s0 - 2.5Gb right/top port
 #
 {config, ...}: {
+  # Disable other network management services. We are explicitly configuring
+  # systemd-networkd below.
+  networking.useDHCP = false;
+  networking.useNetworkd = false;
+  networking.networkmanager.enable = false;
+
   # https://nixos.wiki/wiki/Systemd-networkd
   # https://www.freedesktop.org/software/systemd/man/latest/systemd-networkd.service.html
   systemd.network = {
