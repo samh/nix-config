@@ -58,6 +58,15 @@
           RequiredForOnline = "carrier";
         };
       };
+      # Configure the built-in NIC (currently as a backup for administration,
+      # at least while doing the initial setup)
+      "50-eno1" = {
+        matchConfig.Name = "eno1";
+        networkConfig.DHCP = "ipv4";
+        linkConfig = {
+          RequiredForOnline = "no";
+        };
+      };
     };
   };
 }
