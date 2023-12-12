@@ -54,8 +54,14 @@
           "**/safebrowsing"
         ];
         repositories = [
-          "/media/backup/borg-pc"
-          "ssh://o7tw4si1@o7tw4si1.repo.borgbase.com/./repo"
+          {
+            label = "local";
+            path = "/media/backup/borg-pc";
+          }
+          {
+            label = "borgbase";
+            path = "ssh://o7tw4si1@o7tw4si1.repo.borgbase.com/./repo";
+          }
         ];
         healthchecks = {ping_url = "\${HEALTHCHECKS_URL:-empty}";};
       };

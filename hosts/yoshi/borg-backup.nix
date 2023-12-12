@@ -41,7 +41,10 @@
           "**/[Cc]ache*"
         ];
         repositories = [
-          "ssh://waxs18i4@waxs18i4.repo.borgbase.com/./repo"
+          {
+            label = "borgbase";
+            path = "ssh://waxs18i4@waxs18i4.repo.borgbase.com/./repo";
+          }
         ];
         healthchecks = {ping_url = "\${HEALTHCHECKS_URL:-empty}";};
       };
@@ -54,7 +57,10 @@
       ];
       one_file_system = false;
       repositories = [
-        "ssh://a7a635p6@a7a635p6.repo.borgbase.com/./repo"
+        {
+          label = "borgbase";
+          path = "ssh://a7a635p6@a7a635p6.repo.borgbase.com/./repo";
+        }
       ];
       # Note: this password was originally used on the previous storage server.
       encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass-photos";

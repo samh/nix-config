@@ -28,7 +28,12 @@
           # Home Assistant backups
           "/srv/shares/homeassistant-backup"
         ];
-        repositories = ["ssh://f66k66p2@f66k66p2.repo.borgbase.com/./repo"];
+        repositories = [
+          {
+            label = "borgbase";
+            path = "ssh://f66k66p2@f66k66p2.repo.borgbase.com/./repo";
+          }
+        ];
         # Note: since borgmatic is running as root, I created a "root" user
         # in the database who can read all databases; it's using the default
         # peer authentication. See README.md.
