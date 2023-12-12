@@ -41,9 +41,12 @@
   # };
 
   # Enable the X11 windowing system.
-  #services.xserver.enable = true;
-  #services.xserver.desktopManager.budgie.enable = true;
-  #services.xserver.displayManager.lightdm.enable = true;
+  # This machine is supposed to be a router, so if something is not working,
+  # we might not be able to access it to troubleshoot via the network. In
+  # that case, it could be useful to have a local display to troubleshoot.
+  services.xserver.enable = true;
+  services.xserver.desktopManager.budgie.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
