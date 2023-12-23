@@ -148,6 +148,11 @@
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [./home-manager/nixos-2022-desktop.nix];
       };
+      "samh@fwnixos" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [./home-manager/fwnixos.nix];
+      };
       "samh" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};

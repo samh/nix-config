@@ -89,7 +89,6 @@ in {
         gnupg
         gocryptfs
         #gparted
-        jetbrains.pycharm-professional
         junction # choose which application to open links
         keepassxc
         kdiff3
