@@ -83,3 +83,13 @@ Shared modules are stored under the `include` subdirectory
 ### Things Specific to This Repo
 - `options.my` / `config.my` refers to my personal configurations
   (i.e. things that are locally defined, local to the repo)
+
+## home-manager
+
+If `flake.nix` is linked into the right place as shown in the initial setup,
+then we should be able to call `home-manager` without specifying the
+flake explicitly:
+
+```shell
+home-manager switch
+```
