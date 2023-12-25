@@ -18,6 +18,9 @@
 
     hardware.url = "github:nixos/nixos-hardware";
 
+    microvm.url = "github:astro/microvm.nix";
+    microvm.inputs.nixpkgs.follows = "nixpkgs";
+
     samh-shared.url = "github:samh/nix-config-shared";
     samh-shared.inputs.nixpkgs.follows = "nixpkgs";
     samh-shared.inputs.home-manager.follows = "home-manager";
@@ -33,6 +36,7 @@
     nixpkgs,
     home-manager,
     hardware,
+    microvm,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -80,6 +84,9 @@
           # A collection of NixOS modules covering hardware quirks.
           # https://github.com/NixOS/nixos-hardware
           hardware.nixosModules.framework-12th-gen-intel
+          # Include the microvm host module
+          # https://astro.github.io/microvm.nix/host.html
+          microvm.nixosModules.host
           # > Our main nixos configuration file <
           ./hosts/framework/configuration.nix
         ];
