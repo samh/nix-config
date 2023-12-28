@@ -126,6 +126,13 @@
           ./hosts/goomba/configuration.nix
         ];
       };
+      # Sec VM on laptop
+      stalfos = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/stalfos/configuration.nix
+        ];
+      };
       # Old PC - Q6600
       birdo = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
