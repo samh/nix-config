@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -11,6 +12,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  my.gui.sound.enable = lib.mkDefault true;
 
   # Enable the Xfce Desktop Environment.
   services.xserver.desktopManager.xfce.enable = true;

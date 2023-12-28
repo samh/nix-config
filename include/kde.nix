@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -8,6 +9,9 @@
   imports = [
     ./common-gui.nix
   ];
+
+  my.gui.sound.enable = lib.mkDefault true;
+  services.xserver.enable = true;
 
   # Enable the Plasma 5 Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
