@@ -38,6 +38,10 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = ["module_blacklist=hid_sensor_hub"];
 
+  # Enable binfmt emulation of aarch64-linux (to allow building SD card images
+  # for Raspberry Pi).
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+
   networking.hostName = "fwnixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -116,6 +120,7 @@
   environment.systemPackages = with pkgs; [
     android-file-transfer
     nextcloud-client
+    nixos-generators
     # syncthingtray Plasmoid issue:
     # https://github.com/NixOS/nixpkgs/issues/199596
     syncthingtray-minimal
