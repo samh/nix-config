@@ -105,6 +105,7 @@ in {
         rclone
         rclone-browser
         remmina
+        ruff
         shellcheck # shell script linter
         shfmt # shell script formatter
         smplayer
