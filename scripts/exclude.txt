@@ -1,0 +1,4 @@
+.*_cache/
+.doit.db
+.venv
+__pycache__/

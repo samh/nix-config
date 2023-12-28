@@ -12,4 +12,4 @@ cd "$DIR"/../
 : "${TARGET_PATH:=nixos-sync}"
 
 # rsync to the remote host
-rsync -avHX --delete ./ "${TARGET}:${TARGET_PATH}/" "$@"
+rsync -avHX --delete --exclude-from="${DIR}"/exclude.txt ./ "${TARGET}:${TARGET_PATH}/" "$@"
