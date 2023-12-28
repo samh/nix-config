@@ -1,6 +1,8 @@
 *.bak
 *.orig
 *.swp
+__pycache__/
 /.idea/
+/.doit.db
 /configuration.nix
 /hardware-configuration.nix
