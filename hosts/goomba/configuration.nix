@@ -50,7 +50,7 @@
     extraSpecialArgs = {inherit inputs outputs;};
     users = {
       # Import your home-manager configuration
-      samh = import ../../home-manager/home.nix;
+      samh = import ../../home-manager/goomba.nix;
     };
   };
 
