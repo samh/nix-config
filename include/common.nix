@@ -210,4 +210,8 @@
   # Set defaults for Let's Encrypt / ACME certificates
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "acme@mail.hartsfield.xyz";
+  # The lego tool does some DNS checks and seems to be confused by the
+  # internal DNS in some cases (appeared when subdomain was delegated).
+  # Related: https://github.com/go-acme/lego/issues/1066#issuecomment-636242733
+  security.acme.defaults.dnsResolver = "1.1.1.1:53";
 }
