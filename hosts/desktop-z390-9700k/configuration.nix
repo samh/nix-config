@@ -75,6 +75,11 @@
 
     # Using system-level Firefox for now (see more notes in common.nix).
     firefox
+
+    # Firefox addon development
+    #firefox-devedition # doesn't seem to work side by side with regular firefox
+    #mitmproxy
+    #nodejs_20
   ];
   # TODO: only allow per package
   # Obsidian, PyCharm, maybe others I didn't realize...
@@ -136,7 +141,11 @@
 
   # Mount a magic /usr/bin to make shebangs work
   # https://github.com/Mic92/envfs
-  services.envfs.enable = true;
+  # Seems to be getting stuck sometimes, giving errors e.g.
+  # "bash: /usr/bin/env: Transport endpoint is not connected"
+  # when trying to run a script with /usr/bin/env as the shebang,
+  # so disabling for now.
+  #services.envfs.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
