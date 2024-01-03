@@ -3,7 +3,9 @@
 ## Quick Reference
 - Update `flake.lock` and commit: `nix flake update --commit-lock-file`
 - Run a check: `nix flake check --no-build`
-- Rebuild the local host: `sudo nixos-rebuild boot` (or `switch`)
+- Rebuild the local host:
+  - `sudo nixos-rebuild boot` (or `switch`)
+  - `home-manager switch`
 - Auto-format: `nix fmt`
 
 ## Initial Setup
