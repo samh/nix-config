@@ -1,5 +1,6 @@
 {
   inputs,
+  outputs,
   config,
   lib,
   pkgs,
@@ -57,6 +58,26 @@
     # mkDefault (which is mkOverride 1000) doesn't work here; looks like
     # it conflicts with the built-in default user shell.
     shell = lib.mkOverride 999 pkgs.fish;
+  };
+
+  nixpkgs = {
+    # You can add overlays here
+    overlays = [
+      # Add overlays your own flake exports (from overlays and pkgs dir):
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.unstable-packages # enables "pkgs.unstable.xyz"
+
+      # You can also add overlays exported from other flakes:
+      # neovim-nightly-overlay.overlays.default
+
+      # Or define it inline, for example:
+      # (final: prev: {
+      #   hi = final.hello.overrideAttrs (oldAttrs: {
+      #     patches = [ ./change-hello-to-hi.patch ];
+      #   });
+      # })
+    ];
   };
 
   # This will add each flake input as a registry
