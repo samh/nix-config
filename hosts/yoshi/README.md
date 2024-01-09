@@ -9,6 +9,10 @@
 2. Run `smbpasswd -a samh` to set the samba password for myself.
 3. Borg backup for photos: `HEALTHCHECKS_URL_PHOTOS` in `/root/borgmatic.env`,
    password in `/root/borg-pass-photos`
+4. For Calibre Server, user database needs to exist:
+   `/var/lib/calibre-server/server-users.sqlite`
+   (created by Calibre GUI or command line); the GUI creates it at
+   `~/.config/calibre/server-users.sqlite`.
 
 ## Notable Systemd Units
 
@@ -16,6 +20,7 @@
 blocky.service
 borgmatic.service
 borgmatic.timer
+calibre-server.service
 jellyfin.service
 nginx.service
 tailscaled.service

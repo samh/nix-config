@@ -52,8 +52,9 @@ homeassistant = 20020
 nextcloud = 20030
 
 [gids]
-# Group for scanner
-inbox = 20000
+inbox = 20000 # Group for scanner
+storage = 20010 # Allow access to /storage
 homeassistant = 20020
 nextcloud = 20030
 multimedia = 20050
+calibre = 20060

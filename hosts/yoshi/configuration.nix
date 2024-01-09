@@ -11,6 +11,7 @@
     ../include/common.nix
     ../include/dns-blocky.nix
     ../include/ext-mounts.nix
+    ../../include/metadata.nix
     ../include/nextcloud.nix
     ../include/nginx.nix
     ../include/xfce.nix
@@ -138,8 +139,42 @@
     openFirewall = true;
   };
 
+  # Group for access to /storage (probably read-only)
+  users.groups.storage.gid = config.my.metadata.gids.storage;
+  # Group for access to Calibre libraries
+  users.groups.calibre.gid = config.my.metadata.gids.calibre;
+  # Add my user to the groups
+  users.users."${config.my.user}".extraGroups = ["calibre" "storage"];
+
   # Enable Nextcloud
   my.nextcloud.enable = true;
+
+  # Calibre (eBook management)
+  # calibre-server is the built-in web server; calibre-web is a third-party web interface
+  services.calibre-server.enable = true;
+  services.calibre-server.package = pkgs.unstable.calibre; # use latest version
+  services.calibre-server.libraries = [
+    # The module doesn't work with spaces in the path.
+    # I added a symlink.
+    #"/storage/Books/Calibre-Work/Calibre Library"
+    "/storage/Books/Calibre-Work-Library"
+  ];
+  services.calibre-server.auth.enable = true;
+  services.calibre-server.auth.mode = "basic";
+  services.calibre-server.auth.userDb = "/var/lib/calibre-server/server-users.sqlite";
+  services.calibre-server.group = "calibre";
+  # I'm trying ACLs first instead of adding another group to the calibre-server user.
+  # setfacl -m g:calibre:rx /storage
+  #users.users."${config.services.calibre-server.user}".extraGroups = ["storage"];
+  services.calibre-server.port = 8085;
+  services.nginx.virtualHosts."calibre" = {
+    serverName = "calibre.${config.my.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString config.services.calibre-server.port}";
+    };
+    forceSSL = true;
+    useACMEHost = config.my.hostDomain;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
