@@ -73,6 +73,8 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     android-file-transfer
+    bat # cat with syntax highlighting
+    bwm_ng # console network/disk monitor
     dua # Disk Usage Analyzer (ncdu alternative)
     firefox
     git # required for building flakes
