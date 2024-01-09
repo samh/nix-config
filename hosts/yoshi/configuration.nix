@@ -20,6 +20,7 @@
     ./jellyfin.nix
     ./mounts.nix
     ./nvidia-660ti.nix
+    ./samba.nix
     ./syncthing.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix

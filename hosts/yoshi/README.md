@@ -6,7 +6,8 @@
 
 ## State / Manual Setup Steps
 1. *See [top-level README.md](../../README.md) for common steps.*
-2. Borg backup for photos: `HEALTHCHECKS_URL_PHOTOS` in `/root/borgmatic.env`,
+2. Run `smbpasswd -a samh` to set the samba password for myself.
+3. Borg backup for photos: `HEALTHCHECKS_URL_PHOTOS` in `/root/borgmatic.env`,
    password in `/root/borg-pass-photos`
 
 ## Notable Systemd Units
@@ -29,4 +30,9 @@ nextcloud-update-plugins.service
 nextcloud-update-plugins.timer
 phpfpm-nextcloud.service
 redis-nextcloud.service
+```
+
+Samba:
+```
+systemctl status samba\*
 ```
