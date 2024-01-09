@@ -61,7 +61,7 @@ in {
         path = "/media/disk2/Books/Calibre-Work";
         devices = [
           "nixos-2022-desktop"
-          #"work-laptop"
+          "work-laptop"
         ];
         versioning = defaultVersioning;
       };
