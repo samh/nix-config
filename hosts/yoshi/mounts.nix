@@ -58,6 +58,7 @@
       "dropcacheonclose=true"
       "minfreespace=250G"
       "fsname=mergerfs"
+      "posix_acl=true"
       # "x-systemd.device-timeout=0" # causes dmesg errors on mergerfs
     ];
   };
