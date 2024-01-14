@@ -29,18 +29,29 @@
           Name = "br1";
         };
       };
+      "30-br2" = {
+        netdevConfig = {
+          Kind = "bridge";
+          Name = "br2";
+        };
+      };
     };
     # See https://www.freedesktop.org/software/systemd/man/latest/systemd.network.html
     networks = {
       # Connect the bridge ports to the bridge
       "30-enp4s0" = {
-        matchConfig.Name = "enp4s0"; # left port
-        networkConfig.Bridge = "br0";
+        matchConfig.Name = "enp4s0"; # 2.5Gb card - left port
+        networkConfig.Bridge = "br2";
         linkConfig.RequiredForOnline = "enslaved";
       };
       "30-enp5s0" = {
-        matchConfig.Name = "enp5s0"; # right port
+        matchConfig.Name = "enp5s0"; # 2.5Gb card - right port
         networkConfig.Bridge = "br1";
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "30-eno1" = {
+        matchConfig.Name = "eno1"; # built-in 1Gb NIC
+        networkConfig.Bridge = "br0"; # WAN
         linkConfig.RequiredForOnline = "enslaved";
       };
       # Configure the bridge networks
@@ -64,13 +75,12 @@
           RequiredForOnline = "carrier";
         };
       };
-      # Configure the built-in NIC (currently as a backup for administration,
-      # at least while doing the initial setup)
-      "50-eno1" = {
-        matchConfig.Name = "eno1";
-        networkConfig.DHCP = "ipv4";
+      # 2nd LAN
+      "40-br2" = {
+        matchConfig.Name = "br2";
+        bridgeConfig = {};
         linkConfig = {
-          RequiredForOnline = "no";
+          RequiredForOnline = "carrier";
         };
       };
     };
