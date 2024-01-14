@@ -96,6 +96,23 @@
 
   my.common.tailscale.enable = true;
 
+  # Start VM with the system. Define this declaratively instead of setting
+  # the VM to autostart; that allows it to be tied to the NixOS configuration,
+  # in case I want to test alternate router setups (i.e. rolling back will
+  # start the correct VM or not).
+  systemd.services.opnsense = {
+    description = "Start opnsense VM";
+    requires = ["libvirtd.service"];
+    after = ["libvirtd.service" "sys-devices-virtual-net-br0.device"];
+    wantedBy = ["multi-user.target"];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.libvirt}/bin/virsh start opnsense";
+      User = "root";
+      Group = "root";
+    };
+  };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
