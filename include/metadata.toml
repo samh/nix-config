@@ -17,8 +17,8 @@ ip_address = "192.168.5.64"
 syncthing_id = "DQ5PQ5T-OEQQGJ5-C67RF4Y-SJR5NIZ-WPFSJQT-YNXFOET-37356WL-P7LWNQH"
 
 [hosts.lakitu]
-# Temporary IP while setting up
-ip_address = "192.168.5.52"
+ip_address = "192.168.10.10"
+tailscale_address = "100.64.10.10"
 description = "Router - Dell OptiPlex 5080 SFF - Intel Core i5-10500 (purchased 2023)"
 
 [hosts.pixel4a]
