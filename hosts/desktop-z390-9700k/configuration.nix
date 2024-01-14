@@ -132,6 +132,8 @@
   programs.adb.enable = true;
   users.users.samh.extraGroups = ["adbusers"];
 
+  programs.command-not-found.enable = true;
+
   # Local (personal) configuration settings
   my.common.ansible.enable = true;
   my.common.extra-fonts.enable = true;

@@ -111,6 +111,11 @@
     options = "--delete-older-than 365d";
   };
 
+  # command-not-found doesn't seem to work by default with Flakes; needs
+  # manual intervention to add a channel.
+  # Disable it until I can find a good, declarative fix.
+  programs.command-not-found.enable = lib.mkDefault false;
+
   # Limit the systemd journal to X MB of disk or the
   # last Y days of logs, whichever happens first.
   # From https://xeiaso.net/blog/morph-setup-2021-04-25/
