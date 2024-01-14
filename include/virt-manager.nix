@@ -9,13 +9,13 @@
   virtualisation = {
     libvirtd = {
       enable = true;
-      qemu.ovmf.enable = true;
-      qemu.swtpm.enable = true;
+      qemu.ovmf.enable = lib.mkDefault true;
+      qemu.swtpm.enable = lib.mkDefault true;
       # Don't start VMs that were running at shutdown
       # (autostart VMs should still be started)
-      onBoot = "ignore";
+      onBoot = lib.mkDefault "ignore";
       # Shut down running VMs, instead of trying to suspend them
-      onShutdown = "shutdown";
+      onShutdown = lib.mkDefault "shutdown";
     };
   };
 
