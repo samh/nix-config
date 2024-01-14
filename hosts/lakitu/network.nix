@@ -44,13 +44,13 @@
         linkConfig.RequiredForOnline = "enslaved";
       };
       # Configure the bridge networks
-      # br0 is the WAN side. Host should not have an IP.
+      # br0 is the WAN side. Host should not have an IP, but the interface
+      # needs to be "up" for a VM to get its WAN IP.
       "40-br0" = {
         matchConfig.Name = "br0";
         bridgeConfig = {};
         linkConfig = {
-          RequiredForOnline = "no";
-          ActivationPolicy = "down";
+          RequiredForOnline = "carrier";
         };
       };
       # br1 is the LAN side.
