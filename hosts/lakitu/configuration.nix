@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }: {
@@ -70,7 +71,12 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     firefox
+    vscode # for local editing of NixOS config in case network goes down
   ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "vscode"
+    ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -87,6 +93,8 @@
 
   # There are no btrfs fileSystems on this host
   services.btrfs.autoScrub.enable = false;
+
+  my.common.tailscale.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
