@@ -32,7 +32,9 @@ in {
       disable spoolss = yes
     '';
     shares = {
-      # Samba for /storage (mergerfs)
+      # Samba for /storage (mergerfs).
+      # Maybe it would be better to create shares for subdirectories,
+      # based on what permissions/groups are needed?
       storage = {
         "path" = "/storage";
         "public" = "no";
@@ -48,6 +50,24 @@ in {
         #"force directory mode" = "0775";
         "directory mask" = "0775";
         "write list" = "${config.my.user}";
+      };
+      # For the Library (Jellyfin media), we want to use the multimedia group.
+      # Directories should be group-writable; I'm not sure if files need to
+      # be.
+      Library = {
+        "path" = "/storage/Library";
+        "public" = "no";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "hosts allow" = "${allowed_ranges}";
+        "hosts deny" = "0.0.0.0/0";
+        "create mode" = "0664";
+        "create mask" = "0664";
+        "directory mode" = "0775";
+        "directory mask" = "0775";
+        "write list" = "${config.my.user}";
+        "force group" = "multimedia";
       };
     };
   };
