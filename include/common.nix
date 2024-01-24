@@ -60,6 +60,12 @@
     shell = lib.mkOverride 999 pkgs.fish;
   };
 
+  # "Only allow members of the wheel group to execute sudo by setting the
+  # executable’s permissions accordingly. This prevents users that are not
+  # members of wheel from exploiting vulnerabilities in sudo such as
+  # CVE-2021-3156."
+  security.sudo.execWheelOnly = lib.mkDefault true;
+
   nixpkgs = {
     # You can add overlays here
     overlays = [
