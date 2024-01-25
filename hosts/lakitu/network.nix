@@ -69,6 +69,10 @@
         linkConfig = {
           RequiredForOnline = "carrier";
         };
+        networkConfig = {
+          DHCP = "no";
+          LinkLocalAddressing = "no";
+        };
       };
       # br1 is the LAN side.
       # Configure it so the host can get an IP address from the router VM.
@@ -87,6 +91,10 @@
         bridgeConfig = {};
         linkConfig = {
           RequiredForOnline = "carrier";
+        };
+        networkConfig = {
+          DHCP = "no";
+          LinkLocalAddressing = "no";
         };
       };
     };
