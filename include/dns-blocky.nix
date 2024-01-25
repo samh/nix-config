@@ -53,24 +53,32 @@ in {
                 # Value is the IP address
                 (value.ip_address))
             hostsWithIp; # <--input to "mapAttrs'"
+            # Bare hostnames without domain
+            unqualifiedMappings = builtins.mapAttrs (name: value: value.ip_address) hostsWithIp;
           in {
             # Don't make TTL too long, since we want to be able to change
             # IP addresses quickly or fix mistakes.
             customTTL = "5m";
+            rewrite = {
+              # Map "lan" to base domain
+              "lan" = config.my.baseDomain;
+              # Mapping bare hostnames to domain didn't seem to work
+              #"." = config.my.baseDomain;
+            };
             # Result should be mapping (attribute set) of host names to IP
             # addresses.
             # For example: { "myhost.domain.xyz" = "1.2.3.4"; }
-            mapping = fqdnMappings;
+            mapping = fqdnMappings // unqualifiedMappings;
           };
 
-          conditional = {
-            mapping = {
-              # Direct all *unqualified* hostnames (e.g. just "yoshi") to the
-              # router. In particular this allows looking up things like IoT
-              # devices that we might not have in our hosts list.
-              "." = "192.168.5.1";
-            };
-          };
+          #conditional = {
+          #  mapping = {
+          # Direct all *unqualified* hostnames (e.g. just "yoshi") to the
+          # router. In particular this allows looking up things like IoT
+          # devices that we might not have in our hosts list.
+          #"." = "192.168.5.1";
+          #  };
+          #};
         };
       };
       # Configure to use own local DNS server
