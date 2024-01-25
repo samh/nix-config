@@ -10,6 +10,12 @@
   networking.useNetworkd = false;
   networking.networkmanager.enable = false;
 
+  # Try to resolve timeout on nixos-rebuild switch:
+  # "warning: the following units failed: systemd-networkd-wait-online.service"
+  # Consider the network online when any interface is online, as opposed to
+  # all of them.
+  systemd.network.wait-online.anyInterface = true;
+
   # https://nixos.wiki/wiki/Systemd-networkd
   # https://www.freedesktop.org/software/systemd/man/latest/systemd-networkd.service.html
   systemd.network = {
