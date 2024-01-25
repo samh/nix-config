@@ -3,9 +3,12 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  myIP = config.my.metadata.hosts.${config.networking.hostName}.ip_address;
+in {
   imports = [
     ../../include/common.nix
+    ../../include/dns-blocky.nix
     ../../include/virt-manager.nix
 
     ./network.nix
@@ -112,6 +115,17 @@
       Group = "root";
     };
   };
+
+  # Enable DNS server.
+  # Serves DNS for the rest of the network.
+  my.dns.blocky.enable = true;
+  services.blocky.settings.ports = {
+    # Bind only to localhost and main IP address
+    dns = "127.0.0.1:53,${myIP}:53";
+  };
+  # Listen for DNS requests on the bridge interface (LAN side).
+  networking.firewall.interfaces."br1".allowedTCPPorts = [53];
+  networking.firewall.interfaces."br1".allowedUDPPorts = [53];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
