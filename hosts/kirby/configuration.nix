@@ -8,6 +8,7 @@
   ...
 }: let
   homeAssistantIP = config.my.metadata.vms.homeassistant.internal_ip;
+  myIP = config.my.metadata.hosts.${config.networking.hostName}.ip_address;
 in {
   imports = [
     ../include/common.nix
@@ -187,6 +188,10 @@ in {
   my.dns.blocky = {
     enable = true;
     openFirewall = true;
+  };
+  services.blocky.settings.ports = {
+    # Bind only to localhost and main IP address
+    dns = "127.0.0.1:53,${myIP}:53";
   };
 
   # This value determines the NixOS release from which the default
