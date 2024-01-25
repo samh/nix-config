@@ -13,7 +13,18 @@
     ./virt-manager.nix
   ];
 
-  boot.kernelParams = ["intel_iommu=on"];
+  boot.kernelParams = [
+    "intel_iommu=on"
+    # "The `pt` option only enables IOMMU for devices used in passthrough and
+    # will provide better host performance. However, the option may not be
+    # supported on all hardware."
+    "iommu=pt"
+    # Unclear if this is actually needed, but it could prevent VM crashes
+    # in some cases.
+    # https://patchwork.kernel.org/project/kvm/patch/1250686963-8357-38-git-send-email-avi@redhat.com/
+    "kvm.ignore_msrs=1"
+    "kvm.report_ignored_msrs=0"
+  ];
 
   # One of the issues of vfio passthrough is the graphic drivers loading onto
   # the card before we can attach the vfio-pci driver, to prevent this we can
