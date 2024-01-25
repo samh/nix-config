@@ -110,10 +110,18 @@ in {
     wantedBy = ["multi-user.target"];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.libvirt}/bin/virsh start opnsense";
+      RemainAfterExit = true;
       User = "root";
       Group = "root";
     };
+    # Writes a script that is called by ExecStart
+    script = ''
+      # Start the VM if it's not already running.
+      # "list" without "--all" only shows running VMs.
+      if ! ${pkgs.libvirt}/bin/virsh list --name | grep -q '^opnsense$'; then
+        ${pkgs.libvirt}/bin/virsh start opnsense
+      fi
+    '';
   };
 
   # Enable DNS server.
