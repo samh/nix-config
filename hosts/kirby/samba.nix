@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  printer_ip = "192.168.107.192";
+  printer_ip = "192.168.107.90";
   allowed_ranges = "192.168.4. 192.168.5. ${printer_ip}";
   scanner_user = "scanner";
   scanner_group = "inbox";
@@ -48,8 +48,11 @@ in {
   # Create the share directories
   # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html
   systemd.tmpfiles.rules = [
+    # This is disabled because it is being added to tmpfiles by
+    # the paperless module because it's set as consumptionDir.
     # v = create btrfs subvolume if possible
-    "v ${scanner_share_dir} 0750 ${scanner_user} ${scanner_group}"
+    #"v ${scanner_share_dir} 0770 ${scanner_user} ${scanner_group}"
+
     # For Home Assistant backups, clean up old backups using the
     # age field.
     # "cm" indicates that it should check creation and modification

@@ -115,13 +115,20 @@ in {
   # The PostgreSQL user and database need to be created manually.
   services.paperless = {
     enable = true;
+    consumptionDir = "/srv/shares/scanner";
     extraConfig = {
       PAPERLESS_URL = "https://paperless.${config.my.hostDomain}";
       PAPERLESS_DBENGINE = "postgresql";
       PAPERLESS_DBHOST = "/run/postgresql";
       PAPERLESS_OCR_LANGUAGE = "eng";
       PAPERLESS_FILENAME_FORMAT = "{created_year}/{correspondent}/{title}";
+      # Try to give scanner time to finish writing
+      PAPERLESS_CONSUMER_INOTIFY_DELAY = "120";
     };
+  };
+  users.users.paperless = {
+    # Add to scanner group so it can read scanned documents.
+    extraGroups = ["inbox"];
   };
   services.nginx.virtualHosts."paperless" = {
     serverName = "paperless.${config.my.hostDomain}";
