@@ -129,6 +129,9 @@ in {
   };
   users.users.paperless = {
     # Add to scanner group so it can read scanned documents.
+    # Primary group is used in the paperless module to set the
+    # ownership of the consumption, data, and media directories.
+    group = lib.mkForce "inbox";
     extraGroups = ["inbox"];
   };
   services.nginx.virtualHosts."paperless" = {
