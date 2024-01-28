@@ -43,6 +43,18 @@ in {
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 1;
 
+  # Enable Intel VT-d for PCI passthrough (VFIO / IOMMU).
+  # I tried this, but the IOMMU groups on this hardware don't seem to be
+  # very useful.
+  #boot.kernelParams = [
+  #  "intel_iommu=on"
+  #  "iommu=pt"
+  #  "kvm.ignore_msrs=1"
+  #  "kvm.report_ignored_msrs=0"
+  #];
+  # Extra kernel modules required for VFIO
+  #boot.kernelModules = ["vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio"];
+
   networking.hostName = "kirby"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
