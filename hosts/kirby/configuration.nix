@@ -212,8 +212,21 @@ in {
     enable = true;
     openFirewall = true;
   };
+  # Getting an error binding to all interfaces when doing nixos-rebuild switch:
+  # ERROR server start failed: start udp listener failed: listen udp :53: bind: address already in use
+  # This seems to be due to dnsmasq running due to libvirtd.
+  #
+  # Possible solutions:
+  # - Disable dnsmasq - probably VMs on this host could do without DHCP
+  # - Bind only to certain interfaces - seems to be causing problems
+  #   with the systemd service not starting at boot - worked around by
+  #   setting blocky service to always restart itself.
+  #
+  # Bind only to localhost and main IP address.
+  # This doesn't seem reliable; sometimes can't bind to the main IP address
+  # at boot (see also https://systemd.io/NETWORK_ONLINE/), but this is worked
+  # around by having the service restart itself.
   services.blocky.settings.ports = {
-    # Bind only to localhost and main IP address
     dns = "127.0.0.1:53,${myIP}:53";
   };
 
