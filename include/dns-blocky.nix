@@ -81,6 +81,16 @@ in {
           #};
         };
       };
+      systemd.services.blocky = {
+        # Make sure it's always running and restart if it fails.
+        # Some failures (such as failure to bind to IP) were exiting with
+        # a 0 status, causing the service to stay down when set to
+        # "on-failure".
+        serviceConfig = {
+          Restart = lib.mkForce "always";
+          RestartSec = "60";
+        };
+      };
       # Configure to use own local DNS server
       networking.nameservers = ["127.0.0.1"];
     })
