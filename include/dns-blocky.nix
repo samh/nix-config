@@ -91,8 +91,10 @@ in {
           RestartSec = "60";
         };
       };
-      # Configure to use own local DNS server
-      networking.nameservers = ["127.0.0.1"];
+      # Configure to use own local DNS server.
+      # Disabled because when making changes / testing, we might break
+      # the local DNS server.
+      #networking.nameservers = ["127.0.0.1"];
     })
     (lib.mkIf (cfg.enable && cfg.openFirewall) {
       networking.firewall.allowedTCPPorts = [53];
