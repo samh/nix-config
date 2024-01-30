@@ -143,8 +143,8 @@
   users.groups.storage.gid = config.my.metadata.gids.storage;
   # Group for access to Calibre libraries
   users.groups.calibre.gid = config.my.metadata.gids.calibre;
-  # Add my user to the groups
-  users.users."${config.my.user}".extraGroups = ["calibre" "storage"];
+  # Add my user to groups for storage, calibre, audiobookshelf
+  users.users."${config.my.user}".extraGroups = ["storage" "calibre" "audiobookshelf"];
 
   # Enable Nextcloud
   my.nextcloud.enable = true;
@@ -171,6 +171,20 @@
     serverName = "calibre.${config.my.hostDomain}";
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString config.services.calibre-server.port}";
+    };
+    forceSSL = true;
+    useACMEHost = config.my.hostDomain;
+  };
+
+  services.audiobookshelf = {
+    enable = true;
+    port = 8086;
+  };
+  services.nginx.virtualHosts."audiobookshelf" = {
+    serverName = "audiobookshelf.${config.my.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString config.services.audiobookshelf.port}";
+      proxyWebsockets = true;
     };
     forceSSL = true;
     useACMEHost = config.my.hostDomain;
