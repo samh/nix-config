@@ -68,6 +68,7 @@
   environment.systemPackages = with pkgs; [
     android-file-transfer
     jellyfin-media-player
+    libation # Audible audiobook manager
     libreoffice-qt
     nextcloud-client
     # pika-backup  # borg frontend - testing it out
@@ -133,6 +134,8 @@
   users.users.samh.extraGroups = ["adbusers"];
 
   programs.command-not-found.enable = true;
+
+  programs.firejail.enable = true;
 
   # Local (personal) configuration settings
   my.common.ansible.enable = true;
