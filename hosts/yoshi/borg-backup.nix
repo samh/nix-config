@@ -20,6 +20,11 @@
             # contains uid/gid mappings; might be useful to keep
             # permissions consistent
             "/var/lib/nixos"
+
+            # Audiobookshelf config and metadata
+            "/var/lib/audiobookshelf"
+            # Calibre Server (users SQLite database)
+            "/var/lib/calibre-server"
             # Jellyfin database, configuration, logs
             "/var/lib/jellyfin"
             # Service data (StateDirectory) when DynamicUser=true
