@@ -119,8 +119,21 @@ in {
         "credentials=/root/smb-secrets"
       ];
   };
+  # Jellyfin library (writes with "multimedia" group permissions)
   fileSystems."/mnt/Library" = {
     device = "//yoshi.hartsfield.xyz/Library";
+    fsType = "cifs";
+    options =
+      net_automount_opts
+      ++ samba_permission_opts
+      ++ [
+        "credentials=/root/smb-secrets"
+        "gid=${toString config.users.groups.multimedia.gid}"
+      ];
+  };
+  # Audiobooks library (writes with "audiobookshelf" group permissions)
+  fileSystems."/mnt/AudiobooksLibrary" = {
+    device = "//yoshi.hartsfield.xyz/AudiobooksLibrary";
     fsType = "cifs";
     options =
       net_automount_opts

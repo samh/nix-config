@@ -51,7 +51,7 @@ in {
         "directory mask" = "0775";
         "write list" = "${config.my.user}";
       };
-      # For the Library (Jellyfin media), we want to use the multimedia group.
+      # For the Library (Jellyfin media), we want to use the 'multimedia' group.
       # Directories should be group-writable; I'm not sure if files need to
       # be.
       Library = {
@@ -68,6 +68,22 @@ in {
         "directory mask" = "0775";
         "write list" = "${config.my.user}";
         "force group" = "multimedia";
+      };
+      # For the Audiobooks Library, we want to use the 'audiobookshelf' group.
+      AudiobooksLibrary = {
+        "path" = "/storage/Audiobooks/Library";
+        "public" = "no";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "hosts allow" = "${allowed_ranges}";
+        "hosts deny" = "0.0.0.0/0";
+        "create mode" = "0664";
+        "create mask" = "0664";
+        "directory mode" = "0775";
+        "directory mask" = "0775";
+        "write list" = "${config.my.user}";
+        "force group" = "audiobookshelf";
       };
     };
   };
