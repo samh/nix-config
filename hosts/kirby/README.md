@@ -37,6 +37,8 @@
    ```
 
 #### zigbee2mqtt Secrets
+_Zigbee2MQTT is currently disabled (moved to ZHA in Home Assistant)._
+
 1. Create a `secret.yaml` file in `/var/lib/zigbee2mqtt` with the following
    contents:
    ```
@@ -54,7 +56,6 @@ nginx.service
 postgresql.service
 tailscaled.service
 uptime-kuma.service
-zigbee2mqtt.service
 ```
 
 Paperless:

@@ -1,3 +1,4 @@
+# Zigbee2MQTT - currently DISABLED (by not including this file in the main configuration.nix)
 {
   config,
   lib,

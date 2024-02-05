@@ -22,7 +22,6 @@ in {
     ./borg-backup.nix
     ./mounts.nix
     ./samba.nix
-    ./zigbee2mqtt.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
