@@ -41,6 +41,25 @@
           Name = "br2";
         };
       };
+      # Create VLANs
+      "20-vlan107" = {
+        netdevConfig = {
+          Kind = "vlan";
+          Name = "vlan107";
+        };
+        vlanConfig = {
+          Id = 107;
+        };
+      };
+      "20-vlan108" = {
+        netdevConfig = {
+          Kind = "vlan";
+          Name = "vlan108";
+        };
+        vlanConfig = {
+          Id = 108;
+        };
+      };
     };
     # See https://www.freedesktop.org/software/systemd/man/latest/systemd.network.html
     networks = {
@@ -78,7 +97,13 @@
       # Configure it so the host can get an IP address from the router VM.
       "40-br1" = {
         matchConfig.Name = "br1";
-        networkConfig.DHCP = "ipv4";
+        networkConfig = {
+          DHCP = "ipv4";
+          VLAN = [
+            "vlan107"
+            "vlan108"
+          ];
+        };
         bridgeConfig = {};
         linkConfig = {
           # or "routable" with IP addresses configured
@@ -95,6 +120,21 @@
         networkConfig = {
           DHCP = "no";
           LinkLocalAddressing = "no";
+        };
+      };
+      # VLANs
+      "50-vlan107" = {
+        matchConfig.Name = "vlan107";
+        # Static IP
+        networkConfig = {
+          Address = "192.168.107.2/24";
+        };
+      };
+      "50-vlan108" = {
+        matchConfig.Name = "vlan108";
+        # Static IP
+        networkConfig = {
+          Address = "192.168.108.2/24";
         };
       };
     };
