@@ -28,7 +28,13 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use the latest kernel instead of the default
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Some alternative kernel options:
+  # boot.kernelPackages = pkgs.linuxPackages_lqx;
+  boot.kernelPackages = pkgs.linuxPackages_xanmod;
+  # boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_xanmod_stable;
+  # boot.kernelPackages = pkgs.linuxPackages_zen;
 
   networking.hostName = "nixos-2022-desktop"; # Define your hostname.
   # Pick only one of the below networking options.
