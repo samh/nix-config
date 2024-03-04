@@ -10,13 +10,6 @@
    Home Assistant shared folder.
 4. `tailscale up --advertise-tags=tag:server --advertise-routes=192.168.5.0/24,192.168.107.0/24,192.168.108.0/24`
 
-### PostgreSQL Setup
-1. To allow `borgmatic` (running as root) to dump PostgreSQL databases,
-   I create a `root` user with permission to read everything:
-   ```
-   sudo -u postgres createuser --role=pg_read_all_data root
-   ```
-
 #### Paperless Database
 1. If the paperless services are running, stop them:
    ```

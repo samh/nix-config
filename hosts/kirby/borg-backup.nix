@@ -8,6 +8,17 @@
     ../include/borg-backup.nix
   ];
 
+  # Create a postgresql user for root to be used by borgmatic to dump all
+  # databases.
+  services.postgresql.ensureUsers = [
+    {
+      name = "root";
+    }
+  ];
+  systemd.services.postgresql.postStart = lib.mkAfter ''
+    $PSQL postgres -c 'GRANT pg_read_all_data TO "root"'
+  '';
+
   # Add Borgmatic configurations
   services.borgmatic.configurations = {
     "general" =
@@ -36,7 +47,7 @@
         ];
         # Note: since borgmatic is running as root, I created a "root" user
         # in the database who can read all databases; it's using the default
-        # peer authentication. See README.md.
+        # peer authentication. See the 'ensureUsers' and 'postStart' above.
         postgresql_databases = [
           {
             # "all" to dump all databases on the host.
