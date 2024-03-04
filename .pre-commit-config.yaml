@@ -5,6 +5,7 @@ repos:
     rev: v4.5.0
     hooks:
       - id: trailing-whitespace
+        exclude: '.*\.nix' # Alejandra is not compatible with this hook
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-added-large-files
