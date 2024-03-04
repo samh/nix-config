@@ -69,9 +69,37 @@ in {
         # Set what time makes sense for you
         autoUpdateApps.startAt = "05:00:00";
 
+        extraAppsEnable = true;
+        extraApps = with config.services.nextcloud.package.packages.apps; {
+          # List of apps we want to install and are already packaged in
+          # https://github.com/NixOS/nixpkgs/blob/master/pkgs/servers/nextcloud/packages/nextcloud-apps.json
+          inherit
+            calendar
+            contacts
+            cookbook
+            groupfolders
+            # memories # photos - to try; see website for setup https://apps.nextcloud.com/apps/memories
+            
+            # news # RSS reader - https://apps.nextcloud.com/apps/news
+            
+            notes
+            onlyoffice
+            # phonetrack # GPS tracking - https://apps.nextcloud.com/apps/phonetrack
+            
+            # spreed # Nextcloud Talk - chat, video, audio conferencing - https://github.com/nextcloud/spreed
+            
+            tasks
+            #qownnotesapi
+            
+            ;
+        };
+
         config = {
           # Further forces Nextcloud to use HTTPS
           overwriteProtocol = "https";
+
+          # This is required to validate phone numbers in the profile settings without a country code.
+          defaultPhoneRegion = "US";
 
           # Nextcloud PostegreSQL database configuration, recommended over using SQLite
           dbtype = "pgsql";
@@ -79,6 +107,8 @@ in {
           adminpassFile = "/var/nextcloud-admin-pass";
           adminuser = "admin";
         };
+        # Suggested by Nextcloud's health check.
+        phpOptions."opcache.interned_strings_buffer" = "16";
       };
     })
   ];
