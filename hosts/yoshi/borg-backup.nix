@@ -18,6 +18,13 @@
   systemd.services.postgresql.postStart = lib.mkAfter ''
     $PSQL postgres -c 'GRANT pg_read_all_data TO "root"'
   '';
+  # Add packages to borgmatic service PATH.
+  # PostgreSQL is needed for the postgresql_databases hook.
+  # TODO: is it possible to add to the path of the "borgmatic" wrapper script,
+  #       so it works when running that directly?
+  systemd.services.borgmatic.path = [
+    config.services.postgresql.package
+  ];
 
   # Add Borgmatic configurations
   services.borgmatic.configurations = {
