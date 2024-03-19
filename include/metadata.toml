@@ -41,6 +41,10 @@ syncthing_id = "ME2B765-2HQWLAO-A7PRWE3-RP44QKE-UIJTZSH-467P3GF-JE7FSWY-ZYCPQQA"
 [hosts.vfio-windows]
 syncthing_id = "CNJBSUE-KIERN7M-6WKA2YC-OO4EDQB-FKM2YJT-HZIOYOF-WKQ6NPJ-CEAHJAU"
 
+# VFIO VM (NixOS) on desktop
+[vms.bowser]
+internal_ip = "192.168.101.40"
+
 [vms.homeassistant]
 # In the libvirt 'default' NAT network. Home Assistant is configured to use
 # a static IP address at https://my.home-assistant.io/redirect/network/.

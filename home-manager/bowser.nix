@@ -1,0 +1,9 @@
+{
+  inputs,
+  outputs,
+  ...
+}: {
+  imports = [
+    ./global
+  ];
+}

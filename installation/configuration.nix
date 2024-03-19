@@ -55,9 +55,14 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  # Xfce Desktop
   services.xserver.desktopManager.xfce.enable = true;
+  # KDE Plasma Desktop
   #services.xserver.displayManager.sddm.enable = true;
   #services.xserver.desktopManager.plasma5.enable = true;
+  # GNOME Desktop
+  #services.xserver.displayManager.gdm.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";

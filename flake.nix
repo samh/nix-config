@@ -126,6 +126,13 @@
           ./hosts/goomba/configuration.nix
         ];
       };
+      # VFIO Gaming VM on my desktop PC
+      bowser = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/bowser/configuration.nix
+        ];
+      };
       # Sec VM on laptop
       stalfos = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
