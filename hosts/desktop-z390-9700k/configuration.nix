@@ -116,7 +116,7 @@
   users.users.vm2 = {
     uid = 5050;
     isNormalUser = true;
-    extraGroups = ["wheel" "audio"];
+    extraGroups = ["wheel" "audio" "multimedia"];
     shell = pkgs.fish;
   };
 
