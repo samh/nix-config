@@ -59,7 +59,10 @@
       # Enable Flatpak
       services.flatpak.enable = true;
       # For the sandboxed apps to work correctly, desktop integration portals need to be installed.
-      xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
+      # Don't enable with GNOME, as it does it itself (in a way that conflicts with this).
+      xdg.portal.extraPortals =
+        lib.mkIf (!config.services.xserver.desktopManager.gnome.enable)
+        [pkgs.xdg-desktop-portal-gtk];
 
       environment.systemPackages = with pkgs; [
         # Maybe it's better to run Firefox from a Flatpak, so it can be updated
