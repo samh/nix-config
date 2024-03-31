@@ -34,8 +34,9 @@
 
   # Boot parameters for Framework laptop per
   # https://dov.dev/blog/nixos-on-the-framework-12th-gen
-  #boot.kernelPackages = pkgs.linuxPackages_6_0;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_6_7; # latest was giving errors with xone driver
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_xanmod;
   boot.kernelParams = ["module_blacklist=hid_sensor_hub"];
 
   # Enable binfmt emulation of aarch64-linux (to allow building SD card images
