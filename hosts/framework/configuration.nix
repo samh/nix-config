@@ -127,6 +127,7 @@
   environment.systemPackages = with pkgs; [
     android-file-transfer
     nextcloud-client
+    nix-tree # Interactively browse dependency graphs of Nix derivations.
     nixos-generators
     # syncthingtray Plasmoid issue:
     # https://github.com/NixOS/nixpkgs/issues/199596
