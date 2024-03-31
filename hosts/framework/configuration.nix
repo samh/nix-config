@@ -74,6 +74,9 @@
   #   keyMap = "us";
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
+  i18n.inputMethod = {
+    enabled = "kime";
+  };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
