@@ -63,6 +63,14 @@
   # GNOME Desktop
   #services.xserver.displayManager.gdm.enable = true;
   #services.xserver.desktopManager.gnome.enable = true;
+  # Budgie
+  #services.xserver.desktopManager.budgie.enable = true;
+  #services.xserver.displayManager.lightdm.enable = true;
+
+  # Virtual Machine guest stuff - allow copy/paste
+  # (Probably won't hurt if not a VM?)
+  services.spice-vdagentd.enable = true;
+  services.spice-autorandr.enable = true;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
