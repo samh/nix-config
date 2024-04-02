@@ -37,6 +37,7 @@
   networking.hostName = "stalfos"; # Define your hostname.
   #networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
   systemd.network.enable = true;
+  # Set up static networking
   systemd.network.networks."10-enp1s0" = {
     matchConfig.Name = "enp1s0";
     #networkConfig.DHCP = "ipv4";
@@ -59,6 +60,8 @@
     brave # browser
     firefox
     git # required for building flakes
+    keepassxc
+    rclone
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
   ];
