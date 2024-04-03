@@ -95,10 +95,11 @@ in {
         kdiff3
         mpv
         neofetch
-        nil # Nix LSP
-        #nixfmt
         #nerdfonts # has to download a bunch of files from GitHub, extract, etc.
+        nil # Nix LSP
         nix-index
+        nix-tree # Interactively browse dependency graphs of Nix derivations.
+        #nixfmt
         #obsidian  # Installed via Flatpak
         pre-commit
         pulseaudioFull
