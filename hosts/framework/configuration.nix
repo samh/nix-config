@@ -101,9 +101,9 @@
   services.xserver.libinput.enable = true;
 
   # Enable ZRAM swap
-  #zramSwap.enable = true;
-  #zramSwap.algorithm = "zstd";
-  #zramSwap.memoryPercent = 50;
+  zramSwap.enable = true;
+  zramSwap.algorithm = "zstd";
+  zramSwap.memoryPercent = 25;
 
   # Set shell to zsh for testing fleek
   #users.users."${config.my.user}".shell = pkgs.zsh;
