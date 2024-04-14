@@ -35,9 +35,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "stalfos"; # Define your hostname.
-  #networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = false;
+  # Set up static networking, using systemd-networkd
   systemd.network.enable = true;
-  # Set up static networking
   systemd.network.networks."10-enp1s0" = {
     matchConfig.Name = "enp1s0";
     #networkConfig.DHCP = "ipv4";
