@@ -108,13 +108,14 @@
     auto-optimise-store = true;
   };
 
-  # Automatic Garbage Collection
+  # Cleanup - Automatic Garbage Collection
+  #
   # To run manually with a different timeframe:
   # sudo nix-collect-garbage --delete-older-than 7d
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 365d";
+    options = "--delete-older-than 180d";
   };
 
   # command-not-found doesn't seem to work by default with Flakes; needs
