@@ -33,6 +33,9 @@ in {
 
   config = {
     # Add SSH public keys for Borgbase
+    #
+    # This key appears to be used by all the US servers I've seen, but note
+    # that the EU servers are different.
     programs.ssh.knownHosts = {
       "*.repo.borgbase.com" = {
         publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGU0mISTyHBw9tBs6SuhSq8tvNM8m9eifQxM+88TowPO";

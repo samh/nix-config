@@ -76,7 +76,7 @@
         ];
         repositories = [
           {
-            label = "borgbase";
+            label = "borgbase-general";
             path = "ssh://waxs18i4@waxs18i4.repo.borgbase.com/./repo";
           }
         ];
@@ -92,7 +92,7 @@
       one_file_system = false;
       repositories = [
         {
-          label = "borgbase";
+          label = "borgbase-photos";
           path = "ssh://a7a635p6@a7a635p6.repo.borgbase.com/./repo";
         }
       ];
@@ -105,6 +105,31 @@
       keep_monthly = 6;
       keep_yearly = 1000;
       healthchecks = {ping_url = "\${HEALTHCHECKS_URL_PHOTOS:-empty}";};
+    };
+
+    "media" =
+      config.my.borg.borgmatic-defaults
+      // {
+        source_directories = [
+          "/storage/Music" # ~60G
+          "/storage/Library/Music"
+          "/storage/Library/Music-Grace"
+          "/storage/Library/Music-Kids"
+        ];
+        one_file_system = false;
+        repositories = [
+          {
+            label = "borgbase-media-eu";
+            path = "ssh://jhbk0u3p@jhbk0u3p.repo.borgbase.com/./repo";
+          }
+        ];
+        keep_yearly = 10;
+      };
+  };
+  programs.ssh.knownHosts = {
+    # EU repo - SSH host keys are different.
+    "jhbk0u3p.repo.borgbase.com" = {
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMS3185JdDy7ffnr0nLWqVy8FaAQeVh1QYUSiNpW5ESq";
     };
   };
 }
