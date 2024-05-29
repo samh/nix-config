@@ -77,6 +77,7 @@
     libation # Audible audiobook manager
     libreoffice-qt
     nextcloud-client
+    pkgs.unstable.nh # Yet another nix cli helper
     # pika-backup  # borg frontend - testing it out
     spice-gtk
 
@@ -96,6 +97,11 @@
   #  "jetbrains.pycharm-professional"
   #  "vscode.fhs"
   #];
+
+  # Set FLAKE environment variable used by "nh"
+  environment.variables = {
+    FLAKE = "/etc/nixos";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
