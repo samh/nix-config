@@ -115,6 +115,7 @@
           "/storage/Library/Music"
           "/storage/Library/Music-Grace"
           "/storage/Library/Music-Kids"
+          "/storage/Books" # ~35G
         ];
         one_file_system = false;
         repositories = [
