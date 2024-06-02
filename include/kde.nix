@@ -15,14 +15,14 @@
 
   # Enable the Plasma 5 Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.desktopManager.plasma6.enable = true;
 
   environment.systemPackages = with pkgs; [
     ark # archive manager
     k4dirstat # disk usage analyzer (qdirstat is also available)
     kate # includes kwrite
     kcalc # calculator
-    libsForQt5.kcharselect # character map
+    kdePackages.kcharselect # character map
     xorg.xhost
 
     # Try to fix missing icons in virt-manager
