@@ -152,7 +152,7 @@
   # Calibre (eBook management)
   # calibre-server is the built-in web server; calibre-web is a third-party web interface
   services.calibre-server.enable = true;
-  services.calibre-server.package = pkgs.unstable.calibre; # use latest version
+  #services.calibre-server.package = pkgs.unstable.calibre; # use latest version
   services.calibre-server.libraries = [
     # The module doesn't work with spaces in the path.
     # I added a symlink.
