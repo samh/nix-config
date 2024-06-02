@@ -77,7 +77,7 @@
     libation # Audible audiobook manager
     libreoffice-qt
     nextcloud-client
-    pkgs.unstable.nh # Yet another nix cli helper
+    nh # Yet another nix cli helper
     # pika-backup  # borg frontend - testing it out
     spice-gtk
 
