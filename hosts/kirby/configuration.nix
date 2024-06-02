@@ -127,7 +127,7 @@ in {
   services.paperless = {
     enable = true;
     consumptionDir = "/srv/shares/scanner";
-    extraConfig = {
+    settings = {
       PAPERLESS_URL = "https://paperless.${config.my.hostDomain}";
       PAPERLESS_DBENGINE = "postgresql";
       PAPERLESS_DBHOST = "/run/postgresql";
