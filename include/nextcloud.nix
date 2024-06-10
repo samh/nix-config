@@ -48,7 +48,7 @@ in {
         https = true;
 
         # Need to manually increment with every major upgrade.
-        package = pkgs.nextcloud28;
+        package = pkgs.nextcloud29;
 
         # Let NixOS install and configure the database automatically.
         # Uses the database type specified by config.dbtype.
