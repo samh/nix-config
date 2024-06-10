@@ -80,6 +80,7 @@
     nh # Yet another nix cli helper
     # pika-backup  # borg frontend - testing it out
     spice-gtk
+    spotify
 
     # Using system-level Firefox for now (see more notes in common.nix).
     firefox
