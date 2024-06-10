@@ -75,6 +75,9 @@
     wget
   ];
 
+  # Allow unfree packages: Steam, etc.
+  nixpkgs.config.allowUnfree = true;
+
   home-manager = {
     extraSpecialArgs = {inherit inputs outputs;};
     users = {
@@ -82,6 +85,14 @@
       samh = import ../../home-manager/${config.networking.hostName}.nix;
     };
   };
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+  };
+  programs.steam.gamescopeSession.enable = true;
+  programs.gamescope.enable = true;
+  programs.gamemode.enable = true; # https://nixos.wiki/wiki/Gamemode
 
   # List services that you want to enable:
 
