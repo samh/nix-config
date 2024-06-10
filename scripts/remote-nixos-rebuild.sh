@@ -31,4 +31,6 @@ fi
 set -x
 "$DIR"/sync.sh
 # "-t" is needed to allocate a tty, so that sudo can ask for a password.
-ssh -t "$TARGET" sudo nixos-rebuild --flake ~/nixos-sync "$@"
+#ssh -t "$TARGET" sudo nixos-rebuild --flake ~/nixos-sync "$@"
+# Call the script (part of the synced files) on the target machine.
+ssh -t "$TARGET" bash ~/nixos-sync/scripts/.rebuild.sh "$@"
