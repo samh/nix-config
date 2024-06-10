@@ -40,10 +40,6 @@ in {
         "v ${config.services.nextcloud.datadir} 0750 nextcloud nextcloud"
       ];
 
-      # Redis wants overcommit_memory to be set to 1
-      # See https://redis.io/docs/get-started/faq/
-      boot.kernel.sysctl."vm.overcommit_memory" = 1;
-
       services.nextcloud = {
         enable = true;
         hostName = "nextcloud.${config.my.hostDomain}";
@@ -94,13 +90,15 @@ in {
             ;
         };
 
-        config = {
+        settings = {
           # Further forces Nextcloud to use HTTPS
-          overwriteProtocol = "https";
+          overwriteprotocol = "https";
 
           # This is required to validate phone numbers in the profile settings without a country code.
-          defaultPhoneRegion = "US";
+          default_phone_region = "US";
+        };
 
+        config = {
           # Nextcloud PostegreSQL database configuration, recommended over using SQLite
           dbtype = "pgsql";
 
