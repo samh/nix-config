@@ -57,6 +57,26 @@
     defaultWindowManager = "xfce4-session";
   };
 
+  security.polkit.enable = true;
+  # Try to remove prompts when executing Flatpak from RDP.
+  # Removing the check "subject.local == true" allows it to work from a remote
+  # session like RDP (possibly also e.g. SSH).
+  # See https://github.com/flatpak/flatpak/issues/4267
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+        if ((action.id == "org.freedesktop.Flatpak.app-install" ||
+             action.id == "org.freedesktop.Flatpak.runtime-install"||
+             action.id == "org.freedesktop.Flatpak.app-uninstall" ||
+             action.id == "org.freedesktop.Flatpak.runtime-uninstall" ||
+             action.id == "org.freedesktop.Flatpak.modify-repo") &&
+            subject.active == true &&
+            subject.isInGroup("wheel")) {
+                return polkit.Result.YES;
+        }
+        return polkit.Result.NOT_HANDLED;
+    });
+  '';
+
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
@@ -85,6 +105,7 @@
     lshw
     mergerfs
     mergerfs-tools
+    nh # Yet another nix cli helper
     pciutils # lspci
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
