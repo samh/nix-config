@@ -85,6 +85,7 @@
     # pika-backup  # borg frontend - testing it out
     spice-gtk
     spotify
+    zellij # Terminal multiplexer (tmux alternative)
 
     # Using system-level Firefox for now (see more notes in common.nix).
     firefox
@@ -153,6 +154,7 @@
   programs.command-not-found.enable = true;
 
   programs.firejail.enable = true;
+  programs.yazi.enable = true;
 
   # Local (personal) configuration settings
   my.common.ansible.enable = true;
