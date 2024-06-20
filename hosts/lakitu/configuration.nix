@@ -50,11 +50,13 @@ in {
   # that case, it could be useful to have a local display to troubleshoot.
   services.xserver.enable = true;
   # Budgie added about 2.6GB (2023-12-12 on NixOS 23.11)
-  services.xserver.desktopManager.budgie.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
-  environment.budgie.excludePackages = with pkgs; [
-    vlc
-  ];
+  #services.xserver.desktopManager.budgie.enable = true;
+  #services.xserver.displayManager.lightdm.enable = true;
+  #environment.budgie.excludePackages = with pkgs; [
+  #  vlc
+  #];
+  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
