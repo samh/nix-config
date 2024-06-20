@@ -67,6 +67,15 @@ in {
           };
         };
       };
+      # Shared folder with work. Replaced Onedrive shared folder Work-ACS-Share
+      # when that stopped syncing and became a link that opened a browser.
+      "Sync-Work-ACS-Share" = {
+        id = "294m6-yjmjw";
+        enable = true;
+        path = "/samh/Sync-Work-ACS-Share";
+        devices = ["work-laptop" "yoshi"];
+        versioning = defaultVersioning;
+      };
     };
   };
 }

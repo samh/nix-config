@@ -88,6 +88,15 @@ in {
         devices = ["pixel4a" "pixel8"];
         versioning = defaultVersioning;
       };
+      # Shared folder with work. Replaced Onedrive shared folder Work-ACS-Share
+      # when that stopped syncing and became a link that opened a browser.
+      "Sync-Work-ACS-Share" = {
+        id = "294m6-yjmjw";
+        enable = true;
+        path = "/storage/Work/Sync-Work-ACS-Share";
+        devices = ["nixos-2022-desktop" "work-laptop"];
+        versioning = defaultVersioning;
+      };
     };
   };
 }
