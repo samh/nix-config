@@ -145,6 +145,7 @@
     git # Required to build flakes
     htop
     ncdu
+    nh # Yet another nix cli helper
     ntfs3g
     psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
     pipx
