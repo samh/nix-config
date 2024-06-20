@@ -73,13 +73,8 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    firefox
-    vscode # for local editing of NixOS config in case network goes down
+    vscodium # for local editing of NixOS config in case network goes down
   ];
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "vscode"
-    ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -88,6 +83,8 @@ in {
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  programs.firefox.enable = true;
 
   # List services that you want to enable:
 
