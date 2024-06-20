@@ -84,8 +84,11 @@
     nextcloud-client
     nh # Yet another nix cli helper
     # pika-backup  # borg frontend - testing it out
+    quickemu #  Quickly create and run optimised Windows, macOS and Linux virtual machines (QEMU/KVM)
     spice-gtk
     spotify
+    virt-viewer # remote-viewer
+    vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
     zellij # Terminal multiplexer (tmux alternative)
 
     # Using system-level Firefox for now (see more notes in common.nix).
