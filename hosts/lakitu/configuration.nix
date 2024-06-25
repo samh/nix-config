@@ -50,11 +50,17 @@ in {
   # that case, it could be useful to have a local display to troubleshoot.
   services.xserver.enable = true;
   # Budgie added about 2.6GB (2023-12-12 on NixOS 23.11)
-  services.xserver.desktopManager.budgie.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
-  environment.budgie.excludePackages = with pkgs; [
-    vlc
-  ];
+  #services.xserver.desktopManager.budgie.enable = true;
+  #services.xserver.displayManager.lightdm.enable = true;
+  #environment.budgie.excludePackages = with pkgs; [
+  #  vlc
+  #];
+  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  # Disable GNOME apps
+  services.gnome.core-utilities.enable = false;
+  services.gnome.tracker-miners.enable = false;
+  services.gnome.tracker.enable = false;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -73,13 +79,19 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    firefox
-    vscode # for local editing of NixOS config in case network goes down
+    gnome.dconf-editor
+    gnome.gnome-calculator
+    gnome.gnome-disk-utility
+    gnome.gnome-logs
+    gnome.gnome-nettool
+    gnome.seahorse # keyring
+    gnome.gnome-system-monitor
+    gnome.gnome-terminal
+    gnome.gnome-tweaks
+    gnome.nautilus
+    nh # Nix helper
+    vscodium # for local editing of NixOS config in case network goes down
   ];
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "vscode"
-    ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -88,6 +100,8 @@ in {
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  programs.firefox.enable = true;
 
   # List services that you want to enable:
 
