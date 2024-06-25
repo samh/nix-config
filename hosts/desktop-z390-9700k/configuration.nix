@@ -84,10 +84,21 @@
     nextcloud-client
     nh # Yet another nix cli helper
     # pika-backup  # borg frontend - testing it out
-    quickemu #  Quickly create and run optimised Windows, macOS and Linux virtual machines (QEMU/KVM)
+
+    # qemu / quickemu
+    #
+    # smbd support issue - see See https://github.com/quickemu-project/quickemu/issues/722
+    # Tried "qemu_full" so quickemu can use the smb support, but it seems to
+    # add ~1.3GB of dependencies. From nixpkgs source, qemu_full is just qemu
+    # with some overrides, so try just adding smbd support? Unforunately, this
+    # causes a full compile of qemu since it's not cached (takes a while).
+    qemu_full
+    (quickemu.override {qemu = qemu_full;})
+    samba # Provides smbd for quickemu
     spice-gtk
-    spotify
     virt-viewer # remote-viewer
+
+    spotify
     vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
     zellij # Terminal multiplexer (tmux alternative)
 
