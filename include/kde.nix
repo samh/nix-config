@@ -25,9 +25,10 @@
     kdePackages.kcharselect # character map
     xorg.xhost
 
-    # Try to fix missing icons in virt-manager
-    #    gnome.adwaita-icon-theme
-    #    breeze-icons
+    # Try to fix missing icons in some GTK applications like virt-manager,
+    # virt-viewer.
+    gnome.adwaita-icon-theme
+    # breeze-icons
   ];
 
   programs.partition-manager.enable = true; # KDE Partition Manager
