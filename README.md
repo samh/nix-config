@@ -31,6 +31,7 @@ ln -s $(pwd)/flake.nix ~/.config/home-manager/
 
 - User password
 - Tailscale: `sudo tailscale up [options...]`
+  - `sudo tailscale up --accept-routes` (to enable subnet routes)
 - Wireless networks (could be declared; see for example
   <https://github.com/Misterio77/nix-config/blob/main/hosts/common/optional/wireless.nix>)
 
