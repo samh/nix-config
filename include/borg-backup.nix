@@ -29,6 +29,31 @@ in {
         keep_yearly = 5;
       };
     };
+
+    common-exclude-patterns = lib.mkOption {
+      type = lib.types.listOf lib.types.string;
+      default = [
+        # Path full-match, selector pf: (very fast)
+        "pf:/root/.ssh/id_ed25519" # be paranoid and don't include this private key
+        # Shell-style patterns, selector sh:
+        "sh:**/venv/"
+        "sh:**/.venv/"
+        "*.pyc"
+        "/home/*/.cache"
+        "**/[Cc]ache*"
+        # Programs that store too-big stuff under .config
+        "/home/samh/.config/Code" # stores cache here 🤮
+        "/home/samh/.config/vivaldi-backup"
+        "/home/samh/.config/syncthing*"
+        # Chromium profile junk
+        "/home/samh/.config/chromium/hyphen-data"
+        "/home/samh/.config/chromium/OnDeviceHeadSuggestModel"
+        "/home/samh/.config/chromium/**/*Cache"
+        # Firefox profile junk
+        "**/datareporting"
+        "**/safebrowsing"
+      ];
+    };
   };
 
   config = {

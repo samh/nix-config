@@ -44,11 +44,12 @@ ln -s $(pwd)/flake.nix ~/.config/home-manager/
     - `/root/borg-pass` (default)
   - `/root/borgmatic.env`:
     - `HEALTHCHECKS_URL=https://hc-ping.com/...`
+    - Or just `touch /root/borgmatic.env` if not needed
   - `/root/acme.env` - secrets for ACME certificates (Let's Encrypt)
 
 #### Backups
 - BorgBase - repos need to be initialized
-  - `borgmatic init -e repokey-blake2`
+  - `sudo borgmatic init -e repokey-blake2`
 
 #### Service State
 - Usually stored under `/var/lib` for each service

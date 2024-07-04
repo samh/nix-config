@@ -13,6 +13,7 @@
     ../include/nix-ld.nix
     ../include/virt-manager.nix
 
+    ./borg-backup.nix
     ./mounts.nix
     ./syncthing.nix
 
