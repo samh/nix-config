@@ -56,21 +56,22 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   # Xfce Desktop
-  services.xserver.desktopManager.xfce.enable = true;
+  services.desktopManager.xfce.enable = true;
   # KDE Plasma Desktop
-  #services.xserver.displayManager.sddm.enable = true;
-  #services.xserver.desktopManager.plasma5.enable = true;
+  #services.displayManager.sddm.enable = true;
+  #services.desktopManager.plasma6.enable = true;
   # GNOME Desktop
-  #services.xserver.displayManager.gdm.enable = true;
-  #services.xserver.desktopManager.gnome.enable = true;
+  #services.displayManager.gdm.enable = true;
+  #services.desktopManager.gnome.enable = true;
   # Budgie
-  #services.xserver.desktopManager.budgie.enable = true;
-  #services.xserver.displayManager.lightdm.enable = true;
+  #services.desktopManager.budgie.enable = true;
+  #services.displayManager.lightdm.enable = true;
 
   # Virtual Machine guest stuff - allow copy/paste
   # (Probably won't hurt if not a VM?)
   services.spice-vdagentd.enable = true;
   services.spice-autorandr.enable = true;
+  services.spice-webdavd.enable = true;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -101,6 +102,7 @@
   environment.systemPackages = with pkgs; [
     git # Required to build flakes
     #neovim
+    nh # Yet another nix cli helper
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
   ];
@@ -112,6 +114,8 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  programs.firefox.enable = true;
 
   # List services that you want to enable:
 
@@ -135,5 +139,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 }
