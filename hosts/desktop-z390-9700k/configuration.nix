@@ -168,6 +168,16 @@
 
   programs.command-not-found.enable = true;
 
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    withNodeJs = false;
+    withPython3 = false;
+    withRuby = false;
+  };
+
   programs.firejail.enable = true;
   programs.yazi.enable = true;
 
