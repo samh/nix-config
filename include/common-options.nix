@@ -115,7 +115,7 @@ in {
         unrar
         usbimager # minimal graphical alternative to e.g. Etcher
         #vim
-        vimHugeX # gvim
+        #vimHugeX # gvim
         vlc
         vorta # Borg backup GUI
         # VS Code - FHS version "Should allow for easy usage of extensions

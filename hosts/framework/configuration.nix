@@ -128,6 +128,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     android-file-transfer
+    fossil
     nextcloud-client
     nixos-generators
     # syncthingtray Plasmoid issue:
@@ -145,6 +146,15 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    withNodeJs = false;
+    withRuby = false;
+  };
 
   # List services that you want to enable:
 
