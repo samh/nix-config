@@ -177,11 +177,16 @@
 
   # Enable the OpenSSH daemon.
   services.openssh = {
-    enable = true;
-    extraConfig = ''
-      # Restrict SSH to only these users
-      AllowUsers ${config.my.user}
-    '';
+    enable = lib.mkDefault true;
+    settings = {
+      PermitRootLogin = lib.mkDefault "no";
+      PasswordAuthentication = lib.mkDefault false;
+      #AllowGroups = "sshusers";
+      #Match = {
+      #  Group = "wheel";
+      #  PasswordAuthentication = "yes";
+      #};
+    };
   };
   programs.ssh.startAgent = true;
 
