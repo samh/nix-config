@@ -135,8 +135,22 @@
     # https://github.com/NixOS/nixpkgs/issues/199596
     syncthingtray-minimal
 
-    # Using system-level Firefox for now (see more notes in common.nix).
-    firefox
+    # qemu / quickemu
+    #
+    # smbd support issue - see See https://github.com/quickemu-project/quickemu/issues/722
+    # Tried "qemu_full" so quickemu can use the smb support, but it seems to
+    # add ~1.3GB of dependencies. From nixpkgs source, qemu_full is just qemu
+    # with some overrides, so try just adding smbd support? Unforunately, this
+    # causes a full compile of qemu since it's not cached (takes a while).
+    #qemu_full
+    #(quickemu.override {qemu = qemu_full;})
+    #samba # Provides smbd for quickemu
+    quickemu
+    spice-gtk
+    virt-viewer # remote-viewer
+
+    syncthing
+    vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -146,6 +160,9 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  # Using system-level Firefox for now (see more notes in common.nix).
+  programs.firefox.enable = true;
 
   programs.neovim = {
     enable = true;
