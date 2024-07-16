@@ -149,6 +149,34 @@ in {
   networking.firewall.interfaces."br1".allowedTCPPorts = [53];
   networking.firewall.interfaces."br1".allowedUDPPorts = [53];
 
+  services.dnsmasq = {
+    enable = true;
+    settings = {
+      # Disable DNS
+      port = 0;
+      interface = ["vlan107" "vlan108"];
+      # Enable DHCP for certain interfaces with their own range
+      dhcp-range = [
+        "vlan107,192.168.107.150,192.168.107.254,255.255.255.0"
+        #"vlan108,192.168.108.150,192.168.108.254,255.255.255.0"
+      ];
+      dhcp-option = [
+        "vlan107,option:router,192.168.107.1"
+        "vlan107,option:dns-server,9.9.9.9,149.112.112.112"
+        #"vlan108,option:router,192.168.108.1"
+      ];
+      # Add DHCP reservations
+      dhcp-host = [
+        "10:62:e5:b9:e4:4d,192.168.107.90,Printer-HPB9E44C"
+        "48:9e:9d:0e:2a:93,192.168.107.111,reolink-doorbell"
+        "8c:aa:b5:6d:d9:4a,192.168.107.121,shelly1-8CAAB56DD94A"
+        "e8:db:84:a2:10:02,192.168.107.130,shellyswitch25-E8DB84A21002"
+        "60:a4:23:86:dd:a6,192.168.107.154,shelly-motion-sensor"
+        "ec:fa:bc:6f:69:23,192.168.107.182,ShellyVintage-6F6923"
+      ];
+    };
+  };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
