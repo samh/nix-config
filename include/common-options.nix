@@ -134,6 +134,8 @@ in {
       #  "jetbrains.pycharm-professional"
       #  "vscode.fhs"
       #];
+
+      programs.direnv.enable = true;
     })
     (mkIf cfg.extra-fonts.enable {
       fonts.packages = with pkgs; [

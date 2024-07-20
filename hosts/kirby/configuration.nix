@@ -170,6 +170,20 @@ in {
       listen 5683 udp;
       proxy_pass ${homeAssistantIP}:5683;
     }
+
+    # Docker Wyze Bridge add-on
+    #  server {
+    #    listen 8554; # RTSP
+    #    proxy_pass ${homeAssistantIP}:8554;
+    #  }
+    #  server {
+    #    listen 8888; # HLS
+    #    proxy_pass ${homeAssistantIP}:8888;
+    #  }
+    #  server {
+    #    listen 8889; # WebRTC
+    #    proxy_pass ${homeAssistantIP}:8889;
+    #  }
   '';
   services.nginx.virtualHosts."ha" = {
     serverName = "ha.${config.my.hostDomain}";
@@ -187,6 +201,10 @@ in {
   networking.firewall.allowedTCPPorts = [
     # MQTT
     1883
+    # HLS
+    # 8888
+    # WebRTC
+    # 8889
   ];
   networking.firewall.allowedUDPPorts = [
     # CoIoT

@@ -99,6 +99,7 @@
     virt-viewer # remote-viewer
 
     spotify
+    syncthing
     vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
     zellij # Terminal multiplexer (tmux alternative)
 
