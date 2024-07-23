@@ -7,6 +7,8 @@
   ...
 }: {
   imports = [
+    ../../include/common.nix
+    ../../include/xfce.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
@@ -19,6 +21,9 @@
     efiSupport = true;
     useOSProber = true;
     configurationLimit = 30;
+    # Try to boot Windows by default. Another option would be to set to
+    # "saved" to boot the previously-used option.
+    default = 2;
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -54,12 +59,6 @@
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  #services.displayManager.sddm.enable = true;
-  #services.desktopManager.plasma6.enable = true;
-  services.xserver.desktopManager.xfce.enable = true;
-  services.displayManager.defaultSession = "xfce";
-
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
@@ -68,6 +67,8 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  # Add HP drivers
+  services.printing.drivers = [pkgs.hplip];
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -97,14 +98,6 @@
     extraGroups = ["networkmanager"];
     packages = with pkgs; [
       #  thunderbird
-    ];
-  };
-  users.users.samh = {
-    uid = 1000;
-    isNormalUser = true;
-    extraGroups = ["networkmanager" "wheel"];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUXbz1JybJ80kgBWGFG8a0QOjmeMfpCH7l4uZTZTCo7 fedora2020desktop-2022-02-05"
     ];
   };
 
@@ -139,8 +132,16 @@
 
   # List services that you want to enable:
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  # Disable since laptop may not always be on; also
+  # it is has limited resources.
+  services.btrfs.autoScrub.enable = false;
+
+  # Enable ZRAM swap
+  zramSwap.enable = true;
+  zramSwap.algorithm = "zstd";
+  #zramSwap.memoryPercent = 25;
+
+  my.common.tailscale.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
