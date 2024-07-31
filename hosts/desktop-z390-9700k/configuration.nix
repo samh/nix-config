@@ -92,8 +92,11 @@
     # add ~1.3GB of dependencies. From nixpkgs source, qemu_full is just qemu
     # with some overrides, so try just adding smbd support? Unforunately, this
     # causes a full compile of qemu since it's not cached (takes a while).
+    # After update, overriding quickemu with "qemu = qemu_full" gives an error;
+    # maybe it requires qemu_full now? (or maybe you'd need to overrid the
+    # other way?)
     qemu_full
-    (quickemu.override {qemu = qemu_full;})
+    quickemu
     samba # Provides smbd for quickemu
     spice-gtk
     virt-viewer # remote-viewer
