@@ -13,15 +13,15 @@
   my.gui.sound.enable = lib.mkDefault true;
   services.xserver.enable = true;
 
-  # Enable the Plasma 5 Desktop Environment.
+  # Enable the Plasma 6 Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   environment.systemPackages = with pkgs; [
     ark # archive manager
     k4dirstat # disk usage analyzer (qdirstat is also available)
-    kate # includes kwrite
-    kcalc # calculator
+    kdePackages.kate # includes kwrite
+    kdePackages.kcalc # calculator
     kdePackages.kcharselect # character map
     xorg.xhost
 
