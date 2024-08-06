@@ -188,6 +188,10 @@
   #   https://github.com/symphorien/nixpkgs/blob/master/nixos/modules/tasks/filesystems/btrfs.nix
   services.btrfs.autoScrub.enable = false;
 
+  # Use nftables instead of iptables for NixOS firewall.
+  # Will this cause problems with libvirt?
+  networking.nftables.enable = true;
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
