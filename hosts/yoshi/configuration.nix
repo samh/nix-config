@@ -136,6 +136,7 @@
     openFirewall = true;
   };
 
+  my.common.podman.enable = true;
   #virtualisation.oci-containers.backend = "podman";
 
   # Open ports in the firewall.
