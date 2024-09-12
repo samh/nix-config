@@ -158,9 +158,20 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
 
-  # virbr2 is the libvirt host-only interface
-  # 4656 = pulseaudio
-  networking.firewall.interfaces.virbr2.allowedTCPPorts = [4656];
+  # Ports 53/67: Fix libvirt DHCP / DNS not working on its virtual interfaces
+  # (i.e. VMs not getting IP addresses).
+  # See issue: https://github.com/NixOS/nixpkgs/issues/263359
+  networking.firewall.interfaces.virbr0 = {
+    # 'default' (NAT) network
+    allowedTCPPorts = [53];
+    allowedUDPPorts = [53 67];
+  };
+  networking.firewall.interfaces.virbr2 = {
+    # 'host-only' network
+    # 4656 = pulseaudio
+    allowedTCPPorts = [53 4656];
+    allowedUDPPorts = [53 67];
+  };
 
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
