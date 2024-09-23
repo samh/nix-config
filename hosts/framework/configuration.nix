@@ -129,6 +129,7 @@
   environment.systemPackages = with pkgs; [
     android-file-transfer
     fossil
+    pkgs.unstable.makemkv
     nextcloud-client
     nixos-generators
     # syncthingtray Plasmoid issue:
