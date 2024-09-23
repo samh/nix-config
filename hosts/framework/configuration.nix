@@ -39,6 +39,9 @@
   #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = pkgs.linuxPackages_xanmod;
   boot.kernelParams = ["module_blacklist=hid_sensor_hub"];
+  # Load the kernel module for the Blu-Ray drive.
+  # Found from https://discourse.nixos.org/t/makemkv-cant-find-my-usb-blu-ray-drive/23714/3
+  boot.kernelModules = ["sg"];
 
   # Enable binfmt emulation of aarch64-linux (to allow building SD card images
   # for Raspberry Pi).
