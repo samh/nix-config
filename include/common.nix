@@ -45,6 +45,7 @@
     extraGroups = [
       "wheel"
       "audio"
+      "dialout" # for USB serial devices (e.g. ESP32 for ESPHome)
       "multimedia"
       "networkmanager"
       # Scanner support - https://nixos.wiki/wiki/Scanners
