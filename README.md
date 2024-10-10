@@ -47,6 +47,12 @@ ln -s $(pwd)/flake.nix ~/.config/home-manager/
     - `HEALTHCHECKS_URL=https://hc-ping.com/...`
     - Or just `touch /root/borgmatic.env` if not needed
   - `/root/acme.env` - secrets for ACME certificates (Let's Encrypt)
+  - Credentials for mounting Samba shares:
+    ```
+    root@nixos-2022-desktop ~# cat /root/smb-secrets
+    username=samh
+    password=password-here
+    ```
 
 #### Backups
 - BorgBase - repos need to be initialized

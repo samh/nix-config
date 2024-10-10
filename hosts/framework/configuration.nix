@@ -10,6 +10,7 @@
     ../include/common.nix
     ../include/ext-mounts.nix
     ../include/kde.nix
+    ../include/mounts-yoshi.nix
     ../include/nix-ld.nix
     ../include/virt-manager.nix
 
@@ -133,6 +134,7 @@
     android-file-transfer
     fossil
     pkgs.unstable.makemkv
+    mkvtoolnix
     nextcloud-client
     nixos-generators
     # syncthingtray Plasmoid issue:
