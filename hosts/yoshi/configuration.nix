@@ -155,6 +155,8 @@
   # (see common-options.nix)
   my.common.tailscale.enable = true;
 
+  services.tailscale.port = 41642;
+
   # Enable DNS server.
   # yoshi serves as a backup DNS server for the network in case kirby goes down.
   my.dns.blocky = {
