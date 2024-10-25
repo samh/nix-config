@@ -197,6 +197,7 @@
   };
 
   programs.firejail.enable = true;
+  programs.kdeconnect.enable = true;
   programs.yazi.enable = true;
 
   # Local (personal) configuration settings

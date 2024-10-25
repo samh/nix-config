@@ -180,6 +180,8 @@
     withRuby = false;
   };
 
+  programs.kdeconnect.enable = true;
+
   # List services that you want to enable:
 
   # Disable btrfs auto-scrub, because I don't think it takes into account
