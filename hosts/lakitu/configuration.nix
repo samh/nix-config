@@ -91,6 +91,7 @@ in {
     gnome.nautilus
     nh # Nix helper
     vscodium # for local editing of NixOS config in case network goes down
+    doit # task runner for my NixOS config
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
