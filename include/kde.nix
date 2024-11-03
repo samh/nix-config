@@ -20,6 +20,7 @@
   environment.systemPackages = with pkgs; [
     ark # archive manager
     k4dirstat # disk usage analyzer (qdirstat is also available)
+    kdePackages.discover # software center (for Flatpak, lvfs/fwupd)
     kdePackages.kate # includes kwrite
     kdePackages.kcalc # calculator
     kdePackages.kcharselect # character map

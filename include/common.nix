@@ -225,7 +225,7 @@
   in
     scrubFileSystems;
 
-  # Enable firmware update daemon; see https://nixos.wiki/wiki/Fwupd
+  # Enable firmware update daemon (LVFS); see https://nixos.wiki/wiki/Fwupd
   services.fwupd.enable = true;
 
   # Disable wait online as it's causing trouble at rebuild
