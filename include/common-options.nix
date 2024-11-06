@@ -37,6 +37,15 @@ in {
       default = "/home/${config.my.user}";
       description = "My home directory";
     };
+    # Option to allow merging lists of unfree packages
+    # From
+    # https://discourse.nixos.org/t/use-nixpkgs-config-allowunfreepredicate-in-multiple-nix-file/36590
+    # https://codeberg.org/AndrewKvalheim/configuration/src/commit/11794e595144500a6c2be706e42ed698b1788bb8/packages/nixpkgs-issue-55674.nix
+    my.allowedUnfree = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = "List of packages that are allowed to be unfree";
+    };
   };
 
   config = mkMerge [
@@ -178,5 +187,9 @@ in {
         zilla-slab # A custom family for Mozilla by Typotheque
       ];
     })
+    {
+      nixpkgs.config.allowUnfreePredicate = pkg:
+        builtins.elem (lib.getName pkg) config.my.allowedUnfree;
+    }
   ];
 }

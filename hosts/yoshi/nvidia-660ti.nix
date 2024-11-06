@@ -30,10 +30,10 @@
     package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
   };
   nixpkgs.config.nvidia.acceptLicense = true;
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "nvidia-x11"
-      "nvidia-settings"
-      "nvidia-persistenced"
-    ];
+
+  my.allowedUnfree = [
+    "nvidia-x11"
+    "nvidia-settings"
+    "nvidia-persistenced"
+  ];
 }
