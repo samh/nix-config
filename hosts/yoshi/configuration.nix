@@ -215,6 +215,26 @@
     useACMEHost = config.my.hostDomain;
   };
 
+  # S.M.A.R.T. monitoring with web interface
+  services.scrutiny = {
+    enable = true;
+    collector.enable = true;
+    settings = {
+      web.listen.host = "127.0.0.1";
+      web.listen.port = 8087;
+      web.influxdb.port = 8088;
+    };
+  };
+  services.influxdb2.settings.http-bind-address = "127.0.0.1:8088";
+  services.nginx.virtualHosts."scrutiny" = {
+    serverName = "scrutiny.${config.my.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString config.services.scrutiny.settings.web.listen.port}";
+    };
+    forceSSL = true;
+    useACMEHost = config.my.hostDomain;
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
