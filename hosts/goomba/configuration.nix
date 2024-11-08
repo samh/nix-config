@@ -72,8 +72,10 @@
   # In rootful mode, podman uses subuid mappings for 'containers'
   # when using '--userns=auto'.
   # See https://docs.podman.io/en/latest/markdown/podman-run.1.html#userns-mode
-  # For a start, I'm using the start and count values from the podman-run
-  # documentation.
+  # In the podman-run documentation, it uses 2147483647 and 2147483648 as the
+  # start and count values, respectively. I am trying using more even numbers,
+  # to make them easier to understand (e.g. 1000 in the container becomes
+  # 2200001000 on the host).
   users.users.containers = {
     # 'containers' doesn't really need to be a user, but I don't see a
     # good way to add subuid/subgid mappings in NixOS without making it a user.
@@ -81,14 +83,14 @@
     group = "containers";
     subUidRanges = [
       {
-        startUid = 2147483647;
-        count = 2147483648;
+        startUid = 2200000000;
+        count = 2000000000;
       }
     ];
     subGidRanges = [
       {
-        startGid = 2147483647;
-        count = 2147483648;
+        startGid = 2200000000;
+        count = 2000000000;
       }
     ];
   };
