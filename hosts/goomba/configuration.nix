@@ -62,11 +62,63 @@
   #    openFirewall = true;
   #  };
 
+  virtualisation.oci-containers.backend = "podman";
+
+  # In rootful mode, podman uses subuid mappings for 'containers'
+  # when using '--userns=auto'.
+  # See https://docs.podman.io/en/latest/markdown/podman-run.1.html#userns-mode
+  # For a start, I'm using the start and count values from the podman-run
+  # documentation.
+  users.users.containers = {
+    # 'containers' doesn't really need to be a user, but I don't see a
+    # good way to add subuid/subgid mappings in NixOS without making it a user.
+    isSystemUser = true;
+    group = "containers";
+    subUidRanges = [
+      {
+        startUid = 2147483647;
+        count = 2147483648;
+      }
+    ];
+    subGidRanges = [
+      {
+        startGid = 2147483647;
+        count = 2147483648;
+      }
+    ];
+  };
+  users.groups.containers = {};
+
+  virtualisation.oci-containers.containers = {
+    stirling-pdf = {
+      image = "frooodle/s-pdf:latest";
+      #ports = ["127.0.0.1:8080:8080"];
+      ports = ["8080:8080"];
+      volumes = [
+        "/var/lib/stirling-pdf/configs:/configs:U"
+      ];
+      environment = {
+        # No login authentication required for now
+        DOCKER_ENABLE_SECURITY = "false";
+        INSTALL_BOOK_AND_ADVANCED_HTML_OPS = "false";
+        LANGS = "en_US";
+      };
+      # "podman run" options
+      extraOptions = [
+        "--userns=auto"
+      ];
+    };
+  };
+  # Create config directory for stirling-pdf
+  systemd.tmpfiles.rules = [
+    "d /var/lib/stirling-pdf/configs 0770 - wheel"
+  ];
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 }
