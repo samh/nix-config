@@ -109,7 +109,8 @@
   virtualisation.oci-containers.containers = {
     stirling-pdf = {
       # I don't really care which version of this image is used;
-      # latest is fine.
+      # latest is fine. This will allow it to be updated automatically
+      # by the podman-auto-update timer.
       image = "docker.io/frooodle/s-pdf:latest";
       labels = {
         "io.containers.autoupdate" = "registry";
@@ -119,6 +120,8 @@
       #ports = ["127.0.0.1:8080:8080"];
       ports = ["8080:8080"];
       volumes = [
+        # ":U" will recursively chown the directory to the UID and GID
+        # in the container.
         "/var/lib/stirling-pdf/configs:/configs:U"
       ];
       environment = {
