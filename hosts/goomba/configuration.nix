@@ -62,6 +62,11 @@
   #    openFirewall = true;
   #  };
 
+  networking.firewall.allowedTCPPorts = [
+    # Stirling PDF
+    8080
+  ];
+
   virtualisation.oci-containers.backend = "podman";
 
   # In rootful mode, podman uses subuid mappings for 'containers'
@@ -89,9 +94,28 @@
   };
   users.groups.containers = {};
 
+  # Enable automatic updates (based on image tags) for containers running
+  # under systemd.
+  # https://docs.podman.io/en/latest/markdown/podman-auto-update.1.html
+  systemd.timers."podman-auto-update" = {
+    wantedBy = ["multi-user.target"];
+    # Default is daily with 900 second RandomizedDelay.
+    # See https://www.freedesktop.org/software/systemd/man/latest/systemd.timer.html
+    # timerConfig = {
+    #   OnCalendar=daily;
+    # };
+  };
+
   virtualisation.oci-containers.containers = {
     stirling-pdf = {
-      image = "frooodle/s-pdf:latest";
+      # I don't really care which version of this image is used;
+      # latest is fine.
+      image = "docker.io/frooodle/s-pdf:latest";
+      labels = {
+        "io.containers.autoupdate" = "registry";
+      };
+      # Normally I would want it to listen only on localhost, then forward via
+      # reverse proxy. For this testing, it will just be exposed directly.
       #ports = ["127.0.0.1:8080:8080"];
       ports = ["8080:8080"];
       volumes = [
