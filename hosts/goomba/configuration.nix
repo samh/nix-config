@@ -65,6 +65,8 @@
   networking.firewall.allowedTCPPorts = [
     # Stirling PDF
     8080
+    # ArchiveBox
+    8000
   ];
 
   virtualisation.oci-containers.backend = "podman";
@@ -75,7 +77,8 @@
   # In the podman-run documentation, it uses 2147483647 and 2147483648 as the
   # start and count values, respectively. I am trying using more even numbers,
   # to make them easier to understand (e.g. 1000 in the container becomes
-  # 2200001000 on the host).
+  # 2200001000 on the host for the first container; depending on the offset
+  # subsequent containers may be less obvious).
   users.users.containers = {
     # 'containers' doesn't really need to be a user, but I don't see a
     # good way to add subuid/subgid mappings in NixOS without making it a user.
@@ -137,10 +140,43 @@
         "--userns=auto"
       ];
     };
-  };
-  # Create config directory for stirling-pdf
+
+    # Requires manual setup for the first run. I think the typical NixOS
+    # thing to do might be to create a "PreExec" script that checks whether
+    # the data directory is empty, and if so, runs the archivebox init command.
+    #
+    # Initial Setup:
+    # mkdir /var/lib/archivebox
+    # podman run --userns=auto -v /var/lib/archivebox:/data:U -it docker.io/archivebox/archivebox init --setup
+    archivebox = {
+      image = "docker.io/archivebox/archivebox:latest";
+      # Not sure yet how to manage the permissions to get this container to work.
+      # :U recursively chown the directory, but it is to root inside the container.
+      # (archivebox refuses to run with PUID=0).
+      # Seems like there should be a nicer way to handle this. I'm not clear on all
+      # the details of userns=auto yet; the mappings might not always be the same.
+      # Maybe manually do the mappings to something static?
+      autoStart = false;
+      labels = {
+        "io.containers.autoupdate" = "registry";
+      };
+      ports = ["8000:8000"];
+      volumes = [
+        "/var/lib/archivebox:/data:U"
+      ];
+      environment = {
+        ALLOWED_HOSTS = "*";
+      };
+      extraOptions = [
+        "--userns=auto"
+      ];
+    };
+  }; # virtualisation.oci-containers.containers
+
+  # Create config directories for the services
   systemd.tmpfiles.rules = [
     "d /var/lib/stirling-pdf/configs 0770 - wheel"
+    "d /var/lib/archivebox 0770 - wheel"
   ];
 
   # This value determines the NixOS release from which the default
