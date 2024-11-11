@@ -71,6 +71,7 @@ in {
       };
       environment.systemPackages = with pkgs; [
         podman-compose
+        pkgs.unstable.podlet # Generate Quadlet files from command/compose
       ];
     })
     (mkIf cfg.tailscale.enable {
