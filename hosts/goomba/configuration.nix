@@ -41,6 +41,8 @@
     git # required for building flakes
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
+
+    pkgs.unstable.podlet
   ];
 
   # Disable sudo password
@@ -98,6 +100,17 @@
     ];
   };
   users.groups.containers = {};
+
+  # Is it safe to add to /etc/subuid and /etc/subgid directly?
+  # *Not really.* It seems to work, but it overwrites the existing
+  # entries (e.g. values for normal users that were automatically
+  # added).
+  #  environment.etc."subuid".text = ''
+  #    containers:2200000000:2000000000
+  #  '';
+  #  environment.etc."subgid".text = ''
+  #    containers:2200000000:2000000000
+  #  '';
 
   # Enable automatic updates (based on image tags) for containers running
   # under systemd.
@@ -172,6 +185,25 @@
       ];
     };
   }; # virtualisation.oci-containers.containers
+
+  # Try adding Quadlet files
+  # Options are documented here:
+  # https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html
+  environment.etc."containers/systemd/it-tools.container".text = ''
+    [Unit]
+    Description=IT Tools Container
+    Wants=network-online.target
+    After=network-online.target
+
+    [Container]
+    Image=docker.io/corentinth/it-tools:latest
+    AutoUpdate=registry
+    UserNS=auto
+    PublishPort=8081:80
+
+    [Install]
+    WantedBy=multi-user.target default.target
+  '';
 
   # Create config directories for the services
   systemd.tmpfiles.rules = [
