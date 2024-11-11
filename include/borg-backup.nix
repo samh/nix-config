@@ -31,7 +31,7 @@ in {
     };
 
     common-exclude-patterns = lib.mkOption {
-      type = lib.types.listOf lib.types.string;
+      type = lib.types.listOf lib.types.str;
       default = [
         # Path full-match, selector pf: (very fast)
         "pf:/root/.ssh/id_ed25519" # be paranoid and don't include this private key
