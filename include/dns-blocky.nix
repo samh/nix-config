@@ -29,7 +29,7 @@ in {
           };
           connectIPVersion = "v4";
           # Cloudflare upstream DNS servers
-          upstream.default = [
+          upstreams.groups.default = [
             "https://one.one.one.one/dns-query"
             "https://dns.quad9.net/dns-query"
           ];
