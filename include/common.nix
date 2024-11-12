@@ -232,6 +232,8 @@
   # See: https://github.com/NixOS/nixpkgs/issues/180175
   systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
 
+  networking.search = [config.my.baseDomain "bonobo-triceratops.ts.net"];
+
   # I like to have these directories around for mounts.
   # Adding them here creates the directories as needed, plus declaratively
   # sets the permissions (/pool should be readable only by root).
