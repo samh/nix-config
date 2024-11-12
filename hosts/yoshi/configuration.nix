@@ -18,6 +18,7 @@
     #../include/virt-manager.nix
     ./acme.nix
     ./borg-backup.nix
+    ./ersatztv.nix
     ./jellyfin.nix
     ./mounts.nix
     ./nvidia-660ti.nix
