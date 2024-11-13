@@ -5,6 +5,7 @@
   ...
 }: let
   myIP = config.my.metadata.hosts.${config.networking.hostName}.ip_address;
+  myTailscaleIP = config.my.metadata.hosts.${config.networking.hostName}.tailscale_address;
 in {
   imports = [
     ../../include/common.nix
@@ -143,8 +144,8 @@ in {
   # Serves DNS for the rest of the network.
   my.dns.blocky.enable = true;
   services.blocky.settings.ports = {
-    # Bind only to localhost and main IP address
-    dns = "127.0.0.1:53,${myIP}:53";
+    # Bind to localhost, main IP address, and Tailscale IP address.
+    dns = "127.0.0.1:53,${myIP}:53,${myTailscaleIP}:53";
   };
   # Listen for DNS requests on the bridge interface (LAN side).
   networking.firewall.interfaces."br1".allowedTCPPorts = [53];

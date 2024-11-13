@@ -9,6 +9,7 @@
 }: let
   homeAssistantIP = config.my.metadata.vms.homeassistant.internal_ip;
   myIP = config.my.metadata.hosts.${config.networking.hostName}.ip_address;
+  myTailscaleIP = config.my.metadata.hosts.${config.networking.hostName}.tailscale_address;
 in {
   imports = [
     ../include/common.nix
@@ -239,12 +240,12 @@ in {
   #   with the systemd service not starting at boot - worked around by
   #   setting blocky service to always restart itself.
   #
-  # Bind only to localhost and main IP address.
+  # Bind to localhost, main IP address, and Tailscale IP address.
   # This doesn't seem reliable; sometimes can't bind to the main IP address
   # at boot (see also https://systemd.io/NETWORK_ONLINE/), but this is worked
   # around by having the service restart itself.
   services.blocky.settings.ports = {
-    dns = "127.0.0.1:53,${myIP}:53";
+    dns = "127.0.0.1:53,${myIP}:53,${myTailscaleIP}:53";
   };
 
   # This value determines the NixOS release from which the default
