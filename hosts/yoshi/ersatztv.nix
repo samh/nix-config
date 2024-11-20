@@ -34,6 +34,8 @@ in {
     # "To limit the writing to an SSD drive"
     # Creates a tmpfs mount (RAM disk) for transcoding
     Mount=type=tmpfs,destination=/root/.local/share/etv-transcode
+    # Device for QuickSync
+    AddDevice=/dev/dri:/dev/dri
 
     [Install]
     WantedBy=default.target
@@ -59,8 +61,13 @@ in {
     description = "Update the ErsatzTV container";
     serviceConfig = {
       Type = "oneshot";
-      # Would be nice if this only restarted if the image changed...
-      ExecStart = "${pkgs.podman}/bin/podman pull ${image} && ${pkgs.systemd}/bin/systemctl restart ersatztv.service";
     };
+    # It would be nice if this only restarted if the image changed...
+    script = ''
+      #!/usr/bin/env bash
+      set -euo pipefail
+      ${pkgs.podman}/bin/podman pull ${image}
+      ${pkgs.systemd}/bin/systemctl restart ersatztv.service
+    '';
   };
 }
