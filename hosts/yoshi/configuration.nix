@@ -117,7 +117,7 @@
   # List services that you want to enable:
 
   # Enable vaapi on OS-level for Jellyfin transcoding
-  # From https://nixos.wiki/wiki/Jellyfin
+  # From https://wiki.nixos.org/wiki/Jellyfin
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
   };
@@ -125,7 +125,9 @@
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver
-      vaapiIntel
+      # vpl-gpu-rt # QSV on 11th gen or newer
+      intel-media-sdk # QSV up to 11th gen
+      intel-vaapi-driver
       vaapiVdpau
       libvdpau-va-gl
       intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
