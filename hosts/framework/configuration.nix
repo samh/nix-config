@@ -127,6 +127,15 @@
     ];
     shell = pkgs.fish;
   };
+  users.users.yuna = {
+    uid = 1019;
+    isNormalUser = true;
+    home = "/home/yuna";
+    extraGroups = [
+      "audio"
+    ];
+    shell = pkgs.fish;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
