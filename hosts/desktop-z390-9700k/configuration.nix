@@ -82,6 +82,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     android-file-transfer
+    btrfs-assistant
     jellyfin-media-player
     kitty # A modern, hackable, featureful, OpenGL based terminal emulator (by Kovid Goyal of Calibre)
     libation # Audible audiobook manager
