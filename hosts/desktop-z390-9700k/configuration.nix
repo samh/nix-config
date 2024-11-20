@@ -73,6 +73,11 @@
   services.printing.enable = true;
   services.printing.drivers = [pkgs.hplip];
 
+  # Enable ZRAM swap
+  zramSwap.enable = true;
+  zramSwap.algorithm = "zstd";
+  zramSwap.memoryPercent = 25;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
