@@ -4,7 +4,8 @@
   pkgs,
   ...
 }: let
-  allowed_ranges = "192.168.4. 192.168.5. 127.0.0.1 ::1";
+  # 100. = Tailscale (allowing all; we still have password auth on top)
+  allowed_ranges = "192.168.4. 192.168.5. 100. 127.0.0.1 ::1";
 in {
   services.samba = {
     enable = true;
