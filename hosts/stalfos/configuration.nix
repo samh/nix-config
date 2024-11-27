@@ -13,7 +13,6 @@
     ../../include/common.nix
     ../../include/metadata.nix
     ../../include/gui
-    #    ../../include/xfce.nix
 
     # Import home-manager's NixOS module (i.e. build home-manager profile
     # at the same time as the system configuration with nixos-rebuild)
@@ -37,6 +36,7 @@
   networking.hostName = "stalfos"; # Define your hostname.
   networking.networkmanager.enable = false;
   # Set up static networking, using systemd-networkd
+  networking.useDHCP = false;
   systemd.network.enable = true;
   systemd.network.networks."10-enp1s0" = {
     matchConfig.Name = "enp1s0";
@@ -54,7 +54,7 @@
   };
 
   my.gui.sound.enable = true;
-  my.gui.budgie.enable = true;
+  my.gui.xfce.enable = true;
 
   environment.systemPackages = with pkgs; [
     brave # browser
