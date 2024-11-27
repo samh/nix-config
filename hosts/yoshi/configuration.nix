@@ -14,7 +14,7 @@
     ../../include/metadata.nix
     ../include/nextcloud.nix
     ../include/nginx.nix
-    ../include/xfce.nix
+    ../../include/gui
     #../include/virt-manager.nix
     ./acme.nix
     ./borg-backup.nix
@@ -49,7 +49,8 @@
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  my.gui.enable = true;
+  my.gui.xfce.enable = true;
 
   # RDP remote desktop
   services.xrdp = {

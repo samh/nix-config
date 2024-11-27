@@ -33,7 +33,10 @@
         pavucontrol
       ];
     })
-    (lib.mkIf config.services.xserver.enable {
+    (lib.mkIf config.my.gui.enable {
+      # Enable the X11 windowing system.
+      services.xserver.enable = true;
+
       # Fonts
       # https://nixos.wiki/wiki/Fonts
       # Note: more fonts are in common-options.nix

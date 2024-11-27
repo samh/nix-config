@@ -16,8 +16,8 @@ in {
     ../include/dns-blocky.nix
     ../include/ext-mounts.nix
     ../include/nginx.nix
-    ../include/xfce.nix
     ../include/virt-manager.nix
+    ../../include/gui
 
     ./acme.nix
     ./borg-backup.nix
@@ -61,7 +61,8 @@ in {
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  my.gui.enable = true;
+  my.gui.xfce.enable = true;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";

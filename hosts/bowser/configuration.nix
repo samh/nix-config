@@ -43,7 +43,7 @@
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  my.gui.enable = true;
 
   # common-gui.nix options
   my.gui.enable = true;
