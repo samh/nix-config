@@ -98,6 +98,7 @@
   environment.systemPackages = with pkgs; [
     android-file-transfer
     bat # cat with syntax highlighting
+    borgbackup # borg, required for receiving borg backups
     bwm_ng # console network/disk monitor
     dua # Disk Usage Analyzer (ncdu alternative)
     firefox
