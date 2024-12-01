@@ -4,9 +4,10 @@
 set -euo pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-# Use environment variables for input.
-# Error if TARGET is not set.
-: "${TARGET:?TARGET must be set}"
+# Use TARGET if it is set, otherwise use DEFAULT_TARGET.
+# Error if neither is set.
+TARGET=${TARGET:-${DEFAULT_TARGET:?TARGET or DEFAULT_TARGET must be set}}
+export TARGET
 
 # Check for at least one argument
 if [ $# -eq 0 ]; then
