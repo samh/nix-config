@@ -16,7 +16,6 @@
 
   config = lib.mkMerge [
     (lib.mkIf config.my.gui.sound.enable {
-      sound.enable = lib.mkDefault true;
       hardware.pulseaudio.enable = false;
       # Pipewire
       # rtkit is optional but recommended
