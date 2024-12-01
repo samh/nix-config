@@ -47,7 +47,7 @@
     ];
     routes = [
       # default route(s)
-      {routeConfig.Gateway = "192.168.122.1";}
+      {Gateway = "192.168.122.1";}
     ];
     # make the routes on this interface a dependency for network-online.target
     linkConfig.RequiredForOnline = "routable";

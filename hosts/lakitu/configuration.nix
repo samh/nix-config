@@ -60,8 +60,8 @@ in {
   services.xserver.displayManager.gdm.enable = true;
   # Disable GNOME apps
   services.gnome.core-utilities.enable = false;
-  services.gnome.tracker-miners.enable = false;
-  services.gnome.tracker.enable = false;
+  services.gnome.tinysparql.enable = false;
+  services.gnome.localsearch.enable = false;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -76,16 +76,16 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    gnome.dconf-editor
-    gnome.gnome-calculator
-    gnome.gnome-disk-utility
-    gnome.gnome-logs
-    gnome.gnome-nettool
-    gnome.seahorse # keyring
-    gnome.gnome-system-monitor
-    gnome.gnome-terminal
-    gnome.gnome-tweaks
-    gnome.nautilus
+    dconf-editor
+    gnome-calculator
+    gnome-disk-utility
+    gnome-logs
+    gnome-nettool
+    seahorse # keyring
+    gnome-system-monitor
+    gnome-terminal
+    gnome-tweaks
+    nautilus
     nh # Nix helper
     vscodium # for local editing of NixOS config in case network goes down
     doit # task runner for my NixOS config
