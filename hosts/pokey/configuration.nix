@@ -24,7 +24,6 @@
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Enable sound.
-  sound.enable = true;
   hardware.pulseaudio.enable = true;
   boot.loader.raspberryPi.firmwareConfig = ''
     dtparam=audio=on

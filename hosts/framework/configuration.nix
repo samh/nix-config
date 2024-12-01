@@ -81,7 +81,8 @@
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
   i18n.inputMethod = {
-    enabled = "kime";
+    enable = true;
+    type = "kime";
   };
 
   # Enable the X11 windowing system.

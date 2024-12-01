@@ -10,29 +10,28 @@ in {
   services.samba = {
     enable = true;
     openFirewall = true;
-    securityType = "user";
-    extraConfig = ''
-      workgroup = WORKGROUP
-      server string = ${config.networking.hostName}
-      netbios name = ${config.networking.hostName}
-      security = user
-      #use sendfile = yes
-      #max protocol = smb2
-      guest account = nobody
-      map to guest = bad user
+    settings = {
+      global = {
+        workgroup = "WORKGROUP";
+        "server string" = config.networking.hostName;
+        "netbios name" = config.networking.hostName;
+        security = "user";
+        #"use sendfile" = "yes";
+        #"max protocol" = "smb2";
+        "guest account" = "nobody";
+        "map to guest" = "bad user";
 
-      # Try to cooperate with other samba server(s) on the network
-      #local master = no
-      domain master = no
-      preferred master = no
+        # Try to cooperate with other samba server(s) on the network
+        #"local master" = "no";
+        "domain master" = "no";
+        "preferred master" = "no";
 
-      # Don't load printers
-      load printers = no
-      printing = bsd
-      printcap name = /dev/null
-      disable spoolss = yes
-    '';
-    shares = {
+        # Don't load printers
+        "load printers" = "no";
+        "printing" = "bsd";
+        "printcap name" = "/dev/null";
+        "disable spoolss" = "yes";
+      };
       # Samba for /storage (mergerfs).
       # Maybe it would be better to create shares for subdirectories,
       # based on what permissions/groups are needed?

@@ -28,7 +28,7 @@
 
     # Try to fix missing icons in some GTK applications like virt-manager,
     # virt-viewer.
-    gnome.adwaita-icon-theme
+    adwaita-icon-theme
     # breeze-icons
   ];
 
