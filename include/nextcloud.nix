@@ -79,7 +79,8 @@ in {
             # news # RSS reader - https://apps.nextcloud.com/apps/news
             
             notes
-            onlyoffice
+            # onlyoffice
+            
             # phonetrack # GPS tracking - https://apps.nextcloud.com/apps/phonetrack
             
             # spreed # Nextcloud Talk - chat, video, audio conferencing - https://github.com/nextcloud/spreed
