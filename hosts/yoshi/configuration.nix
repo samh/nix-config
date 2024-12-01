@@ -8,12 +8,12 @@
   ...
 }: {
   imports = [
-    ../include/common.nix
-    ../include/dns-blocky.nix
-    ../include/ext-mounts.nix
+    ../../include/common.nix
+    ../../include/dns-blocky.nix
+    ../../include/ext-mounts.nix
     ../../include/metadata.nix
-    ../include/nextcloud.nix
-    ../include/nginx.nix
+    ../../include/nextcloud.nix
+    ../../include/nginx.nix
     ../../include/gui
     #../include/virt-manager.nix
     ./acme.nix
