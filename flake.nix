@@ -112,13 +112,6 @@
           ./hosts/kirby/configuration.nix
         ];
       };
-      # Raspberry Pi 3, "pokey" (https://www.mariowiki.com/Pokey)
-      pokey = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./hosts/pokey/configuration.nix
-        ];
-      };
       # Test VM on my desktop PC
       goomba = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
