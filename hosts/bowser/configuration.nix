@@ -42,9 +42,6 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
-  # Enable the X11 windowing system.
-  my.gui.enable = true;
-
   # common-gui.nix options
   my.gui.enable = true;
   my.gui.sound.enable = true;
