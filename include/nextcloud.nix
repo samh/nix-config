@@ -10,6 +10,9 @@ in {
     my.nextcloud = {
       enable = lib.mkEnableOption "Enable Nextcloud";
     };
+    my.nextcloud.office = {
+      enable = lib.mkEnableOption "Enable Collabora Online for Nextcloud";
+    };
   };
 
   config = lib.mkMerge [
@@ -83,6 +86,8 @@ in {
             
             # phonetrack # GPS tracking - https://apps.nextcloud.com/apps/phonetrack
             
+            richdocuments # Collabora Online for Nextcloud - https://apps.nextcloud.com/apps/richdocuments
+            
             # spreed # Nextcloud Talk - chat, video, audio conferencing - https://github.com/nextcloud/spreed
             
             tasks
@@ -97,6 +102,9 @@ in {
 
           # This is required to validate phone numbers in the profile settings without a country code.
           default_phone_region = "US";
+
+          # Start of 4-hour maintenance window, specified as hour UTC
+          maintenance_window_start = 6;
         };
 
         config = {
@@ -108,6 +116,28 @@ in {
         };
         # Suggested by Nextcloud's health check.
         phpOptions."opcache.interned_strings_buffer" = "16";
+      };
+    })
+    (lib.mkIf cfg.office.enable {
+      services.collabora-online = {
+        enable = true;
+        port = 9980;
+        settings = {
+          # Rely on reverse proxy for SSL
+          ssl = {
+            enable = false;
+            termination = true;
+          };
+        };
+      };
+      services.nginx.virtualHosts."collabora" = {
+        serverName = "collabora.${config.my.hostDomain}";
+        locations."/" = {
+          proxyPass = "http://localhost:${toString config.services.collabora-online.port}";
+          proxyWebsockets = true;
+        };
+        forceSSL = true;
+        useACMEHost = config.my.hostDomain;
       };
     })
   ];

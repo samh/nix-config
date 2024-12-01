@@ -174,6 +174,7 @@
 
   # Enable Nextcloud
   my.nextcloud.enable = true;
+  my.nextcloud.office.enable = true;
 
   # Calibre (eBook management)
   # calibre-server is the built-in web server; calibre-web is a third-party web interface

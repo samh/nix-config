@@ -14,6 +14,11 @@
    (created by Calibre GUI or command line); the GUI creates it at
    `~/.config/calibre/server-users.sqlite`.
 
+### Nextcloud
+1. "Office" in administration settings: need to set URL and
+   "Allow list for WOPI requests" (seems like it should be the IP that is
+   resolved from the Nextcloud hostname).
+
 ## Notable Systemd Units
 
 ```
@@ -35,6 +40,13 @@ nextcloud-update-plugins.service
 nextcloud-update-plugins.timer
 phpfpm-nextcloud.service
 redis-nextcloud.service
+```
+
+Collabora Online (Nextcloud Office):
+
+```
+coolwsd.service
+coolwsd-systemplate-setup.service
 ```
 
 Samba:
