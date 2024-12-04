@@ -64,6 +64,8 @@
   #    openFirewall = true;
   #  };
 
+  my.common.tailscale.enable = true;
+
   networking.firewall.allowedTCPPorts = [
     # Stirling PDF
     8080
