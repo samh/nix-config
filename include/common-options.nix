@@ -27,6 +27,16 @@ in {
       default = "${config.networking.hostName}.${config.my.baseDomain}";
       description = "Domain name for this host (usually a subdomain of the base domain)";
     };
+    my.tailscaleDomain = mkOption {
+      type = types.str;
+      default = "bonobo-triceratops.ts.net";
+      description = "Tailscale Tailnet name";
+    };
+    my.tailscaleHostname = mkOption {
+      type = types.str;
+      default = "${config.networking.hostName}.${config.my.tailscaleDomain}";
+      description = "Tailscale hostname";
+    };
     my.user = mkOption {
       type = types.str;
       default = "samh";

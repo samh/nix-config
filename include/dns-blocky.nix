@@ -75,7 +75,7 @@ in {
             mapping = {
               # Direct Tailscale domain to Tailscale MagicDNS.
               # Allows resolving Tailscale hostnames when using Blocky as DNS.
-              "bonobo-triceratops.ts.net" = "100.100.100.100";
+              "${config.my.tailscaleDomain}" = "100.100.100.100";
               # Direct all *unqualified* hostnames (e.g. just "yoshi") to the
               # router. In particular this allows looking up things like IoT
               # devices that we might not have in our hosts list.
