@@ -15,9 +15,10 @@
   #  };
   security.acme.certs."kirby.${config.my.baseDomain}" = {
     domain = "*.kirby.${config.my.baseDomain}";
-    # This subdomain is currently delegated to DigitalOcean
-    #dnsProvider = "cloudflare";
-    dnsProvider = "digitalocean";
+    # Was delegated to DigitalOcean for a while; now moved back to Cloudflare,
+    # to use digitalocean for sandbox/testing machines.
+    dnsProvider = "cloudflare";
+    # dnsProvider = "digitalocean";
     credentialsFile = "/root/acme.env";
     group = "nginx";
   };
