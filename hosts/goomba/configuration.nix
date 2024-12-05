@@ -63,10 +63,28 @@
   #    enable = true;
   #    openFirewall = true;
   #  };
+  services.nginx = {
+    enable = true;
+    # jellyfin: default "might not be enough for some posters"
+    clientMaxBodySize = lib.mkDefault "20M";
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    # Recommended prxoy settings include headers Host, X-Real-IP,
+    # X-Forwarded-For, X-Forwarded-Proto, X-Forwarded-Host,
+    # X-Forwarded-Server via an include of a file named
+    # 'nginx-recommended-proxy-headers.conf', plus other
+    # proxy settings.
+    # https://github.com/NixOS/nixpkgs/blob/nixos-23.05/nixos/modules/services/web-servers/nginx/default.nix
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+  };
 
   my.common.tailscale.enable = true;
 
   networking.firewall.allowedTCPPorts = [
+    # HTTP and HTTPS for nginx
+    80
+    443
     # Stirling PDF
     8080
     # ArchiveBox
@@ -188,6 +206,19 @@
     };
   }; # virtualisation.oci-containers.containers
 
+  services.nginx.virtualHosts."stirling-pdf" = {
+    serverName = "stirling-pdf.${config.my.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://localhost:8080";
+    };
+  };
+  services.nginx.virtualHosts."archivebox" = {
+    serverName = "archivebox.${config.my.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://localhost:8000";
+    };
+  };
+
   # Try adding Quadlet files
   # Options are documented here:
   # https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html
@@ -207,10 +238,47 @@
     WantedBy=multi-user.target default.target
   '';
 
+  services.nginx.virtualHosts."it-tools" = {
+    serverName = "it-tools.${config.my.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://localhost:8081";
+    };
+  };
+
+  environment.etc."containers/systemd/pinchflat.container".text = ''
+    [Unit]
+    Description=Pinchflat YouTube media manager
+    Wants=network-online.target
+    After=network-online.target
+
+    [Container]
+    # See https://github.com/kieraneglin/pinchflat/pkgs/container/pinchflat
+    Image=ghcr.io/kieraneglin/pinchflat:v2024.11.27
+    AutoUpdate=registry
+    UserNS=auto
+    PublishPort=8945:8945
+    Environment=TZ=America/New_York
+    Volume=/var/lib/pinchflat/config:/config
+    Volume=/var/lib/pinchflat/downloads:/downloads
+
+    [Install]
+    WantedBy=multi-user.target default.target
+  '';
+
+  services.nginx.virtualHosts."pinchflat" = {
+    serverName = "pinchflat.${config.my.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://localhost:8945";
+    };
+  };
+
   # Create config directories for the services
   systemd.tmpfiles.rules = [
     "d /var/lib/stirling-pdf/configs 0770 - wheel"
     "d /var/lib/archivebox 0770 - wheel"
+    "d /var/lib/pinchflat 0750 - multimedia"
+    "d /var/lib/pinchflat/config 0770 - wheel"
+    "d /var/lib/pinchflat/downloads 0750 - multimedia"
   ];
 
   # This value determines the NixOS release from which the default
