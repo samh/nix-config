@@ -1,0 +1,29 @@
+# For sops-nix
+# Defines public keys and location of secret files
+
+# Make a host key:
+# sudo mkdir -p /var/lib/private/sops/age
+# sudo age-keygen -o /var/lib/private/sops/age/keys.txt
+
+# Display the host public key:
+# sudo age-keygen -y /var/lib/private/sops/age/keys.txt
+
+# Add secrets
+# sops secrets/secrets.yaml
+
+# Rekey secrets.yaml after editing recipients in .sops.yaml:
+# sops updatekeys secrets/secrets.yaml
+keys:
+  - &desktop age17q2ewtw3xkdv3prlxv0zxexfrrzgz6y7q0rpy78du2z3yccqmv7q8nzs24
+  - &sandbox age1gspny8l309qn7xy3kf8t9sd85nu9cs0mvnfw3k4mz9gkdsuj0pqqckwt8r
+creation_rules:
+  # Keep sandbox (testing) secrets separate from main secrets.
+  - path_regex: secrets/sandbox.yaml
+    key_groups:
+    - age:
+      - *desktop
+      - *sandbox
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *desktop

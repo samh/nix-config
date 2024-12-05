@@ -21,6 +21,9 @@
     microvm.url = "github:astro/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
 
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     samh-shared.url = "github:samh/nix-config-shared";
     samh-shared.inputs.nixpkgs.follows = "nixpkgs";
     samh-shared.inputs.home-manager.follows = "home-manager";

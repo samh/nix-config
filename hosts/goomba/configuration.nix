@@ -16,6 +16,8 @@
     # at the same time as the system configuration with nixos-rebuild)
     inputs.home-manager.nixosModules.home-manager
 
+    inputs.sops-nix.nixosModules.sops
+
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
@@ -54,6 +56,19 @@
       # Import your home-manager configuration
       samh = import ../../home-manager/goomba.nix;
     };
+  };
+
+  sops = {
+    defaultSopsFile = ../../secrets/sandbox.yaml;
+    defaultSopsFormat = "yaml";
+    age = {
+      keyFile = "/var/lib/private/sops/age/keys.txt";
+      generateKey = false;
+    };
+  };
+  sops.secrets = {
+    goomba-acme-env = {};
+    goomba-acme-token = {};
   };
 
   # List services that you want to enable:
