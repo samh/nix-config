@@ -14,6 +14,8 @@ in {
   options = {
     my.dns.blocky = {
       enable = lib.mkEnableOption "Enable Blocky DNS server";
+      # We might not want to open the firewall if we just want to use this
+      # as a local DNS server.
       openFirewall = lib.mkEnableOption "Open firewall for DNS server";
     };
   };

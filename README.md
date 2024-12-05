@@ -2,7 +2,9 @@
 
 ## Quick Reference
 - Update `flake.lock` and commit: `nix flake update --commit-lock-file`
+  - Shortcut: `doit up`
 - Run a check: `nix flake check --no-build`
+  - Shortcut: `doit check`
 - Rebuild the local host:
   - `nh os boot -a` (or `switch`)
   - `nh home switch -a .`
@@ -39,6 +41,8 @@ ln -s $(pwd)/flake.nix ~/.config/home-manager/
   <https://github.com/Misterio77/nix-config/blob/main/hosts/common/optional/wireless.nix>)
 
 #### Secrets
+*I'm working on switching to `sops-nix` for secrets management; see hosts/goomba.*
+
 - `/root/.ssh/id_ed25519.pub` - root's SSH key
   - `ssh-keygen -t ed25519`
   - Needs to be added to BorgBase
@@ -80,11 +84,14 @@ sudo nixos-rebuild boot
 
 ### Remote Builds
 I haven't found a remote management solution that I like yet, so I'm using
-plain `ssh` for now with a simple wrapper script:
+plain `ssh` for now with a simple wrapper script, which runs from each
+machine's subdirectory:
 
 ```shell
 ./hosts/yoshi/nixos-rebuild.sh boot
 ```
+
+This has the advantage of being able to use `nh` to get nice-looking output.
 
 ## Source Layout
 
