@@ -94,6 +94,17 @@
     recommendedTlsSettings = true;
   };
 
+  security.acme.certs."${config.my.hostDomain}" = {
+    domain = "*.${config.my.hostDomain}";
+    # Delegated to DigitalOcean, so sandbox/testing machines don't have access
+    # to create certificates for anything on the domain.
+    dnsProvider = "digitalocean";
+    # Should contain something like:
+    # DO_AUTH_TOKEN=dop_...
+    credentialsFile = config.sops.secrets."goomba-acme-env".path;
+    group = "nginx";
+  };
+
   my.common.tailscale.enable = true;
 
   networking.firewall.allowedTCPPorts = [
@@ -226,12 +237,14 @@
     locations."/" = {
       proxyPass = "http://localhost:8080";
     };
+    useACMEHost = config.my.hostDomain;
   };
   services.nginx.virtualHosts."archivebox" = {
     serverName = "archivebox.${config.my.hostDomain}";
     locations."/" = {
       proxyPass = "http://localhost:8000";
     };
+    useACMEHost = config.my.hostDomain;
   };
 
   # Try adding Quadlet files
@@ -258,6 +271,7 @@
     locations."/" = {
       proxyPass = "http://localhost:8081";
     };
+    useACMEHost = config.my.hostDomain;
   };
 
   environment.etc."containers/systemd/pinchflat.container".text = ''
@@ -285,6 +299,7 @@
     locations."/" = {
       proxyPass = "http://localhost:8945";
     };
+    useACMEHost = config.my.hostDomain;
   };
 
   # Create config directories for the services
