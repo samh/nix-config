@@ -45,6 +45,7 @@ in {
           };
           customDNS = let
             dom = config.my.baseDomain;
+            # These hosts are defined in metadata.toml, which is loaded via metadata.nix.
             hosts = config.my.metadata.hosts;
             # Filter all hosts that have an IP address
             hostsWithIp = lib.filterAttrs (name: host: host ? ip_address) hosts;

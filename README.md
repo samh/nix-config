@@ -37,6 +37,10 @@ ln -s $(pwd)/flake.nix ~/.config/home-manager/
 - User password
 - Tailscale: `sudo tailscale up [options...]`
   - `sudo tailscale up --accept-routes` (to enable subnet routes)
+  - `--accept-dns=false` (to disable MagicDNS)
+    - I've had some issues with it; also local Blocky DNS automatically forwards
+      Tailnet queries to Tailscale DNS
+    - To disable later: `sudo tailscale set --accept-dns=false`
 - Wireless networks (could be declared; see for example
   <https://github.com/Misterio77/nix-config/blob/main/hosts/common/optional/wireless.nix>)
 
