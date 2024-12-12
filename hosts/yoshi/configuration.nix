@@ -13,6 +13,7 @@
     ../../include/ext-mounts.nix
     ../../include/metadata.nix
     ../../include/nextcloud.nix
+    ../../include/nix-ld.nix
     ../../include/nginx.nix
     ../../include/gui
     #../include/virt-manager.nix
