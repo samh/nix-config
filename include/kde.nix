@@ -18,8 +18,8 @@
   services.desktopManager.plasma6.enable = true;
 
   environment.systemPackages = with pkgs; [
-    ark # archive manager
     k4dirstat # disk usage analyzer (qdirstat is also available)
+    kdePackages.ark # archive manager
     kdePackages.discover # software center (for Flatpak, lvfs/fwupd)
     kdePackages.kate # includes kwrite
     kdePackages.kcalc # calculator
