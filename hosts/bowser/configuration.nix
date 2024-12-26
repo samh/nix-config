@@ -39,6 +39,10 @@
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = ["nvidia"];
+  hardware.nvidia.open = false; # Set to false for proprietary drivers
+
   networking.hostName = "bowser"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
