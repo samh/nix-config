@@ -14,7 +14,9 @@
   services.xserver.enable = true;
 
   # Enable the Plasma 6 Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  # SDDM started freezing on login, so I switched to LightDM.
+  #services.displayManager.sddm.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   environment.systemPackages = with pkgs; [
