@@ -27,7 +27,7 @@
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "kh-laptop-inspiron11"; # Define your hostname.
+  networking.hostName = "laptop-inspiron11"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -90,20 +90,16 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.kaye = {
-    uid = 7001;
+  users.users.grace = {
+    uid = 1009;
     isNormalUser = true;
-    description = "Kaye";
-    #extraGroups = [ "networkmanager" "wheel" ];
-    extraGroups = ["networkmanager"];
-    packages = with pkgs; [
-      #  thunderbird
+    home = "/home/grace";
+    extraGroups = [
+      "audio"
+      "networkmanager"
     ];
+    shell = pkgs.fish;
   };
-
-  # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "kaye";
 
   # Install firefox.
   programs.firefox.enable = true;

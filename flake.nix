@@ -97,11 +97,11 @@
           ./hosts/desktop-z390-9700k/configuration.nix
         ];
       };
-      # Mom's Laptop - Dell Inspiron 11
-      kh-laptop-inspiron11 = nixpkgs.lib.nixosSystem {
+      # Dell Inspiron 11 (Mom's Old Laptop)
+      laptop-inspiron11 = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./hosts/kh-laptop-inspiron11/configuration.nix
+          ./hosts/laptop-inspiron11/configuration.nix
         ];
       };
       # New Storage Server - Z77 + Intel Core i5-3770k (2012)
