@@ -1,6 +1,4 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# This file defines the Syncthing configuration for one host.
 {
   config,
   lib,
@@ -40,6 +38,15 @@ in {
         enable = true;
         path = "${config.my.homeDir}/Notes/Notes-Personal";
         devices = ["nixos-2022-desktop" "pixel8" "yoshi"];
+        versioning = defaultVersioning;
+      };
+      # Shared folder with work. Replaced Onedrive shared folder Work-ACS-Share
+      # when that stopped syncing and became a link that opened a browser.
+      "Sync-Work-ACS-Share" = {
+        id = "294m6-yjmjw";
+        enable = true;
+        path = "${config.my.homeDir}/Sync-Work-ACS-Share";
+        devices = ["work-laptop" "yoshi"];
         versioning = defaultVersioning;
       };
     };
