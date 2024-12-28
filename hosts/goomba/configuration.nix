@@ -74,6 +74,12 @@
   sops.secrets = {
     goomba-acme-env = {};
     goomba-acme-token = {};
+    "lldap/jwt_secret" = {
+      owner = "lldap";
+    };
+    "lldap/ldap_user_pass" = {
+      owner = "lldap";
+    };
   };
 
   # List services that you want to enable:
@@ -276,6 +282,7 @@
     locations."/" = {
       proxyPass = "http://localhost:8081";
     };
+    forceSSL = true;
     useACMEHost = config.my.hostDomain;
   };
 
@@ -304,6 +311,35 @@
     locations."/" = {
       proxyPass = "http://localhost:8945";
     };
+    forceSSL = true;
+    useACMEHost = config.my.hostDomain;
+  };
+
+  services.lldap = {
+    enable = true;
+    settings = {
+      http_url = "https://ldap.${config.my.hostDomain}";
+      ldap_base_dn = config.my.ldapBaseDn;
+      # Email is not really required (username is "admin"), it's just nice to
+      # not show as "admin@example.com".
+      ldap_user_email = "admin@${config.my.hostDomain}";
+    };
+    environment = {
+      LLDAP_JWT_SECRET_FILE = config.sops.secrets."lldap/jwt_secret".path;
+      LLDAP_LDAP_USER_PASS_FILE = config.sops.secrets."lldap/ldap_user_pass".path;
+    };
+  };
+  users.users.lldap = {
+    group = "lldap";
+    isSystemUser = true;
+  };
+  users.groups.lldap = {};
+  services.nginx.virtualHosts."lldap" = {
+    serverName = "lldap.${config.my.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://localhost:${toString config.services.lldap.settings.http_port}";
+    };
+    forceSSL = true;
     useACMEHost = config.my.hostDomain;
   };
 
