@@ -22,6 +22,11 @@ in {
       default = "hartsfield.xyz";
       description = "Base domain name for services (option in case we want to override for some testing purpose)";
     };
+    my.ldapBaseDn = mkOption {
+      type = types.str;
+      default = "dc=hartsfield,dc=xyz";
+      description = "Base DN for LDAP";
+    };
     my.hostDomain = mkOption {
       type = types.str;
       default = "${config.networking.hostName}.${config.my.baseDomain}";
