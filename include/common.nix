@@ -149,7 +149,6 @@
     nh # Yet another nix cli helper
     ntfs3g
     psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
-    pipx
     pv # monitor progress of data through a pipe
     python3
     ripgrep
