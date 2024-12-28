@@ -165,6 +165,7 @@ in {
         shfmt # shell script formatter
         smplayer
         thunderbird
+        tlrc # tldr client - simplified quick reference pages
         unrar
         usbimager # minimal graphical alternative to e.g. Etcher
         #vim
