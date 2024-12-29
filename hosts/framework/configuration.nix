@@ -170,6 +170,7 @@
     #samba # Provides smbd for quickemu
     quickemu
     spice-gtk
+    spotify
     virt-viewer # remote-viewer
 
     syncthing
