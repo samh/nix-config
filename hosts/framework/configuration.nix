@@ -38,7 +38,10 @@
   # https://dov.dev/blog/nixos-on-the-framework-12th-gen
   #boot.kernelPackages = pkgs.linuxPackages_6_7; # latest was giving errors with xone driver
   #boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_xanmod;
+  #boot.kernelPackages = pkgs.linuxPackages_xanmod;
+  #boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_xanmod_stable;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelParams = ["module_blacklist=hid_sensor_hub"];
   # Load the kernel module for the Blu-Ray drive.
   # Found from https://discourse.nixos.org/t/makemkv-cant-find-my-usb-blu-ray-drive/23714/3
