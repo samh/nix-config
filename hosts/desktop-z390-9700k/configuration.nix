@@ -159,14 +159,11 @@
   };
 
   # Use nftables instead of iptables for NixOS firewall.
-  # Will this cause problems with libvirt?
+  # NOTE: breaks libvirt DHCP / DNS on virtual interfaces; see below.
   networking.nftables.enable = true;
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
 
   # Ports 53/67: Fix libvirt DHCP / DNS not working on its virtual interfaces
-  # (i.e. VMs not getting IP addresses).
+  # when using nftables (i.e. VMs cannot get an IP address).
   # See issue: https://github.com/NixOS/nixpkgs/issues/263359
   networking.firewall.interfaces.virbr0 = {
     # 'default' (NAT) network
