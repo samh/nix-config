@@ -215,14 +215,20 @@
   services.btrfs.autoScrub.enable = false;
 
   # Use nftables instead of iptables for NixOS firewall.
-  # Will this cause problems with libvirt?
+  # NOTE: breaks libvirt DHCP / DNS on virtual interfaces; see below.
   networking.nftables.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  # Ports 53/67: Fix libvirt DHCP / DNS not working on its virtual interfaces
+  # when using nftables (i.e. VMs cannot get an IP address).
+  # See issue: https://github.com/NixOS/nixpkgs/issues/263359
+  #
+  # "extraInputRules" is one way to add the required rules. If desired, the
+  # "iifname" test can use a wildcard.
+  # See also alternative solution in desktop config.
+  networking.firewall.extraInputRules = ''
+    iifname { "virbr0" } meta l4proto { tcp, udp } th dport 53 accept comment "DNS"
+    iifname { "virbr0" } meta nfproto ipv4 udp dport 67 accept comment "DHCP server"
+  '';
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
