@@ -86,7 +86,7 @@
     jellyfin-media-player
     kitty # A modern, hackable, featureful, OpenGL based terminal emulator (by Kovid Goyal of Calibre)
     libation # Audible audiobook manager
-    libreoffice-qt
+    libreoffice-qt6-fresh
     nextcloud-client
     nh # Yet another nix cli helper
     # pika-backup  # borg frontend - testing it out
