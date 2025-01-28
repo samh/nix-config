@@ -104,6 +104,7 @@
     qemu_full
     quickemu
     samba # Provides smbd for quickemu
+    socat
     sops # For editing secrets files
     spice-gtk
     virt-viewer # remote-viewer

@@ -4,7 +4,7 @@
   ];
 
   home.packages = with pkgs; [
-    pkgs.unstable.jetbrains.datagrip
+    # pkgs.unstable.jetbrains.datagrip
     pkgs.unstable.jetbrains.pycharm-professional
     pkgs.unstable.vscode.fhs
   ];
