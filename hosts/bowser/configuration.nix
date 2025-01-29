@@ -99,6 +99,19 @@
 
   # List services that you want to enable:
 
+  # LLM framework
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
+  };
+  services.open-webui = {
+    # TODO: CORS_ALLOW_ORIGIN? USER_AGENT?
+    enable = true;
+    package = pkgs.unstable.open-webui;
+    host = "0.0.0.0";
+    openFirewall = true;
+  };
+
   # nginx for reverse proxy
   #  my.nginx = {
   #    enable = true;
