@@ -64,13 +64,6 @@ in {
       fsType = "ext4";
       options = ["x-systemd.device-timeout=0"];
     };
-  fileSystems."/media/vm3" =
-    # VM data on 2nd NVMe drive (2TB)
-    {
-      device = "/dev/nvme2/vm3";
-      fsType = "ext4";
-      options = ["x-systemd.device-timeout=0"];
-    };
 
   # libvirt qemu configuration; on Ubuntu and Fedora this is /etc/libvirt/qemu
   fileSystems."/var/lib/libvirt/qemu" = {
