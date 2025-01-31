@@ -76,6 +76,17 @@
     };
   };
 
+  # Define a work user for SSH port forwarding
+  users.users.samh-work = {
+    uid = 1020;
+    isNormalUser = true;
+    # Note: stored in /etc/ssh/authorized_keys.d/, not ~/.ssh/authorized_keys
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQTyE9sDcqE6+VAHmIMQ58GWjbcBkB6jrArOCyAgBqJ samh-work-ed25519-2023"
+    ];
+    shell = pkgs.fish;
+  };
+
   # List services that you want to enable:
 
   # LLM framework
