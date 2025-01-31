@@ -101,6 +101,16 @@
     package = pkgs.unstable.open-webui;
     host = "0.0.0.0";
     openFirewall = true;
+    environment = {
+      # Let everybody access all models
+      BYPASS_MODEL_ACCESS_CONTROL = "True";
+      # These are apparently the defaults in the NixOS module, but they don't
+      # appear to be actual options according to the documentation. Maybe they
+      # used to be?
+      ANONYMIZED_TELEMETRY = "False";
+      DO_NOT_TRACK = "True";
+      SCARF_NO_ANALYTICS = "True";
+    };
   };
 
   # This value determines the NixOS release from which the default
