@@ -82,6 +82,7 @@
   services.ollama = {
     enable = true;
     acceleration = "cuda";
+    package = pkgs.unstable.ollama-cuda;
   };
   services.open-webui = {
     # TODO: CORS_ALLOW_ORIGIN? USER_AGENT?
