@@ -48,7 +48,7 @@ syncthing_id = "CNJBSUE-KIERN7M-6WKA2YC-OO4EDQB-FKM2YJT-HZIOYOF-WKQ6NPJ-CEAHJAU"
 # Testing VM on desktop
 [hosts.goomba]
 # Reserved in libvirt network XML
-internal_op = "192.168.101.61"
+internal_ip = "192.168.101.61"
 tailscale_address = "100.64.101.61"
 
 # VFIO VM (NixOS) on desktop

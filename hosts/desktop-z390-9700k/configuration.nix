@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -12,7 +13,10 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./mounts.nix
+    ./proxy.nix
     ./syncthing.nix
+
+    inputs.sops-nix.nixosModules.sops
 
     ../include/common.nix
     ../include/ext-mounts.nix
@@ -136,6 +140,10 @@
     FLAKE = "/etc/nixos";
   };
 
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+  sops.age.generateKey = false;
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -177,14 +185,6 @@
     allowedTCPPorts = [53 4656];
     allowedUDPPorts = [53 67];
   };
-
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
 
   programs.adb.enable = true;
   users.users.samh.extraGroups = ["adbusers"];

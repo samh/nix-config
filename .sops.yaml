@@ -8,13 +8,19 @@
 # Display the host public key:
 # sudo age-keygen -y /var/lib/private/sops/age/keys.txt
 
+# Or use the host SSH key:
+# nix shell nixpkgs#ssh-to-age -c bash -c 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
+
 # Add secrets
 # sops secrets/secrets.yaml
 
 # Rekey secrets.yaml after editing recipients in .sops.yaml:
 # sops updatekeys secrets/secrets.yaml
 keys:
+  # User-level key on desktop
   - &desktop age17q2ewtw3xkdv3prlxv0zxexfrrzgz6y7q0rpy78du2z3yccqmv7q8nzs24
+  # From SSH host key
+  - &desktop-root age1nlemqdl7e5yx05vayza3em8s4vzzuu5uckfn276lk07k6fhpzysquyj443
   - &sandbox age1gspny8l309qn7xy3kf8t9sd85nu9cs0mvnfw3k4mz9gkdsuj0pqqckwt8r
 creation_rules:
   # Keep sandbox (testing) secrets separate from main secrets.
@@ -27,3 +33,4 @@ creation_rules:
     key_groups:
     - age:
       - *desktop
+      - *desktop-root
