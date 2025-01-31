@@ -167,6 +167,13 @@
   programs.fish.enable = true;
   programs.zsh.enable = true;
 
+  # Add some common shell aliases
+  environment.shellAliases = {
+    dfh = "findmnt -t fuse.mergerfs,fuse.rclone,xfs,ext4,btrfs,vfat --df";
+    mounts = "findmnt -t fuse.mergerfs,fuse.rclone,xfs,ext4,btrfs,vfat";
+    psf = "ps -ef | grep";
+  };
+
   programs.tmux = {
     enable = true;
     plugins = with pkgs.tmuxPlugins; [continuum resurrect];
