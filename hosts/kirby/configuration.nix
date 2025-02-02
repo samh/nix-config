@@ -17,7 +17,6 @@ in {
     ../include/ext-mounts.nix
     ../include/nginx.nix
     ../include/virt-manager.nix
-    ../../include/gui
 
     ./acme.nix
     ./borg-backup.nix
@@ -60,25 +59,13 @@ in {
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
-  # Enable the X11 windowing system.
-  my.gui.enable = true;
-  my.gui.xfce.enable = true;
-
-  # Configure keymap in X11
-  # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e,caps:escape";
-
   # Enable CUPS to print documents.
   # services.printing.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     dua # Disk Usage Analyzer (ncdu alternative)
-    firefox
     git # required for building flakes
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
