@@ -23,4 +23,9 @@ in {
       reverse_proxy ${config.my.metadata.vms.bowser.internal_ip}:8080
     '';
   };
+
+  # Allow HTTP(S) over Tailscale
+  networking.firewall.interfaces.tailscale0 = {
+    allowedTCPPorts = [80 443];
+  };
 }
