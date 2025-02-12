@@ -39,10 +39,15 @@
             # permissions consistent
             "/var/lib/nixos"
 
+            # App data on HDD - archivebox
+            "/data/appdata"
+
             # Audiobookshelf config and metadata
             "/var/lib/audiobookshelf"
             # Calibre Server (users SQLite database)
             "/var/lib/calibre-server"
+            # ErstazTV data
+            "/var/lib/ersatztv"
             # Jellyfin database, configuration, logs
             "/var/lib/jellyfin"
             # Service data (StateDirectory) when DynamicUser=true
