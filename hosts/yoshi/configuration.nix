@@ -166,6 +166,10 @@
     openFirewall = true;
   };
 
+  # Seems to cause errors running podman as root - probably conflict with DNS server?
+  # Error starting server failed to bind udp listener on 10.88.0.1:53: IO error: Address already in use (os error 98)
+  virtualisation.podman.defaultNetwork.settings.dns_enabled = false;
+
   # Group for access to /storage (probably read-only)
   users.groups.storage.gid = config.my.metadata.gids.storage;
   # Group for access to Calibre libraries
