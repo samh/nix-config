@@ -18,6 +18,7 @@
     ../../include/gui
     #../include/virt-manager.nix
     ./acme.nix
+    ./archivebox.nix
     ./borg-backup.nix
     ./ersatztv.nix
     ./jellyfin.nix
