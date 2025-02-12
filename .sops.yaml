@@ -21,6 +21,7 @@ keys:
   - &desktop age17q2ewtw3xkdv3prlxv0zxexfrrzgz6y7q0rpy78du2z3yccqmv7q8nzs24
   # From SSH host key
   - &desktop-root age1nlemqdl7e5yx05vayza3em8s4vzzuu5uckfn276lk07k6fhpzysquyj443
+  - &yoshi-ssh age1cy3a7tff074yz56xxcrz55le7j526ca5jjyz3ud0fsj9nj8m8apqrv4ket
   - &sandbox age1gspny8l309qn7xy3kf8t9sd85nu9cs0mvnfw3k4mz9gkdsuj0pqqckwt8r
 creation_rules:
   # Keep sandbox (testing) secrets separate from main secrets.
@@ -34,3 +35,4 @@ creation_rules:
     - age:
       - *desktop
       - *desktop-root
+      - *yoshi-ssh

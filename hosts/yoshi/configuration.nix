@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running `nixos-help`).
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -16,6 +17,7 @@
     ../../include/nix-ld.nix
     ../../include/nginx.nix
     ../../include/gui
+    inputs.sops-nix.nixosModules.sops
     #../include/virt-manager.nix
     ./acme.nix
     ./archivebox.nix
@@ -49,6 +51,10 @@
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+  sops.age.generateKey = false;
 
   # Enable the X11 windowing system.
   my.gui.enable = true;
