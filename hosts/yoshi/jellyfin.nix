@@ -19,7 +19,7 @@ in {
       # on the old server, because it takes some database editing to change it.
       # The mount is only visible inside the jellyfin service.
       systemd.services.jellyfin.serviceConfig.BindPaths = "/storage/Library:/data";
-      systemd.services.jellyfin.serviceConfig.RequiresMountsFor = "/storage/Library";
+      systemd.services.jellyfin.unitConfig.RequiresMountsFor = "/storage/Library";
       # https://jellyfin.org/docs/general/networking/index.html
       # 8096/tcp is used by default for HTTP traffic. You can change this in the dashboard.
       # 8920/tcp is used by default for HTTPS traffic. You can change this in the dashboard.
