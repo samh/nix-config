@@ -88,6 +88,7 @@
   };
 
   # List services that you want to enable:
+  my.pool.allowWheel = true;
 
   # LLM framework
   services.ollama = {
