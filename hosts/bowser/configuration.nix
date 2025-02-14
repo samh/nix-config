@@ -88,6 +88,8 @@
   };
 
   # List services that you want to enable:
+
+  my.common.tailscale.enable = true;
   my.pool.allowWheel = true;
 
   # LLM framework
