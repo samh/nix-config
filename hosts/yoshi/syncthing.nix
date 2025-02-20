@@ -65,14 +65,14 @@ in {
         ];
         versioning = defaultVersioning;
       };
-      "Photos-Pixel4a" = {
-        id = "pixel_4a_d88y-photos";
-        enable = true;
-        type = "receiveonly";
-        path = "/media/disk2/Backup-Photos/Sam-Pixel4a-Syncthing";
-        devices = ["pixel4a"];
-        versioning = photoVersioning;
-      };
+      #      "Photos-Pixel4a" = {
+      #        id = "pixel_4a_d88y-photos";
+      #        enable = true;
+      #        type = "receiveonly";
+      #        path = "/media/disk2/Backup-Photos/Sam-Pixel4a-Syncthing";
+      #        devices = ["pixel4a"];
+      #        versioning = photoVersioning;
+      #      };
       "Photos-Pixel8" = {
         id = "pixel_8_22n8-photos";
         enable = true;
@@ -85,7 +85,7 @@ in {
         id = "ntcgb-rnrl5";
         enable = true;
         path = "/storage/Sam/PhoneTransfer";
-        devices = ["pixel4a" "pixel8"];
+        devices = ["pixel8"];
         versioning = defaultVersioning;
       };
       # Shared folder with work. Replaced Onedrive shared folder Work-ACS-Share

@@ -35,7 +35,6 @@ in {
           "yoshi"
           "fwnixos"
           "work-laptop"
-          "pixel4a"
           "pixel8"
         ];
         versioning = defaultVersioning;
