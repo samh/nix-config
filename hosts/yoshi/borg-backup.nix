@@ -1,3 +1,16 @@
+# Examples of how to restore:
+# Run as root.
+# List backups for all repositories:
+#   borgmatic rlist
+# Mount backup archives:
+#   borgmatic mount --repository borgbase-general --archive yoshi-2025-02-20T00:39:02.006211 --mount-point /mnt
+# Unmount:
+#   borgmatic umount --mount-point /mnt
+#
+# PostgreSQL database dumps:
+# Looks like they are under "root/.borgmatic/postgresql_databases".
+# *changes in borgmatic 1.9.0*
+# https://torsion.org/borgmatic/docs/how-to/backup-your-databases/
 {
   config,
   lib,
