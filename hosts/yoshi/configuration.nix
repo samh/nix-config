@@ -181,8 +181,13 @@
   users.groups.storage.gid = config.my.metadata.gids.storage;
   # Group for access to Calibre libraries
   users.groups.calibre.gid = config.my.metadata.gids.calibre;
-  # Add my user to groups for storage, calibre, audiobookshelf
-  users.users."${config.my.user}".extraGroups = ["storage" "calibre" "audiobookshelf"];
+  # Add my user to groups for storage, calibre, audiobookshelf, nextcloud
+  users.users."${config.my.user}".extraGroups = [
+    "storage"
+    "calibre"
+    "audiobookshelf"
+    "nextcloud" # /var/lib/nextcloud access (e.g. for searching files)
+  ];
 
   # Enable Nextcloud
   my.nextcloud.enable = true;
