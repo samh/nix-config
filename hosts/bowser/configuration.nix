@@ -97,7 +97,15 @@
     enable = true;
     acceleration = "cuda";
     package = pkgs.unstable.ollama-cuda;
+    host = "0.0.0.0";
   };
+  # Allow ollama over tailscale
+  # WARNING: does not have any authentication
+  networking.firewall.interfaces.tailscale0 = {
+    allowedTCPPorts = [config.services.ollama.port];
+  };
+
+  # LLM web frontend GUI
   services.open-webui = {
     # TODO: CORS_ALLOW_ORIGIN? USER_AGENT?
     enable = true;
