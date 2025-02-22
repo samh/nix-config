@@ -78,21 +78,15 @@ in {
             cookbook
             groupfolders
             # memories # photos - to try; see website for setup https://apps.nextcloud.com/apps/memories
-            
             # news # RSS reader - https://apps.nextcloud.com/apps/news
-            
             notes
             # onlyoffice
-            
             # phonetrack # GPS tracking - https://apps.nextcloud.com/apps/phonetrack
-            
             richdocuments # Collabora Online for Nextcloud - https://apps.nextcloud.com/apps/richdocuments
-            
+
             # spreed # Nextcloud Talk - chat, video, audio conferencing - https://github.com/nextcloud/spreed
-            
             tasks
             #qownnotesapi
-            
             ;
         };
 
