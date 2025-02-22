@@ -43,7 +43,7 @@ in {
         id = "jjbsv-stmrg";
         enable = true;
         path = "${config.my.homeDir}/Notes/Notes-Personal";
-        devices = ["vfio-windows" "yoshi" "fwnixos" "pixel4a" "pixel8"];
+        devices = ["vfio-windows" "yoshi" "fwnixos" "pixel8"];
         versioning = defaultVersioning;
       };
       # Calibre work library (technical reference material, including
