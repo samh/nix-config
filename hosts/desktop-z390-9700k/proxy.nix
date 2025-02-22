@@ -28,4 +28,8 @@ in {
   networking.firewall.interfaces.tailscale0 = {
     allowedTCPPorts = [80 443];
   };
+  # and local network
+  networking.firewall.interfaces.eno2 = {
+    allowedTCPPorts = [443];
+  };
 }
