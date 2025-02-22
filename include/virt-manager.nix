@@ -10,6 +10,8 @@
     libvirtd = {
       enable = true;
       qemu.ovmf.enable = lib.mkDefault true;
+      # Added OVMFFull for Windows 11 - not sure if this is needed or not.
+      qemu.ovmf.packages = [pkgs.OVMFFull.fd];
       qemu.swtpm.enable = lib.mkDefault true;
       # Don't start VMs that were running at shutdown
       # (autostart VMs should still be started)
