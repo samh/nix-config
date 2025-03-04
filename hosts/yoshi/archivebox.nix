@@ -47,6 +47,7 @@ in {
     ];
     environment = {
       ALLOWED_HOSTS = "*";
+      SAVE_ARCHIVE_DOT_ORG = "False";
     };
     extraOptions = [
       # root=124000000 (124,000,000)
