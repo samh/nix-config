@@ -10,7 +10,7 @@ in {
   services.nginx = {
     virtualHosts.${cfg.settings.server.DOMAIN} = {
       forceSSL = true;
-      enableACME = true;
+      useACMEHost = config.my.hostDomain;
       extraConfig = ''
         client_max_body_size 512M;
       '';
@@ -32,7 +32,7 @@ in {
         HTTP_PORT = 3000;
       };
       # You can temporarily allow registration to create an admin user.
-      #service.DISABLE_REGISTRATION = true;
+      service.DISABLE_REGISTRATION = true;
       # Add support for actions, based on act: https://github.com/nektos/act
       actions = {
         ENABLED = true;
