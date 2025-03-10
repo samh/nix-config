@@ -38,6 +38,7 @@
           # permissions consistent
           "/var/lib/nixos"
           # Service data
+          config.services.forgejo.stateDir
           "/var/lib/paperless"
           # Service data (StateDirectory) when DynamicUser=true,
           # for example for 'uptime-kuma'
@@ -62,6 +63,15 @@
             # dumps each database to a separate file in "custom" format
             format = "custom";
           }
+        ];
+
+        before_backup = [
+          # Stop forgejo service before backup to ensure consistent state.
+          "${pkgs.systemd}/bin/systemctl stop forgejo"
+        ];
+        after_backup = [
+          # Start forgejo service after backup.
+          "${pkgs.systemd}/bin/systemctl start forgejo"
         ];
 
         # Healthchecks ping URL or UUID to notify when a backup
