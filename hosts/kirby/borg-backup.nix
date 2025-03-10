@@ -86,7 +86,7 @@
         # I tried making it an empty string, but that gave an error:
         # Healthchecks error: 400 Client Error: Bad Request for url: https://hc-ping.com/$%7BHEALTHCHECKS_URL:-%7D
         # Seems to work if we give it some arbitrary string.
-        healthchecks = "\${HEALTHCHECKS_URL:-empty}";
+        healthchecks = {ping_url = "\${HEALTHCHECKS_URL:-empty}";};
       };
   };
 
