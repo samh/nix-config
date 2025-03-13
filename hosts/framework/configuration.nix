@@ -85,11 +85,9 @@
   # };
   i18n.inputMethod = {
     enable = true;
-    # kime is currently broken; see
-    # https://github.com/NixOS/nixpkgs/issues/355070
-    #type = "kime";
-    type = "ibus";
-    ibus.engines = with pkgs.ibus-engines; [hangul];
+    type = "kime";
+    #    type = "ibus";
+    #    ibus.engines = with pkgs.ibus-engines; [hangul];
   };
 
   # Enable the X11 windowing system.
