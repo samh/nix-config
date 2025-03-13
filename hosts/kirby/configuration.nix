@@ -21,6 +21,7 @@ in {
     ./acme.nix
     ./borg-backup.nix
     ./forgejo.nix
+    ./gitea.nix
     ./mounts.nix
     ./samba.nix
     # Include the results of the hardware scan.
