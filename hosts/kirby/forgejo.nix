@@ -20,6 +20,8 @@ in {
 
   services.forgejo = {
     enable = true;
+    # Package defaults to "forgejo-lts"
+    package = pkgs.forgejo;
     database.type = "sqlite3";
     #database.type = "postgres";
     # Enable support for Git Large File Storage
