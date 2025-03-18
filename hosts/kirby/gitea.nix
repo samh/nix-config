@@ -33,6 +33,9 @@ in {
       };
       # You can temporarily allow registration to create an admin user.
       service.DISABLE_REGISTRATION = true;
+      security = {
+        LOGIN_REMEMBER_DAYS = 90; # default is 31
+      };
       # Add support for actions, based on act: https://github.com/nektos/act
       actions = {
         ENABLED = true;
