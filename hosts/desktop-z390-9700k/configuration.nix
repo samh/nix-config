@@ -88,12 +88,13 @@
     android-file-transfer
     btrfs-assistant
     jellyfin-media-player
-    kitty # A modern, hackable, featureful, OpenGL based terminal emulator (by Kovid Goyal of Calibre)
+    just
+    #kitty # A modern, hackable, featureful, OpenGL based terminal emulator (by Kovid Goyal of Calibre)
     libation # Audible audiobook manager
     libreoffice-qt6-fresh
     nextcloud-client
     nh # Yet another nix cli helper
-    # pika-backup  # borg frontend - testing it out
+    restic # Backup program
 
     # qemu / quickemu
     #
