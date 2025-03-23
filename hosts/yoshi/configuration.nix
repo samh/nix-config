@@ -193,6 +193,10 @@
   my.nextcloud.enable = true;
   my.nextcloud.office.enable = true;
 
+  # TODO: need to adjust permissions or exclusions
+  # See journal for update-locatedb.service
+  services.locate.enable = true;
+
   # Calibre (eBook management)
   # calibre-server is the built-in web server; calibre-web is a third-party web interface
   services.calibre-server.enable = true;
