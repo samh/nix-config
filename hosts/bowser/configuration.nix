@@ -92,6 +92,10 @@
   my.common.tailscale.enable = true;
   my.pool.allowWheel = true;
 
+  my.common.podman.enable = true;
+  virtualisation.podman.dockerCompat = true;
+  hardware.nvidia-container-toolkit.enable = true;
+
   # LLM framework
   services.ollama = {
     enable = true;
