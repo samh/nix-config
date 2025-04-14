@@ -88,6 +88,7 @@
   environment.systemPackages = with pkgs; [
     android-file-transfer
     btrfs-assistant
+    ghostty # Fast, native, feature-rich terminal emulator pushing modern features
     jellyfin-media-player
     just
     #kitty # A modern, hackable, featureful, OpenGL based terminal emulator (by Kovid Goyal of Calibre)
