@@ -128,6 +128,7 @@ in {
         tlrc # tldr client - simplified quick reference pages
         unrar
         usbimager # minimal graphical alternative to e.g. Etcher
+        pkgs.unstable.uv
         #vim
         #vimHugeX # gvim
         vlc
