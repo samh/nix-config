@@ -71,7 +71,14 @@ in {
             # Result should be mapping (attribute set) of host names to IP
             # addresses.
             # For example: { "myhost.domain.xyz" = "1.2.3.4"; }
-            mapping = fqdnMappings // unqualifiedMappings;
+            mapping =
+              fqdnMappings
+              // unqualifiedMappings
+              // {
+                # Alias for UniFi "inform" URL
+                "unifi.internal" = "${config.my.metadata.hosts.kirby.ip_address}";
+                "unifi.${config.my.baseDomain}" = "${config.my.metadata.hosts.kirby.ip_address}";
+              };
           };
 
           conditional = {
