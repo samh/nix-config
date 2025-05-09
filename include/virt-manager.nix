@@ -19,6 +19,11 @@
       # Shut down running VMs, instead of trying to suspend them
       onShutdown = lib.mkDefault "shutdown";
     };
+    # "Install the SPICE USB redirection helper with setuid privileges.
+    # This allows unprivileged users to pass USB devices connected to this
+    # machine to libvirt VMs, both local and remote. Note that this allows
+    # users arbitrary access to USB devices."
+    #spiceUSBRedirection.enable = true;
   };
 
   environment.systemPackages = with pkgs; [

@@ -77,6 +77,12 @@
   services.printing.enable = true;
   services.printing.drivers = [pkgs.hplip];
 
+  # "Install the SPICE USB redirection helper with setuid privileges.
+  # This allows unprivileged users to pass USB devices connected to this
+  # machine to libvirt VMs, both local and remote. Note that this allows
+  # users arbitrary access to USB devices."
+  virtualisation.spiceUSBRedirection.enable = true;
+
   # Enable ZRAM swap
   #  zramSwap.enable = true;
   #  zramSwap.algorithm = "zstd";
