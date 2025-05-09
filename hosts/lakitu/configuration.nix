@@ -82,8 +82,10 @@ in {
     gnome-logs
     gnome-nettool
     seahorse # keyring
+    gnome-logs
     gnome-system-monitor
     gnome-terminal
+    gnome-text-editor
     gnome-tweaks
     nautilus
     nh # Nix helper
@@ -99,6 +101,7 @@ in {
   #   enableSSHSupport = true;
   # };
 
+  programs.file-roller.enable = true;
   programs.firefox.enable = true;
 
   # List services that you want to enable:
