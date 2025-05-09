@@ -182,6 +182,27 @@ in {
     useACMEHost = config.my.hostDomain;
   };
 
+  services.unifi = {
+    enable = true;
+    openFirewall = true;
+    maximumJavaHeapSize = 256;
+    unifiPackage = pkgs.unifi;
+    mongodbPackage = pkgs.mongodb-7_0;
+  };
+  services.nginx.virtualHosts."unifi" = {
+    serverName = "unifi.${config.my.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:8443";
+      proxyWebsockets = true;
+    };
+    forceSSL = true;
+    useACMEHost = config.my.hostDomain;
+  };
+  my.allowedUnfree = [
+    "unifi-controller"
+    "mongodb"
+  ];
+
   #virtualisation.oci-containers.backend = "podman";
 
   # Open ports in the firewall.
