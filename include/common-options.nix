@@ -97,6 +97,7 @@ in {
         doit
         dua # Disk Usage Analyzer (ncdu alternative)
         element-desktop
+        exfatprogs
         filezilla
         fira-code
         gnumake
