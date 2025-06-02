@@ -145,9 +145,9 @@
   #  "vscode.fhs"
   #];
 
-  # Set FLAKE environment variable used by "nh"
+  # Set NH_FLAKE environment variable used by "nh"
   environment.variables = {
-    FLAKE = "/etc/nixos";
+    NH_FLAKE = "/etc/nixos";
   };
 
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
