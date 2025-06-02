@@ -60,6 +60,14 @@
   #   keyMap = "us";
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
+  i18n.inputMethod = {
+    enable = true;
+    #type = "kime";
+    #type = "ibus";
+    #ibus.engines = with pkgs.ibus-engines; [hangul];
+    type = "fcitx5";
+    fcitx5.addons = with pkgs; [fcitx5-hangul];
+  };
 
   hardware.bluetooth.enable = true;
 
