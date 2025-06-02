@@ -215,6 +215,10 @@
   programs.kdeconnect.enable = true;
   programs.yazi.enable = true;
 
+  # TODO: need to adjust permissions or exclusions
+  # See journal for update-locatedb.service
+  services.locate.enable = true;
+
   # Local (personal) configuration settings
   my.common.ansible.enable = true;
   my.common.extra-fonts.enable = true;
