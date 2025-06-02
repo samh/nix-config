@@ -18,6 +18,12 @@
       onBoot = lib.mkDefault "ignore";
       # Shut down running VMs, instead of trying to suspend them
       onShutdown = lib.mkDefault "shutdown";
+      # Number of guests that will be shut down concurrently
+      # (if onShutdown = "shutdown").
+      parallelShutdown = lib.mkDefault 4;
+      # Number of seconds to wait for a guest to shut down; defaults to 300
+      # (too long).
+      shutdownTimeout = lib.mkDefault 60;
     };
     # "Install the SPICE USB redirection helper with setuid privileges.
     # This allows unprivileged users to pass USB devices connected to this
