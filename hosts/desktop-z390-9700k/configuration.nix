@@ -101,6 +101,7 @@
     libation # Audible audiobook manager
     libreoffice-qt6-fresh
     nextcloud-client
+    nixos-rebuild-ng
     nh # Yet another nix cli helper
     restic # Backup program
 
