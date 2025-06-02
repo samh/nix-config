@@ -85,9 +85,11 @@
   # };
   i18n.inputMethod = {
     enable = true;
-    type = "kime";
-    #    type = "ibus";
-    #    ibus.engines = with pkgs.ibus-engines; [hangul];
+    #type = "kime";
+    #type = "ibus";
+    #ibus.engines = with pkgs.ibus-engines; [hangul];
+    type = "fcitx5";
+    fcitx5.addons = with pkgs; [fcitx5-hangul];
   };
 
   # Enable the X11 windowing system.
