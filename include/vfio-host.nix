@@ -23,7 +23,9 @@
     # in some cases.
     # https://patchwork.kernel.org/project/kvm/patch/1250686963-8357-38-git-send-email-avi@redhat.com/
     "kvm.ignore_msrs=1"
-    "kvm.report_ignored_msrs=0"
+    # kernel complains that "running KVM with isngore_msrs=1 and
+    # report_ignored_msrs=0 is not a supported configuration"
+    #"kvm.report_ignored_msrs=0"
   ];
 
   # One of the issues of vfio passthrough is the graphic drivers loading onto
