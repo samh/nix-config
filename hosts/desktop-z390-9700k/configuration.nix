@@ -13,6 +13,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./mounts.nix
+    ./nvidia-rtx2070.nix
     ./proxy.nix
     ./syncthing.nix
 
