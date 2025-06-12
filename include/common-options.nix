@@ -107,6 +107,7 @@ in {
         junction # choose which application to open links
         keepassxc
         kdiff3
+        lsof # tool to list open files
         mpv
         neofetch
         #nerdfonts # has to download a bunch of files from GitHub, extract, etc.
