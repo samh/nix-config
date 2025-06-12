@@ -69,13 +69,26 @@
           }
         ];
 
-        before_backup = [
-          # Stop forgejo service before backup to ensure consistent state.
-          "${pkgs.systemd}/bin/systemctl stop forgejo"
-        ];
-        after_backup = [
-          # Start forgejo service after backup.
-          "${pkgs.systemd}/bin/systemctl start forgejo"
+        commands = [
+          {
+            before = "action";
+            when = ["create"];
+            run = [
+              # Stop gitea service before backup to ensure consistent state.
+              "${pkgs.systemd}/bin/systemctl stop forgejo"
+              # Stop forgejo service before backup to ensure consistent state.
+              "${pkgs.systemd}/bin/systemctl stop forgejo"
+            ];
+          }
+          {
+            after = "action";
+            when = ["create"];
+            run = [
+              # Start services that were stopped before
+              "${pkgs.systemd}/bin/systemctl start gitea"
+              "${pkgs.systemd}/bin/systemctl start forgejo"
+            ];
+          }
         ];
 
         # Healthchecks ping URL or UUID to notify when a backup
