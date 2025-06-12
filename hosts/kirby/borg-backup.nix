@@ -34,6 +34,8 @@
         encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass-general";
         source_directories = [
           "/root"
+          "/var/lib/forgejo"
+          "/var/lib/gitea"
           # /var/lib/nixos contains uid/gid mappings; might be useful to keep
           # permissions consistent
           "/var/lib/nixos"
@@ -41,7 +43,7 @@
           config.services.forgejo.stateDir
           "/var/lib/paperless"
           # Service data (StateDirectory) when DynamicUser=true,
-          # for example for 'uptime-kuma'
+          # Includes: 'blocky', 'uptime-kuma'
           "/var/lib/private"
           "/var/lib/tailscale"
           # Home Assistant backups
@@ -58,10 +60,12 @@
         # peer authentication. See the 'ensureUsers' and 'postStart' above.
         postgresql_databases = [
           {
+            # NOTE: currently all+custom broken in 25.05; see https://github.com/NixOS/nixpkgs/pull/413251
+            # To list databases, run: `sudo -u postgres psql -l`
             # "all" to dump all databases on the host.
             name = "all";
             # dumps each database to a separate file in "custom" format
-            format = "custom";
+            # format = "custom";
           }
         ];
 
