@@ -86,10 +86,12 @@
         # peer authentication. See the 'ensureUsers' and 'postStart' above.
         postgresql_databases = [
           {
+            # NOTE: currently all+custom broken in 25.05; see https://github.com/NixOS/nixpkgs/pull/413251
+            # To list databases, run: `sudo -u postgres psql -l`
             # "all" to dump all databases on the host.
             name = "all";
             # dumps each database to a separate file in "custom" format
-            format = "custom";
+            # format = "custom";
           }
         ];
         repositories = [
