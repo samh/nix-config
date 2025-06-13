@@ -52,6 +52,12 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
+  # Allow my user for remote builds
+  # see https://nixos.wiki/wiki/Nixos-rebuild
+  # to fix errors like:
+  #   "error: cannot add path '/nix/store/...' because it lacks a signature by a trusted key"
+  nix.settings.trusted-users = ["samh"];
+
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
   sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
   sops.age.generateKey = false;

@@ -61,6 +61,12 @@ in {
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
+  # Allow my user for remote builds
+  # see https://nixos.wiki/wiki/Nixos-rebuild
+  # to fix errors like:
+  #   "error: cannot add path '/nix/store/...' because it lacks a signature by a trusted key"
+  nix.settings.trusted-users = ["samh"];
+
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
