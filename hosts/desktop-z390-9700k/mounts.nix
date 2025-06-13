@@ -56,6 +56,20 @@ in {
   #      options = [ "subvol=kderoot" "compress=zstd:9" ];
   #    };
 
+  # AI models etc.
+  fileSystems."/media/ai" = {
+    device = "/dev/nvme/ai";
+    fsType = "btrfs";
+    options = [
+      "subvol=@ai"
+      # Not sure if it makes sense to enable compression; models are not
+      # likely to be compressible.
+      "compress=zstd:3"
+      # Don't mount at boot, in case we want to mount it into a VM.
+      "noauto"
+    ];
+  };
+
   # VM data stores
   fileSystems."/media/vm1" =
     # VM data on first NVMe drive (1TB)
