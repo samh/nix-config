@@ -205,6 +205,12 @@
     allowedUDPPorts = [53 67];
   };
 
+  # Allow ollama over tailscale (ollama running in container)
+  # WARNING: does not have any authentication
+  networking.firewall.interfaces.tailscale0 = {
+    allowedTCPPorts = [11434];
+  };
+
   programs.adb.enable = true;
   users.users.samh.extraGroups = ["adbusers"];
 

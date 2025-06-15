@@ -4,6 +4,8 @@
   ...
 }: let
   openwebui_host = "openwebui.${config.my.baseDomain}";
+  #openwebui_backend = "${config.my.metadata.vms.bowser.internal_ip}:8080";
+  openwebui_backend = "127.0.0.1:8081";
 in {
   sops.secrets = {
     acme-env = {};
@@ -20,7 +22,7 @@ in {
   services.caddy.virtualHosts."${openwebui_host}" = {
     useACMEHost = openwebui_host;
     extraConfig = ''
-      reverse_proxy ${config.my.metadata.vms.bowser.internal_ip}:8080
+      reverse_proxy ${openwebui_backend}
     '';
   };
 
