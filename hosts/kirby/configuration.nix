@@ -147,6 +147,26 @@ in {
     useACMEHost = config.my.hostDomain;
   };
 
+  # Karakeep bookmark/read later/archiving app
+  services.karakeep = {
+    enable = true;
+    extraEnvironment = {
+      PORT = "3010";
+      DISABLE_SIGNUPS = "true";
+      DISABLE_NEW_RELEASE_CHECK = "true";
+    };
+  };
+  # Use current package instead of deprecated one
+  services.meilisearch.package = pkgs.meilisearch;
+  services.nginx.virtualHosts."keep" = {
+    serverName = "keep.${config.my.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString config.services.karakeep.extraEnvironment.PORT}";
+    };
+    forceSSL = true;
+    useACMEHost = config.my.hostDomain;
+  };
+
   # Home Assistant
   # Use nginx to proxy the ports.
   # Could also have used some kind of iptables forwarding

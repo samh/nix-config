@@ -36,6 +36,7 @@
           "/root"
           "/var/lib/forgejo"
           "/var/lib/gitea"
+          "/var/lib/karakeep"
           # /var/lib/nixos contains uid/gid mappings; might be useful to keep
           # permissions consistent
           "/var/lib/nixos"
@@ -75,9 +76,12 @@
             when = ["create"];
             run = [
               # Stop gitea service before backup to ensure consistent state.
-              "${pkgs.systemd}/bin/systemctl stop forgejo"
+              "${pkgs.systemd}/bin/systemctl stop gitea"
               # Stop forgejo service before backup to ensure consistent state.
               "${pkgs.systemd}/bin/systemctl stop forgejo"
+              # Karakeep uses SQLite files.
+              # Karakeep - for some reason stopping workers takes a long time.
+              "${pkgs.systemd}/bin/systemctl stop karakeep-web.service karakeep-workers.service"
             ];
           }
           {
@@ -87,6 +91,7 @@
               # Start services that were stopped before
               "${pkgs.systemd}/bin/systemctl start gitea"
               "${pkgs.systemd}/bin/systemctl start forgejo"
+              "${pkgs.systemd}/bin/systemctl start karakeep-web.service karakeep-workers.service"
             ];
           }
         ];
