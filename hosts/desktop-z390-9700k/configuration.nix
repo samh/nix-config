@@ -104,6 +104,7 @@
     android-file-transfer
     btrfs-assistant
     ghostty # Fast, native, feature-rich terminal emulator pushing modern features
+    gollama # Manage ollama models
     jellyfin-media-player
     just
     #kitty # A modern, hackable, featureful, OpenGL based terminal emulator (by Kovid Goyal of Calibre)
