@@ -103,6 +103,7 @@
   environment.systemPackages = with pkgs; [
     android-file-transfer
     btrfs-assistant
+    docker-compose
     ghostty # Fast, native, feature-rich terminal emulator pushing modern features
     gollama # Manage ollama models
     jellyfin-media-player
@@ -240,6 +241,7 @@
   my.common.extra-fonts.enable = true;
   my.common.extras.enable = true;
   my.common.podman.enable = true;
+  virtualisation.podman.dockerCompat = true;
   my.common.tailscale.enable = true;
 
   # Mount a magic /usr/bin to make shebangs work
