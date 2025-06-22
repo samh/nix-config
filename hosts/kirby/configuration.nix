@@ -155,6 +155,7 @@ in {
       DISABLE_SIGNUPS = "true";
       DISABLE_NEW_RELEASE_CHECK = "true";
       NEXTAUTH_URL = "keep.${config.my.hostDomain}";
+      CRAWLER_FULL_PAGE_ARCHIVE = "true";
     };
   };
   # Use current package instead of deprecated one
