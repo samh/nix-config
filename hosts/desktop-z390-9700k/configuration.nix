@@ -111,10 +111,17 @@
     #kitty # A modern, hackable, featureful, OpenGL based terminal emulator (by Kovid Goyal of Calibre)
     libation # Audible audiobook manager
     libreoffice-qt6-fresh
+    lmstudio # LM Studio (AI)
     nextcloud-client
     nixos-rebuild-ng
     nh # Yet another nix cli helper
     restic # Backup program
+    socat
+    sops # For editing secrets files
+    spotify
+    syncthing
+    vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
+    zellij # Terminal multiplexer (tmux alternative)
 
     # qemu / quickemu
     #
@@ -129,15 +136,8 @@
     qemu_full
     quickemu
     samba # Provides smbd for quickemu
-    socat
-    sops # For editing secrets files
     spice-gtk
     virt-viewer # remote-viewer
-
-    spotify
-    syncthing
-    vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
-    zellij # Terminal multiplexer (tmux alternative)
 
     # Using system-level Firefox for now (see more notes in common.nix).
     firefox
