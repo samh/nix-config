@@ -29,6 +29,26 @@
    sudo systemctl start --all paperless\*
    ```
 
+#### Karakeep Settings
+Karakeep generates secrets and stores them in
+```
+/var/lib/karakeep/settings.env
+```
+This file may also be used for storing other settings, especially for
+testing before adding to the Nix config. For example:
+
+```dotenv
+# Ollama via OpenWebUI on desktop
+OPENAI_BASE_URL=https://openwebui.my.domain/api
+OPENAI_API_KEY=sk-...
+INFERENCE_TEXT_MODEL=gemma3:4b
+INFERENCE_IMAGE_MODEL=gemma3:4b
+INFERENCE_CONTEXT_LENGTH=32768
+INFERENCE_FETCH_TIMEOUT_SEC=120
+```
+When finalized, we may want to move these to the Nix config and add
+the secret to SOPS.
+
 #### zigbee2mqtt Secrets
 _Zigbee2MQTT is currently disabled (moved to ZHA in Home Assistant)._
 
