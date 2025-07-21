@@ -75,6 +75,7 @@ in {
   environment.systemPackages = with pkgs; [
     dua # Disk Usage Analyzer (ncdu alternative)
     git # required for building flakes
+    gollama
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
   ];
@@ -168,6 +169,9 @@ in {
     forceSSL = true;
     useACMEHost = config.my.hostDomain;
   };
+
+  # Enable Ollama LLM server for use with Karakeep
+  my.ollama.enable = true;
 
   # Home Assistant
   # Use nginx to proxy the ports.
