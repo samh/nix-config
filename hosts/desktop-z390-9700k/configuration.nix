@@ -250,7 +250,7 @@
   # "bash: /usr/bin/env: Transport endpoint is not connected"
   # when trying to run a script with /usr/bin/env as the shebang,
   # so disabling for now.
-  #services.envfs.enable = true;
+  services.envfs.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
