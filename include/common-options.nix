@@ -11,6 +11,7 @@ with lib; let
 in {
   imports = [
     ./podman.nix
+    ./ollama.nix
   ];
 
   options = {
