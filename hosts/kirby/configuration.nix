@@ -73,6 +73,7 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    docker-compose
     dua # Disk Usage Analyzer (ncdu alternative)
     git # required for building flakes
     gollama
@@ -237,6 +238,8 @@ in {
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
   # system.copySystemConfiguration = true;
+
+  my.common.podman.enable = true;
 
   # Local (personal) configuration settings
   # (see common-options.nix)
