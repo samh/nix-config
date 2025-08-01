@@ -25,7 +25,7 @@ in {
     };
     environment.systemPackages = with pkgs; [
       podman-compose
-      pkgs.unstable.podlet # Generate Quadlet files from command/compose
+      podlet # Generate Quadlet files from command/compose
     ];
     # In rootful mode, podman uses subuid mappings for 'containers'
     # when using '--userns=auto'.
