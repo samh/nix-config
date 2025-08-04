@@ -175,6 +175,9 @@ in {
 
   # Enable Ollama LLM server for use with Karakeep
   my.ollama.enable = true;
+  # Listen on all interfaces to allow from podman containers.
+  # Firewall will still block external access unless explicitly allowed.
+  services.ollama.host = "0.0.0.0";
 
   # Home Assistant
   # Use nginx to proxy the ports.
