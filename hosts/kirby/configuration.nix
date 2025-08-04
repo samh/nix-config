@@ -77,6 +77,8 @@ in {
     dua # Disk Usage Analyzer (ncdu alternative)
     git # required for building flakes
     gollama
+    helix
+    just
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
   ];
