@@ -62,6 +62,9 @@
       # mkDefault (which is mkOverride 1000) doesn't work here; looks like
       # it conflicts with the built-in default user shell.
       shell = lib.mkOverride 999 pkgs.fish;
+
+      # Generally I want to be able to start user services at boot
+      linger = lib.mkDefault true;
     };
 
     # "Only allow members of the wheel group to execute sudo by setting the
