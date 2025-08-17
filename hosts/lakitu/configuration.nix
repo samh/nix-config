@@ -59,7 +59,7 @@ in {
   services.xserver.desktopManager.gnome.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   # Disable GNOME apps
-  services.gnome.core-utilities.enable = false;
+  services.gnome.core-apps.enable = false;
   services.gnome.tinysparql.enable = false;
   services.gnome.localsearch.enable = false;
 
