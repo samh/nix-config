@@ -112,6 +112,7 @@ in {
   # There are no btrfs fileSystems on this host
   services.btrfs.autoScrub.enable = false;
 
+  my.common.podman.enable = true;
   my.common.tailscale.enable = true;
 
   # Start VM with the system. Define this declaratively instead of setting
