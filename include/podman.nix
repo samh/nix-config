@@ -24,8 +24,11 @@ in {
       };
     };
     environment.systemPackages = with pkgs; [
+      # docker-compose works with podman via "podman compose" wrapper
+      # (rootless as well as rootful)
+      docker-compose
       podman-compose
-      podlet # Generate Quadlet files from command/compose
+      #podlet # Generate Quadlet files from command/compose
     ];
     # In rootful mode, podman uses subuid mappings for 'containers'
     # when using '--userns=auto'.
