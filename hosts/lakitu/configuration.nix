@@ -147,15 +147,18 @@ in {
     # Bind to localhost, main IP address, and Tailscale IP address.
     dns = "127.0.0.1:53,${myIP}:53,${myTailscaleIP}:53";
   };
-  # Listen for DNS requests on the bridge interface (LAN side).
-  networking.firewall.interfaces."br1".allowedTCPPorts = [53];
-  networking.firewall.interfaces."br1".allowedUDPPorts = [53];
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  # Open ports in the firewall on the bridge interface (LAN side).
+  networking.firewall.interfaces."br1".allowedTCPPorts = [
+    53 # DNS
+    8443 # Unifi: web admin port
+    8080 # Unifi: Required for device communication (inform)
+  ];
+  networking.firewall.interfaces."br1".allowedUDPPorts = [
+    53 # DNS
+    3478 # Unifi: STUN port
+    10001 # Unifi: Required for AP discovery
+  ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
