@@ -167,6 +167,16 @@
       #vim
       wget
       zip
+
+      # Custom dfh script - either run by itself or with an argument.
+      # "--target" makes it find the mount point associated with the target.
+      (pkgs.writeShellScriptBin "dfh" ''
+        if [ $# -eq 0 ]; then
+          findmnt -t fuse.mergerfs,fuse.rclone,xfs,ext4,btrfs,bcachefs,zfs,vfat --df
+        else
+          findmnt -t fuse.mergerfs,fuse.rclone,xfs,ext4,btrfs,bcachefs,zfs,vfat --df --target "$1"
+        fi
+      '')
     ];
 
     # Make shells available
@@ -175,8 +185,8 @@
 
     # Add some common shell aliases
     environment.shellAliases = {
-      dfh = "findmnt -t fuse.mergerfs,fuse.rclone,xfs,ext4,btrfs,vfat --df";
-      mounts = "findmnt -t fuse.mergerfs,fuse.rclone,xfs,ext4,btrfs,vfat";
+      "dfh." = "dfh .";
+      mounts = "findmnt -t fuse.mergerfs,fuse.rclone,xfs,ext4,btrfs,bcachefs,zfs,vfat";
       psf = "ps -ef | grep";
     };
 
