@@ -105,12 +105,13 @@ in {
         gnupg
         gocryptfs
         #gparted
-        junction # choose which application to open links
+        helix # Modern modal text editor
+        #junction # choose which application to open links
         keepassxc
         kdiff3
         lsof # tool to list open files
         mpv
-        neofetch
+        #neofetch
         #nerdfonts # has to download a bunch of files from GitHub, extract, etc.
         nil # Nix LSP
         nix-index # quickly locate the package providing a certain file in nixpkgs
