@@ -33,13 +33,16 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use the latest kernel instead of the default
+  # NOTE: I was using linuxPackages_zen for a while (6.15), but 6.16 broke NVIDIA drivers
+  # (probably temporary)
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   # Some alternative kernel options:
+  # boot.kernelPackages = pkgs.linuxPackages_6_15;
   # boot.kernelPackages = pkgs.linuxPackages_lqx;
   # boot.kernelPackages = pkgs.linuxPackages_xanmod;
-  # boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+  boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
   # boot.kernelPackages = pkgs.linuxPackages_xanmod_stable;
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  # boot.kernelPackages = pkgs.linuxPackages_zen;
 
   networking.hostName = "nixos-2022-desktop"; # Define your hostname.
   # Pick only one of the below networking options.
