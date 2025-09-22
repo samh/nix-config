@@ -18,11 +18,12 @@
     "nvidia"
   ];
 
+  hardware.graphics.enable = true;
   hardware.nvidia = {
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
     nvidiaSettings = true;
-    open = true; # Set to false for proprietary drivers
+    open = false; # Set to false for proprietary drivers
   };
 
   hardware.nvidia-container-toolkit.enable = config.virtualisation.podman.enable;
