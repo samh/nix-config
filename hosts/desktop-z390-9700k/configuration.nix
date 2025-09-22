@@ -75,6 +75,21 @@
 
   hardware.bluetooth.enable = true;
 
+  hardware.graphics = {
+    enable = true;
+    # Added for hardware video decoding. Not sure if we need all of these.
+    # https://nixos.wiki/wiki/Intel_Graphics
+    extraPackages = with pkgs; [
+      intel-media-driver
+      # vpl-gpu-rt # QSV on 11th gen or newer
+      intel-media-sdk # QSV up to 11th gen
+      intel-vaapi-driver
+      vaapiVdpau
+      libvdpau-va-gl
+      #intel-compute-runtime # adds ~1.2GiB
+    ];
+  };
+
   # Enable the X11 windowing system.
   my.gui.enable = true;
 
@@ -115,9 +130,11 @@
     libation # Audible audiobook manager
     libreoffice-qt6-fresh
     lmstudio # LM Studio (AI)
+    moonlight-qt
     nextcloud-client
     nixos-rebuild-ng
     nh # Yet another nix cli helper
+    pkgs.unstable.podlet # Generate Quadlet files from command/compose
     restic # Backup program
     socat
     sops # For editing secrets files
