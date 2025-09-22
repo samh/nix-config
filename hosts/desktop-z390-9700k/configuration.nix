@@ -121,13 +121,14 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    android-file-transfer
+    android-file-transfer # Uses Qt5
     btrfs-assistant
     docker-compose
     ghostty # Fast, native, feature-rich terminal emulator pushing modern features
     gollama # Manage ollama models
-    jellyfin-media-player
+    #jellyfin-media-player # pulls in Qt5; I don't use this much on desktop
     just
+    k4dirstat
     #kitty # A modern, hackable, featureful, OpenGL based terminal emulator (by Kovid Goyal of Calibre)
     libation # Audible audiobook manager
     libreoffice-qt6-fresh
