@@ -34,6 +34,7 @@
 
   environment.systemPackages = with pkgs; [
     pciutils # lspci
+    virtiofsd # new virtio-fs device backend written in Rust
   ];
 
   # Add virt-manager GUI if X is enabled
