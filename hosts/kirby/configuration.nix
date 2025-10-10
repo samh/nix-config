@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running `nixos-help`).
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -17,6 +18,7 @@ in {
     ../include/ext-mounts.nix
     ../include/nginx.nix
     ../include/virt-manager.nix
+    inputs.sops-nix.nixosModules.sops
 
     ./acme.nix
     ./borg-backup.nix
