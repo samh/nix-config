@@ -224,6 +224,16 @@ in {
     useACMEHost = config.my.hostDomain;
   };
 
+  # Extra proxies for podman services not yet part of declarative config
+  #  services.nginx.virtualHosts."litellm" = {
+  #    serverName = "litellm.${config.my.hostDomain}";
+  #    locations."/" = {
+  #      proxyPass = "http://127.0.0.1:4100";
+  #    };
+  #    forceSSL = true;
+  #    useACMEHost = config.my.hostDomain;
+  #  };
+
   #virtualisation.oci-containers.backend = "podman";
 
   # Open ports in the firewall.

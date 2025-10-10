@@ -3,6 +3,7 @@
   inputs,
   ...
 }: let
+  # NOTE: Moved Open WebUI to kirby
   openwebui_host = "openwebui.${config.my.baseDomain}";
   #openwebui_backend = "${config.my.metadata.vms.bowser.internal_ip}:8080";
   openwebui_backend = "127.0.0.1:8081";

@@ -14,7 +14,7 @@
     ./hardware-configuration.nix
     ./mounts.nix
     ./nvidia-rtx2070.nix
-    ./proxy.nix
+    #./proxy.nix
     ./syncthing.nix
 
     inputs.sops-nix.nixosModules.sops
