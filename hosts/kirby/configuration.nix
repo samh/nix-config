@@ -67,6 +67,10 @@ in {
   #   "error: cannot add path '/nix/store/...' because it lacks a signature by a trusted key"
   nix.settings.trusted-users = ["samh"];
 
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+  sops.age.generateKey = false;
+
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
