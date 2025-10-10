@@ -25,6 +25,7 @@ in {
     ./forgejo.nix
     ./gitea.nix
     ./mounts.nix
+    ./proxy.nix
     ./samba.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
