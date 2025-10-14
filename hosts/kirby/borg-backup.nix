@@ -34,6 +34,7 @@
         encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass-general";
         source_directories = [
           "/root"
+          "/home/samh/src/ai-stack"
           "/var/lib/forgejo"
           "/var/lib/gitea"
           "/var/lib/karakeep"
@@ -42,6 +43,7 @@
           "/var/lib/nixos"
           # Service data
           config.services.forgejo.stateDir
+          "/var/lib/open-webui"
           "/var/lib/paperless"
           # Service data (StateDirectory) when DynamicUser=true,
           # Includes: 'blocky', 'uptime-kuma'

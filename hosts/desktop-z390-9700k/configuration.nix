@@ -14,7 +14,7 @@
     ./hardware-configuration.nix
     ./mounts.nix
     ./nvidia-rtx2070.nix
-    ./proxy.nix
+    #./proxy.nix
     ./syncthing.nix
 
     inputs.sops-nix.nixosModules.sops
@@ -32,9 +32,14 @@
   boot.loader.systemd-boot.consoleMode = "max";
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use the latest kernel instead of the default
+  # Linux Kernel
+  #
+  # NOTE: I was using linuxPackages_zen for a while (6.15), but 6.16 broke NVIDIA drivers
+  # (probably temporary), so I changed to xanmod_latest.
+  #
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   # Some alternative kernel options:
+  # boot.kernelPackages = pkgs.linuxPackages_6_15;
   # boot.kernelPackages = pkgs.linuxPackages_lqx;
   # boot.kernelPackages = pkgs.linuxPackages_xanmod;
   # boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
@@ -72,6 +77,21 @@
 
   hardware.bluetooth.enable = true;
 
+  hardware.graphics = {
+    enable = true;
+    # Added for hardware video decoding. Not sure if we need all of these.
+    # https://nixos.wiki/wiki/Intel_Graphics
+    extraPackages = with pkgs; [
+      intel-media-driver
+      # vpl-gpu-rt # QSV on 11th gen or newer
+      intel-media-sdk # QSV up to 11th gen
+      intel-vaapi-driver
+      vaapiVdpau
+      libvdpau-va-gl
+      #intel-compute-runtime # adds ~1.2GiB
+    ];
+  };
+
   # Enable the X11 windowing system.
   my.gui.enable = true;
 
@@ -101,20 +121,23 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    android-file-transfer
+    android-file-transfer # Uses Qt5
     btrfs-assistant
     docker-compose
     ghostty # Fast, native, feature-rich terminal emulator pushing modern features
     gollama # Manage ollama models
-    jellyfin-media-player
+    #jellyfin-media-player # pulls in Qt5; I don't use this much on desktop
     just
+    k4dirstat
     #kitty # A modern, hackable, featureful, OpenGL based terminal emulator (by Kovid Goyal of Calibre)
     libation # Audible audiobook manager
     libreoffice-qt6-fresh
     lmstudio # LM Studio (AI)
+    moonlight-qt
     nextcloud-client
     nixos-rebuild-ng
     nh # Yet another nix cli helper
+    pkgs.unstable.podlet # Generate Quadlet files from command/compose
     restic # Backup program
     socat
     sops # For editing secrets files

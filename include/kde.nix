@@ -20,13 +20,16 @@
   services.desktopManager.plasma6.enable = true;
 
   environment.systemPackages = with pkgs; [
-    k4dirstat # disk usage analyzer (qdirstat is also available)
     kdePackages.ark # archive manager
     kdePackages.discover # software center (for Flatpak, lvfs/fwupd)
     kdePackages.kate # includes kwrite
     kdePackages.kcalc # calculator
     kdePackages.kcharselect # character map
     xorg.xhost
+
+    # k4dirstat uses Qt5; we may have Qt5 installed for other packages,
+    # but I don't want to always pull it in with Plasma 6.
+    #k4dirstat # disk usage analyzer (qdirstat is also available)
 
     # Try to fix missing icons in some GTK applications like virt-manager,
     # virt-viewer.

@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running `nixos-help`).
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -17,12 +18,14 @@ in {
     ../include/ext-mounts.nix
     ../include/nginx.nix
     ../include/virt-manager.nix
+    inputs.sops-nix.nixosModules.sops
 
     ./acme.nix
     ./borg-backup.nix
     ./forgejo.nix
     ./gitea.nix
     ./mounts.nix
+    ./proxy.nix
     ./samba.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -66,6 +69,10 @@ in {
   # to fix errors like:
   #   "error: cannot add path '/nix/store/...' because it lacks a signature by a trusted key"
   nix.settings.trusted-users = ["samh"];
+
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+  sops.age.generateKey = false;
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -219,6 +226,16 @@ in {
     forceSSL = true;
     useACMEHost = config.my.hostDomain;
   };
+
+  # Extra proxies for podman services not yet part of declarative config
+  #  services.nginx.virtualHosts."litellm" = {
+  #    serverName = "litellm.${config.my.hostDomain}";
+  #    locations."/" = {
+  #      proxyPass = "http://127.0.0.1:4100";
+  #    };
+  #    forceSSL = true;
+  #    useACMEHost = config.my.hostDomain;
+  #  };
 
   #virtualisation.oci-containers.backend = "podman";
 

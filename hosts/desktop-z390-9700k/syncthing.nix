@@ -33,6 +33,7 @@ in {
         devices = [
           "vfio-windows"
           "yoshi"
+          "fwdesktop-cachy"
           "fwnixos"
           "work-laptop"
           "pixel8"
@@ -43,7 +44,7 @@ in {
         id = "jjbsv-stmrg";
         enable = true;
         path = "${config.my.homeDir}/Notes/Notes-Personal";
-        devices = ["vfio-windows" "yoshi" "fwnixos" "pixel8"];
+        devices = ["vfio-windows" "yoshi" "fwdesktop-cachy" "fwnixos" "pixel8"];
         versioning = defaultVersioning;
       };
       # Calibre work library (technical reference material, including
@@ -51,7 +52,7 @@ in {
       "Calibre-Work" = {
         id = "nqtzd-2klbn";
         enable = true;
-        path = "/samh/Calibre-Work";
+        path = "/samh/Books/Calibre-Work";
         devices = [
           "yoshi"
           "work-laptop"

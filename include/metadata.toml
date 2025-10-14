@@ -22,6 +22,9 @@ ip_address = "192.168.10.10"
 tailscale_address = "100.64.10.10"
 description = "Router - Dell OptiPlex 5080 SFF - Intel Core i5-10500 (purchased 2023)"
 
+[hosts.fwdesktop-cachy]
+syncthing_id = "RRM77QL-AGLUI24-YPUDKPP-7SE7EOL-JOFRL5S-RW2T62D-VHVBIY4-WSDDTQS"
+
 [hosts.pixel8]
 syncthing_id = "GBWH2AC-3CFVNM2-ZREH43F-B6FROI3-U7ADLWP-OWNIWVK-BNPBUQ5-EH7HAQ5"
 

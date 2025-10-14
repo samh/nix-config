@@ -47,6 +47,7 @@ ln -s $(pwd)/flake.nix ~/.config/home-manager/
 #### Secrets
 *I'm working on switching to `sops-nix` for secrets management; see hosts/goomba.*
 
+- See `.sops.yaml` for a quick reference on adding hosts/keys
 - `/root/.ssh/id_ed25519.pub` - root's SSH key
   - `ssh-keygen -t ed25519`
   - Needs to be added to BorgBase
@@ -57,7 +58,6 @@ ln -s $(pwd)/flake.nix ~/.config/home-manager/
   - `/root/borgmatic.env`:
     - `HEALTHCHECKS_URL=https://hc-ping.com/...`
     - Or just `touch /root/borgmatic.env` if not needed
-  - `/root/acme.env` - secrets for ACME certificates (Let's Encrypt)
   - Credentials for mounting Samba shares:
     ```
     root@nixos-2022-desktop ~# cat /root/smb-secrets
