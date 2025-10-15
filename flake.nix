@@ -18,6 +18,9 @@
 
     hardware.url = "github:nixos/nixos-hardware";
 
+    nix-ai-tools.url = "github:numtide/nix-ai-tools";
+    nix-ai-tools.inputs.nixpkgs.follows = "nixpkgs";
+
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -25,6 +28,12 @@
     samh-shared.inputs.nixpkgs.follows = "nixpkgs";
     samh-shared.inputs.home-manager.follows = "home-manager";
     samh-shared.inputs.nixpkgs-unstable.follows = "nixpkgs-unstable";
+  };
+
+  nixConfig = {
+    # Used for https://github.com/numtide/nix-ai-tools
+    extra-substituters = ["https://numtide.cachix.org"];
+    extra-trusted-public-keys = ["numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="];
   };
 
   outputs = {
