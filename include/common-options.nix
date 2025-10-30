@@ -107,6 +107,7 @@ in {
         #gparted
         helix # Modern modal text editor
         #junction # choose which application to open links
+        just
         keepassxc
         kdiff3
         lsof # tool to list open files
