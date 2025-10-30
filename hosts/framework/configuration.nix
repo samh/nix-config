@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   config,
+  inputs,
   pkgs,
   ...
 }: {
@@ -147,35 +148,39 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    android-file-transfer
-    fossil
-    pkgs.unstable.makemkv
-    mkvtoolnix
-    nextcloud-client
-    nixos-generators
-    # syncthingtray Plasmoid issue:
-    # https://github.com/NixOS/nixpkgs/issues/199596
-    syncthingtray-minimal
+  environment.systemPackages =
+    (with pkgs; [
+      android-file-transfer
+      fossil
+      pkgs.unstable.makemkv
+      mkvtoolnix
+      nextcloud-client
+      nixos-generators
+      # syncthingtray Plasmoid issue:
+      # https://github.com/NixOS/nixpkgs/issues/199596
+      syncthingtray-minimal
 
-    # qemu / quickemu
-    #
-    # smbd support issue - see See https://github.com/quickemu-project/quickemu/issues/722
-    # Tried "qemu_full" so quickemu can use the smb support, but it seems to
-    # add ~1.3GB of dependencies. From nixpkgs source, qemu_full is just qemu
-    # with some overrides, so try just adding smbd support? Unforunately, this
-    # causes a full compile of qemu since it's not cached (takes a while).
-    #qemu_full
-    #(quickemu.override {qemu = qemu_full;})
-    #samba # Provides smbd for quickemu
-    quickemu
-    spice-gtk
-    spotify
-    virt-viewer # remote-viewer
+      # qemu / quickemu
+      #
+      # smbd support issue - see See https://github.com/quickemu-project/quickemu/issues/722
+      # Tried "qemu_full" so quickemu can use the smb support, but it seems to
+      # add ~1.3GB of dependencies. From nixpkgs source, qemu_full is just qemu
+      # with some overrides, so try just adding smbd support? Unforunately, this
+      # causes a full compile of qemu since it's not cached (takes a while).
+      #qemu_full
+      #(quickemu.override {qemu = qemu_full;})
+      #samba # Provides smbd for quickemu
+      quickemu
+      spice-gtk
+      spotify
+      virt-viewer # remote-viewer
 
-    syncthing
-    vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
-  ];
+      syncthing
+      vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
+    ])
+    ++ (with inputs.nix-ai-tools.packages.${pkgs.system}; [
+      goose-cli
+    ]);
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
