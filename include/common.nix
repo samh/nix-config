@@ -71,6 +71,9 @@
     # executable’s permissions accordingly. This prevents users that are not
     # members of wheel from exploiting vulnerabilities in sudo such as
     # CVE-2021-3156."
+    # Downside is it doesn't give a good error message when a user is not
+    # allowed to sudo; it says this:
+    # "sudo: /run/current-system/sw/bin/sudo must be owned by uid 0 and have the setuid bit set"
     security.sudo.execWheelOnly = lib.mkDefault true;
 
     nixpkgs = {
