@@ -29,6 +29,7 @@ in {
     serverName = openwebui_host;
     locations."/" = {
       proxyPass = "http://${openwebui_backend}";
+      proxyWebsockets = true;
     };
     forceSSL = true;
     useACMEHost = openwebui_host;
