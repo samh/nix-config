@@ -157,7 +157,12 @@
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedUDPPorts = [
+    # tailscale
+    41642
+    # tailscale peer relay
+    41643
+  ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
@@ -170,7 +175,9 @@
   # (see common-options.nix)
   my.common.tailscale.enable = true;
 
+  services.tailscale.package = pkgs.unstable.tailscale;
   services.tailscale.port = 41642;
+  services.tailscale.useRoutingFeatures = "server";
 
   # Enable DNS server.
   # yoshi serves as a backup DNS server for the network in case kirby goes down.
