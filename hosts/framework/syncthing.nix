@@ -40,6 +40,19 @@ in {
         devices = ["nixos-2022-desktop" "pixel8" "yoshi"];
         versioning = defaultVersioning;
       };
+      "GameSync" = {
+        id = "vq7fn-ijrih";
+        enable = true;
+        path = "${config.my.homeDir}/Games/Sync";
+        devices = ["fwdesktop-cachy" "steamdeck"];
+        versioning = {
+          type = "staggered";
+          params = {
+            cleanInterval = "3600";
+            maxAge = "30";
+          };
+        };
+      };
       # Shared folder with work. Replaced Onedrive shared folder Work-ACS-Share
       # when that stopped syncing and became a link that opened a browser.
       "Sync-Work-ACS-Share" = {
