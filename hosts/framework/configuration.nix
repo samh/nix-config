@@ -242,6 +242,23 @@
   # accidentally delete configuration.nix.
   # system.copySystemConfiguration = true;
 
+  # Don't prompt for authentication when suspending. It doesn't actually seem
+  # to work (it suspends anyway).
+  security.polkit = {
+    enable = true;
+    extraConfig = ''
+      polkit.addRule(function(action, subject) {
+        if (
+          (action.id == "org.freedesktop.login1.suspend" ||
+           action.id == "org.freedesktop.login1.suspend-multiple-sessions") &&
+          subject.isInGroup("users")   // or another group you prefer
+        ) {
+          return polkit.Result.YES;
+        }
+      });
+    '';
+  };
+
   # Local (personal) configuration settings
   # (see common-options.nix)
   my.common.ansible.enable = true;
