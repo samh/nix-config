@@ -120,56 +120,63 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    android-file-transfer # Uses Qt5
-    btrfs-assistant
-    docker-compose
-    ghostty # Fast, native, feature-rich terminal emulator pushing modern features
-    gollama # Manage ollama models
-    #jellyfin-media-player # pulls in Qt5; I don't use this much on desktop
-    just
-    k4dirstat
-    #kitty # A modern, hackable, featureful, OpenGL based terminal emulator (by Kovid Goyal of Calibre)
-    libation # Audible audiobook manager
-    libreoffice-qt6-fresh
-    lmstudio # LM Studio (AI)
-    moonlight-qt
-    nextcloud-client
-    nixos-rebuild-ng
-    nh # Yet another nix cli helper
-    pkgs.unstable.podlet # Generate Quadlet files from command/compose
-    restic # Backup program
-    socat
-    sops # For editing secrets files
-    spotify
-    syncthing
-    vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
-    zellij # Terminal multiplexer (tmux alternative)
+  environment.systemPackages =
+    (with pkgs; [
+      android-file-transfer # Uses Qt5
+      btrfs-assistant
+      docker-compose
+      ghostty # Fast, native, feature-rich terminal emulator pushing modern features
+      #gollama # Manage ollama models
+      #jellyfin-media-player # pulls in Qt5; I don't use this much on desktop
+      just
+      k4dirstat
+      #kitty # A modern, hackable, featureful, OpenGL based terminal emulator (by Kovid Goyal of Calibre)
+      libation # Audible audiobook manager
+      libreoffice-qt6-fresh
+      #lmstudio # LM Studio (AI)
+      moonlight-qt
+      nextcloud-client
+      nixos-rebuild-ng
+      nh # Yet another nix cli helper
+      pkgs.unstable.podlet # Generate Quadlet files from command/compose
+      restic # Backup program
+      socat
+      sops # For editing secrets files
+      spotify
+      syncthing
+      vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
+      zellij # Terminal multiplexer (tmux alternative)
 
-    # qemu / quickemu
-    #
-    # smbd support issue - see See https://github.com/quickemu-project/quickemu/issues/722
-    # Tried "qemu_full" so quickemu can use the smb support, but it seems to
-    # add ~1.3GB of dependencies. From nixpkgs source, qemu_full is just qemu
-    # with some overrides, so try just adding smbd support? Unforunately, this
-    # causes a full compile of qemu since it's not cached (takes a while).
-    # After update, overriding quickemu with "qemu = qemu_full" gives an error;
-    # maybe it requires qemu_full now? (or maybe you'd need to overrid the
-    # other way?)
-    qemu_full
-    quickemu
-    samba # Provides smbd for quickemu
-    spice-gtk
-    virt-viewer # remote-viewer
+      # qemu / quickemu
+      #
+      # smbd support issue - see See https://github.com/quickemu-project/quickemu/issues/722
+      # Tried "qemu_full" so quickemu can use the smb support, but it seems to
+      # add ~1.3GB of dependencies. From nixpkgs source, qemu_full is just qemu
+      # with some overrides, so try just adding smbd support? Unforunately, this
+      # causes a full compile of qemu since it's not cached (takes a while).
+      # After update, overriding quickemu with "qemu = qemu_full" gives an error;
+      # maybe it requires qemu_full now? (or maybe you'd need to overrid the
+      # other way?)
+      qemu_full
+      quickemu
+      samba # Provides smbd for quickemu
+      spice-gtk
+      virt-viewer # remote-viewer
 
-    # Using system-level Firefox for now (see more notes in common.nix).
-    firefox
+      # Using system-level Firefox for now (see more notes in common.nix).
+      firefox
 
-    # Firefox addon development
-    #firefox-devedition # doesn't seem to work side by side with regular firefox
-    #mitmproxy
-    #nodejs_20
-  ];
+      # Firefox addon development
+      #firefox-devedition # doesn't seem to work side by side with regular firefox
+      #mitmproxy
+      #nodejs_20
+    ])
+    ++ (with inputs.nix-ai-tools.packages.${pkgs.system}; [
+      copilot-cli
+      #gemini-cli
+      #goose-cli
+    ]);
+
   # TODO: only allow per package
   # Obsidian, PyCharm, maybe others I didn't realize...
   nixpkgs.config.allowUnfree = true;
@@ -232,9 +239,9 @@
 
   # Allow ollama over tailscale (ollama running in container)
   # WARNING: does not have any authentication
-  networking.firewall.interfaces.tailscale0 = {
-    allowedTCPPorts = [11434];
-  };
+  #  networking.firewall.interfaces.tailscale0 = {
+  #    allowedTCPPorts = [11434];
+  #  };
 
   programs.adb.enable = true;
   users.users.samh.extraGroups = ["adbusers"];
