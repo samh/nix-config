@@ -228,6 +228,8 @@
   # Ports 53/67: Fix libvirt DHCP / DNS not working on its virtual interfaces
   # when using nftables (i.e. VMs cannot get an IP address).
   # See issue: https://github.com/NixOS/nixpkgs/issues/263359
+  # TODO: NixOS 25.11: "libvirt now supports using nftables backend."
+  #       Is this fixed?
   #
   # "extraInputRules" is one way to add the required rules. If desired, the
   # "iifname" test can use a wildcard.
