@@ -22,6 +22,7 @@
     ../include/common.nix
     ../include/ext-mounts.nix
     ../include/kde.nix
+    ../include/mounts-yoshi.nix
     ../include/nix-ld.nix
     ../include/vfio-host.nix
   ];
