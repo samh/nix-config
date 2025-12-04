@@ -85,6 +85,21 @@ in {
         "write list" = "${config.my.user}";
         "force group" = "audiobookshelf";
       };
+      Retro = {
+        "path" = "/storage/Games/Retro";
+        "public" = "no";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "hosts allow" = "${allowed_ranges}";
+        "hosts deny" = "0.0.0.0/0";
+        "create mode" = "0664";
+        "create mask" = "0664";
+        "directory mode" = "0775";
+        "directory mask" = "0775";
+        "write list" = "${config.my.user}";
+        #"force group" = "games";
+      };
     };
   };
 }
