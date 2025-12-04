@@ -57,6 +57,17 @@ in {
         "gid=${toString config.users.groups.multimedia.gid}"
       ];
   };
+  # Retro games
+  fileSystems."/mnt/Retro" = {
+    device = "//yoshi.hartsfield.xyz/Retro";
+    fsType = "cifs";
+    options =
+      net_automount_opts
+      ++ samba_permission_opts
+      ++ [
+        "credentials=/root/smb-secrets"
+      ];
+  };
   # Add tmpfiles rule to create symbolic link from /storage to /mnt/storage
   systemd.tmpfiles.rules = [
     "L /storage - - - - /mnt/storage"
