@@ -190,13 +190,10 @@
   # Error starting server failed to bind udp listener on 10.88.0.1:53: IO error: Address already in use (os error 98)
   virtualisation.podman.defaultNetwork.settings.dns_enabled = false;
 
-  # Group for access to /storage (probably read-only)
-  users.groups.storage.gid = config.my.metadata.gids.storage;
   # Group for access to Calibre libraries
   users.groups.calibre.gid = config.my.metadata.gids.calibre;
-  # Add my user to groups for storage, calibre, audiobookshelf, nextcloud
+  # Add my user to extra groups for services
   users.users."${config.my.user}".extraGroups = [
-    "storage"
     "calibre"
     "audiobookshelf"
     "nextcloud" # /var/lib/nextcloud access (e.g. for searching files)

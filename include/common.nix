@@ -37,9 +37,9 @@
     };
 
     # Define a group for access to multimedia files, e.g. videos, music.
-    users.groups.multimedia = {
-      gid = 20050;
-    };
+    users.groups.multimedia.gid = config.my.metadata.gids.multimedia;
+    # Group for access to /storage (probably read-only)
+    users.groups.storage.gid = config.my.metadata.gids.storage;
 
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users.users.samh = {
@@ -53,6 +53,7 @@
         "networkmanager"
         # Scanner support - https://nixos.wiki/wiki/Scanners
         "scanner"
+        "storage"
         "lp"
       ];
       # Note: stored in /etc/ssh/authorized_keys.d/, not ~/.ssh/authorized_keys
