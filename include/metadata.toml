@@ -9,12 +9,14 @@ syncthing_id = "JWHC7VW-IBHY6KB-6AHKCBS-3Q6J4ID-R57YAWM-7ZRMWGR-F2YRGHB-F7JHTAN"
 
 # Desktop PC - Z390 Core i7-9700K (2019)
 [hosts.nixos-2022-desktop]
-ip_address = "192.168.4.32"
+ip_address = "192.168.5.32"
+tailscale_address = "100.64.5.32"
 syncthing_id = "4JP4C67-VSQX646-E4BRJDC-ZQ2ZTNJ-CKWNUSS-2FC46OK-MDN7DB7-JCKBXQW"
 
 # Framework Laptop
 [hosts.fwnixos]
 ip_address = "192.168.5.64"
+tailscale_address = "100.64.5.70"
 syncthing_id = "DQ5PQ5T-OEQQGJ5-C67RF4Y-SJR5NIZ-WPFSJQT-YNXFOET-37356WL-P7LWNQH"
 
 [hosts.lakitu]
@@ -23,6 +25,7 @@ tailscale_address = "100.64.10.10"
 description = "Router - Dell OptiPlex 5080 SFF - Intel Core i5-10500 (purchased 2023)"
 
 [hosts.fwdesktop-cachy]
+tailscale_address = "100.64.5.90"
 syncthing_id = "RRM77QL-AGLUI24-YPUDKPP-7SE7EOL-JOFRL5S-RW2T62D-VHVBIY4-WSDDTQS"
 
 [hosts.pixel8]
