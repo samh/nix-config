@@ -42,6 +42,8 @@
   fileSystems."/storage" = {
     device = "/media/disk*";
     fsType = "fuse.mergerfs";
+    # "Checking was requested for "/media/disk*", but it is not a device."
+    noCheck = true;
     # ignorepponrename=true - reduces path preservation, but that can
     #   probably be corrected after the fact if I care.
     # Author recommended that create=mspmfs or just mfs is
