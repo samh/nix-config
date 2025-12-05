@@ -25,6 +25,7 @@
     ./ersatztv.nix
     ./jellyfin.nix
     ./mounts.nix
+    ./nfs.nix
     ./nvidia-660ti.nix
     ./samba.nix
     ./syncthing.nix

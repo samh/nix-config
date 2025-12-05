@@ -23,6 +23,9 @@ in {
   # https://nixos.wiki/wiki/Samba
   # For mount.cifs, required unless domain name resolution is not needed.
   environment.systemPackages = [pkgs.cifs-utils];
+
+  boot.supportedFilesystems.nfs = true;
+
   fileSystems."/mnt/storage" = {
     device = "//yoshi.hartsfield.xyz/storage";
     fsType = "cifs";
@@ -58,16 +61,32 @@ in {
       ];
   };
   # Retro games
+  #  fileSystems."/mnt/Retro" = {
+  #    device = "//yoshi.hartsfield.xyz/Retro";
+  #    fsType = "cifs";
+  #    options =
+  #      net_automount_opts
+  #      #++ samba_permission_opts
+  #      ++ [
+  #        "unix"
+  #        "uid=${toString config.users.users.${config.my.user}.uid}"
+  #        "gid=${toString config.users.groups.users.gid}"
+  #        "credentials=/root/smb-secrets"
+  #      ];
+  #  };
+
+  # Retro games - NFS for proper permission preservation
   fileSystems."/mnt/Retro" = {
-    device = "//yoshi.hartsfield.xyz/Retro";
-    fsType = "cifs";
+    device = "${config.my.metadata.hosts.yoshi.tailscale_address}:/Retro";
+    fsType = "nfs";
     options =
       net_automount_opts
-      ++ samba_permission_opts
       ++ [
-        "credentials=/root/smb-secrets"
+        "nfsvers=4.2"
+        "rw"
       ];
   };
+
   # Add tmpfiles rule to create symbolic link from /storage to /mnt/storage
   systemd.tmpfiles.rules = [
     "L /storage - - - - /mnt/storage"
