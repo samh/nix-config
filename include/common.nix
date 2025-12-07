@@ -117,6 +117,12 @@
       experimental-features = "nix-command flakes";
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
+      # Allow my user for remote builds
+      # see https://nixos.wiki/wiki/Nixos-rebuild
+      # to fix errors like:
+      #   "error: cannot add path '/nix/store/...' because it lacks a signature by a trusted key"
+      # Also to use custom substituters
+      trusted-users = ["root" "samh"];
     };
 
     # Cleanup - Automatic Garbage Collection
