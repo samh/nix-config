@@ -16,7 +16,14 @@
   # Enable the Plasma 6 Desktop Environment.
   # SDDM started freezing on login, so I switched to LightDM.
   #services.displayManager.sddm.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.displayManager.lightdm = {
+    enable = true;
+    # Adjust the xft-dpi value to your preference:
+    #   96 is normal, 120 is 1.25x, 144 is 1.5x, 192 is 2x.
+    greeters.gtk.extraConfig = ''
+      xft-dpi=144
+    '';
+  };
   services.desktopManager.plasma6.enable = true;
 
   environment.systemPackages = with pkgs; [
