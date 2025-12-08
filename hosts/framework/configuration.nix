@@ -132,6 +132,7 @@
     home = "/home/grace";
     extraGroups = [
       "audio"
+      "greeter"
       "networkmanager"
     ];
     shell = pkgs.fish;

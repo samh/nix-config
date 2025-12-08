@@ -20,9 +20,26 @@
     enable = true;
     # Adjust the xft-dpi value to your preference:
     #   96 is normal, 120 is 1.25x, 144 is 1.5x, 192 is 2x.
-    greeters.gtk.extraConfig = ''
-      xft-dpi=144
-    '';
+    greeters.slick = {
+      enable = true;
+      extraConfig = ''
+        enable-hidpi=on
+        xft-dpi=288
+        # List of groups that users must be part of to be shown (empty list shows all users)
+        group-filter=greeter
+      '';
+      # The rose-pine-gtk-theme added about +380.7MiB vs the default theme.
+      # It doesn't seem to make much difference to the look of the slick
+      # greeter.
+      # theme = {
+      #   name = "rose-pine-dawn";
+      #   package = pkgs.rose-pine-gtk-theme;
+      # };
+      # iconTheme = {
+      #   name = "rose-pine-dawn";
+      #   package = pkgs.rose-pine-icon-theme;
+      # };
+    };
   };
   services.desktopManager.plasma6.enable = true;
 

@@ -82,3 +82,4 @@ homeassistant = 20020
 nextcloud = 20030
 multimedia = 20050
 calibre = 20060
+greeter = 20070 # Users shown on the greeter login list

@@ -40,6 +40,8 @@
     users.groups.multimedia.gid = config.my.metadata.gids.multimedia;
     # Group for access to /storage (probably read-only)
     users.groups.storage.gid = config.my.metadata.gids.storage;
+    # Users shown in the login list in the greeter (at least for LightDM)
+    users.groups.greeter.gid = config.my.metadata.gids.greeter;
 
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users.users.samh = {
@@ -49,6 +51,7 @@
         "wheel"
         "audio"
         "dialout" # for USB serial devices (e.g. ESP32 for ESPHome)
+        "greeter"
         "multimedia"
         "networkmanager"
         # Scanner support - https://nixos.wiki/wiki/Scanners
