@@ -31,6 +31,19 @@ in {
         "printing" = "bsd";
         "printcap name" = "/dev/null";
         "disable spoolss" = "yes";
+
+        # Unix extensions / permissions
+        "unix extensions" = "yes";
+        "vfs objects" = "acl_xattr";
+        "map acl inherit" = "yes";
+
+        # Don't map DOS attribute to execute bit
+        # (should be the default)
+        "map archive" = "no";
+        "map system" = "no";
+        "map hidden" = "no";
+        # Stores DOS attributes in xattrs
+        "store dos attributes" = "yes";
       };
       # Samba for /storage (mergerfs).
       # Maybe it would be better to create shares for subdirectories,
@@ -43,10 +56,11 @@ in {
         "guest ok" = "no";
         "hosts allow" = "${allowed_ranges}";
         "hosts deny" = "0.0.0.0/0";
-        "create mode" = "0644";
+        # create mode and directory mode are synonyms for the "mask"s, so
+        # don't set both.
+        # When file/directory is created, permissions will be ANDed with the
+        # mask then ORed with the "force" mode.
         #"force create mode" = "0664";
-        "create mask" = "0644";
-        "directory mode" = "0755";
         #"force directory mode" = "0775";
         "directory mask" = "0775";
         "write list" = "${config.my.user}";
@@ -62,9 +76,7 @@ in {
         "guest ok" = "no";
         "hosts allow" = "${allowed_ranges}";
         "hosts deny" = "0.0.0.0/0";
-        "create mode" = "0664";
         "create mask" = "0664";
-        "directory mode" = "0775";
         "directory mask" = "0775";
         "write list" = "${config.my.user}";
         "force group" = "multimedia";
@@ -78,9 +90,7 @@ in {
         "guest ok" = "no";
         "hosts allow" = "${allowed_ranges}";
         "hosts deny" = "0.0.0.0/0";
-        "create mode" = "0664";
         "create mask" = "0664";
-        "directory mode" = "0775";
         "directory mask" = "0775";
         "write list" = "${config.my.user}";
         "force group" = "audiobookshelf";
@@ -93,10 +103,8 @@ in {
         "guest ok" = "no";
         "hosts allow" = "${allowed_ranges}";
         "hosts deny" = "0.0.0.0/0";
-        "create mode" = "0664";
-        "create mask" = "0664";
-        "directory mode" = "0775";
         "directory mask" = "0775";
+        "create mask" = "0775";
         "write list" = "${config.my.user}";
         #"force group" = "games";
       };
