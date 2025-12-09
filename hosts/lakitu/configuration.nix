@@ -112,6 +112,20 @@ in {
   # There are no btrfs fileSystems on this host
   services.btrfs.autoScrub.enable = false;
 
+  # Disable sleep completely - this host runs the network router VM!
+  services.xserver.displayManager.gdm.autoSuspend = false;
+  systemd.targets.sleep.enable = false;
+  systemd.targets.suspend.enable = false;
+  systemd.targets.hibernate.enable = false;
+  systemd.targets.hybrid-sleep.enable = false;
+  services.logind.lidSwitch = "ignore";
+  services.logind.extraConfig = ''
+    HandleSuspendKey=ignore
+    HandleHibernateKey=ignore
+    HandleLidSwitch=ignore
+    IdleAction=ignore
+  '';
+
   my.common.podman.enable = true;
   my.common.tailscale.enable = true;
 
