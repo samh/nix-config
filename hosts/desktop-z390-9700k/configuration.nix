@@ -172,7 +172,7 @@
       #mitmproxy
       #nodejs_20
     ])
-    ++ (with inputs.nix-ai-tools.packages.${pkgs.system}; [
+    ++ (with inputs.llm-agents.packages.${pkgs.system}; [
       copilot-cli
       #gemini-cli
       #goose-cli

@@ -179,10 +179,12 @@
       syncthing
       vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
     ])
-    ++ (with inputs.nix-ai-tools.packages.${pkgs.system}; [
+    ++ (with inputs.llm-agents.packages.${pkgs.system}; [
+      codex
       copilot-cli
       #gemini-cli
       #goose-cli
+      #opencode
     ]);
 
   # Some programs need SUID wrappers, can be configured further or are

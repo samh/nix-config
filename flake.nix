@@ -18,8 +18,8 @@
 
     hardware.url = "github:nixos/nixos-hardware";
 
-    nix-ai-tools.url = "github:numtide/nix-ai-tools";
-    nix-ai-tools.inputs.nixpkgs.follows = "nixpkgs";
+    llm-agents.url = "github:numtide/llm-agents.nix";
+    llm-agents.inputs.nixpkgs.follows = "nixpkgs";
 
     # This is one of the options for getting additional / newer extensions
     # for VS Code (compared to the set in nixpkgs)
@@ -36,9 +36,9 @@
   };
 
   nixConfig = {
-    # Used for https://github.com/numtide/nix-ai-tools
-    extra-substituters = ["https://numtide.cachix.org"];
-    extra-trusted-public-keys = ["numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="];
+    # Used for https://github.com/numtide/llm-agents
+    extra-substituters = ["https://cache.numtide.com"];
+    extra-trusted-public-keys = ["niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="];
   };
 
   outputs = {
