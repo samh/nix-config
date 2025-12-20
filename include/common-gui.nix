@@ -62,7 +62,7 @@
       # For the sandboxed apps to work correctly, desktop integration portals need to be installed.
       # Don't enable with GNOME, as it does it itself (in a way that conflicts with this).
       xdg.portal.extraPortals =
-        lib.mkIf (!config.services.xserver.desktopManager.gnome.enable)
+        lib.mkIf (!config.services.desktopManager.gnome.enable)
         [pkgs.xdg-desktop-portal-gtk];
 
       environment.systemPackages = with pkgs; [

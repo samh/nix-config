@@ -56,8 +56,8 @@ in {
   #environment.budgie.excludePackages = with pkgs; [
   #  vlc
   #];
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
   # Disable GNOME apps
   services.gnome.core-apps.enable = false;
   services.gnome.tinysparql.enable = false;
