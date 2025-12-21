@@ -8,7 +8,7 @@
     #package = pkgs.unstable.vscode;
     #package = pkgs.vscodium;
 
-    profiles.nix-default.extensions =
+    profiles.default.extensions =
       (with pkgs.vscode-extensions; [
         bbenoist.nix
 
@@ -28,6 +28,8 @@
 
         # Remote
         ms-vscode-remote.remote-ssh
+        ms-vscode-remote.remote-ssh-edit
+        #ms-vscode-remote.vscode-remote-extensionpack
 
         # AI
         github.copilot
