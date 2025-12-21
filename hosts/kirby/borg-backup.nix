@@ -15,8 +15,8 @@
       name = "root";
     }
   ];
-  systemd.services.postgresql.postStart = lib.mkAfter ''
-    $PSQL postgres -c 'GRANT pg_read_all_data TO "root"'
+  systemd.services.postgresql-setup.postStart = ''
+    psql postgres -c 'GRANT pg_read_all_data TO "root"'
   '';
   # Add packages to borgmatic service PATH.
   # PostgreSQL is needed for the postgresql_databases hook.
