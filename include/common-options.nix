@@ -151,7 +151,7 @@ in {
       nixpkgs.config.allowUnfree = true;
       #allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       #  "obsidian"
-      #  "jetbrains.pycharm-professional"
+      #  "jetbrains.pycharm"
       #  "vscode.fhs"
       #];
 
