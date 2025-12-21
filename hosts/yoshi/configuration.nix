@@ -131,21 +131,34 @@
 
   # Enable vaapi on OS-level for Jellyfin transcoding
   # From https://wiki.nixos.org/wiki/Jellyfin
+  # Only set this if using intel-vaapi-driver:
   nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
+    intel-vaapi-driver = pkgs.intel-vaapi-driver.override {enableHybridCodec = true;};
   };
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      intel-media-driver
-      # vpl-gpu-rt # QSV on 11th gen or newer
-      intel-media-sdk # QSV up to 11th gen
+      intel-ocl # Generic OpenCL support
+
+      # For Broadwell and newer (ca. 2014+), use with LIBVA_DRIVER_NAME=iHD:
+      #intel-media-driver
+
+      # For older processors, use with LIBVA_DRIVER_NAME=i965:
       intel-vaapi-driver
-      vaapiVdpau
-      libvdpau-va-gl
-      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+      libva-vdpau-driver
+
+      # For 13th gen and newer:
+      #intel-compute-runtime
+
+      # For older processors:
+      intel-compute-runtime-legacy1
+
+      # For 11th gen and newer:
+      #vpl-gpu-rt
     ];
   };
+
+  my.allowedUnfree = ["intel-ocl"];
 
   # nginx for reverse proxy
   my.nginx = {

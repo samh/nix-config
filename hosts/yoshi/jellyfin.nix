@@ -15,6 +15,16 @@ in {
       };
     }
     (lib.mkIf config.services.jellyfin.enable {
+      environment.systemPackages = [
+        pkgs.jellyfin
+        pkgs.jellyfin-web
+        pkgs.jellyfin-ffmpeg
+      ];
+
+      # Value depends on which processor; see https://wiki.nixos.org/wiki/Jellyfin
+      systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "i965";
+      environment.sessionVariables = {LIBVA_DRIVER_NAME = "i965";};
+
       # Bind the library directory to the same place as it was in the container
       # on the old server, because it takes some database editing to change it.
       # The mount is only visible inside the jellyfin service.
