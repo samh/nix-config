@@ -173,9 +173,11 @@
       #nodejs_20
     ])
     ++ (with inputs.llm-agents.packages.${pkgs.system}; [
+      codex
       copilot-cli
       #gemini-cli
       #goose-cli
+      #opencode
     ]);
 
   # TODO: only allow per package
