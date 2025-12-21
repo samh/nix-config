@@ -86,9 +86,9 @@
     extraPackages = with pkgs; [
       intel-media-driver
       # vpl-gpu-rt # QSV on 11th gen or newer
-      intel-media-sdk # QSV up to 11th gen
-      intel-vaapi-driver
-      libva-vdpau-driver
+      #intel-media-sdk # QSV up to 11th gen
+      #intel-vaapi-driver
+      #libva-vdpau-driver
       libvdpau-va-gl
       #intel-compute-runtime # adds ~1.2GiB
     ];
