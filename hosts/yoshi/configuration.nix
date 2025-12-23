@@ -303,6 +303,16 @@
     forceSSL = true;
     useACMEHost = config.my.hostDomain;
   };
+  # ImmichFrame running using podman compose
+  services.nginx.virtualHosts."immichframe" = {
+    serverName = "immichframe.${config.my.hostDomain}";
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:2284";
+      proxyWebsockets = true;
+    };
+    forceSSL = true;
+    useACMEHost = config.my.hostDomain;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
