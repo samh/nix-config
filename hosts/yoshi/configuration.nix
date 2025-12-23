@@ -282,6 +282,28 @@
     useACMEHost = config.my.hostDomain;
   };
 
+  # Immich running using podman compose (docker-compose provider)
+  # /home/samh/src/stacks/immich
+  services.nginx.virtualHosts."immich" = {
+    serverName = "immich.${config.my.hostDomain}";
+    extraConfig = ''
+      # allow large file uploads
+      client_max_body_size 50000M;
+
+      # disable buffering uploads to prevent OOM on reverse proxy server and make uploads twice as fast (no pause)
+      proxy_request_buffering off;
+
+      # increase body buffer to avoid limiting upload speed
+      client_body_buffer_size 1024k;
+    '';
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:2283";
+      proxyWebsockets = true;
+    };
+    forceSSL = true;
+    useACMEHost = config.my.hostDomain;
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
