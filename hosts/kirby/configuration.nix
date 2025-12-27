@@ -136,7 +136,7 @@ in {
       PAPERLESS_DBENGINE = "postgresql";
       PAPERLESS_DBHOST = "/run/postgresql";
       PAPERLESS_OCR_LANGUAGE = "eng";
-      PAPERLESS_FILENAME_FORMAT = "{created_year}/{correspondent}/{title}";
+      PAPERLESS_FILENAME_FORMAT = "{{ created_year }}/{{ correspondent }}/{{ title }}";
       PAPERLESS_DATE_ORDER = "MDY";
       # Try to give scanner time to finish writing
       PAPERLESS_CONSUMER_INOTIFY_DELAY = "120";
