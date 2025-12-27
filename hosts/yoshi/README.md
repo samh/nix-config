@@ -26,6 +26,7 @@ blocky.service
 borgmatic.service
 borgmatic.timer
 calibre-server.service
+ersatztv.service
 jellyfin.service
 nginx.service
 tailscaled.service
