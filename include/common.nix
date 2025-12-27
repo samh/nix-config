@@ -164,6 +164,7 @@
       file
       git # Required to build flakes
       htop
+      isd # systemd TUI
       just
       ncdu
       nh # Yet another nix cli helper
