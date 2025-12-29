@@ -24,6 +24,7 @@ in {
     ./borg-backup.nix
     ./forgejo.nix
     ./gitea.nix
+    ./homarr.nix
     ./mounts.nix
     ./proxy.nix
     ./samba.nix
