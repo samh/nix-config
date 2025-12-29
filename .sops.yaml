@@ -1,6 +1,11 @@
 # For sops-nix
 # Defines public keys and location of secret files
 
+# Packages for tools:
+# age-keygen is in 'age'
+# sops is in 'sops'
+# ssh-to-age is in 'ssh-to-age'
+
 # Make a host key:
 # sudo mkdir -p /var/lib/private/sops/age
 # sudo age-keygen -o /var/lib/private/sops/age/keys.txt
@@ -8,17 +13,22 @@
 # Display the host public key:
 # sudo age-keygen -y /var/lib/private/sops/age/keys.txt
 
+# Or make a user key:
+# mkdir -p ~/.config/sops/age/
+# age-keygen -o ~/.config/sops/age/keys.txt
+
 # Or use the host SSH key:
 # nix shell nixpkgs#ssh-to-age -c bash -c 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
 
-# Add secrets
+# Add secrets (install the 'sops' package if needed)
 # sops secrets/secrets.yaml
 
 # Rekey secrets.yaml after editing recipients in .sops.yaml:
 # sops updatekeys secrets/secrets.yaml
 keys:
-  # User-level key on desktop
+  # User-level keys (~/.config/sops/age/keys.txt)
   - &desktop age17q2ewtw3xkdv3prlxv0zxexfrrzgz6y7q0rpy78du2z3yccqmv7q8nzs24
+  - &laptop age1k4e6zt9vfsjtdq6vwtgv8wxxhuls63tx20s5yf5tuweczsukcf5shemmq2
   # From SSH host key
   - &desktop-root age1nlemqdl7e5yx05vayza3em8s4vzzuu5uckfn276lk07k6fhpzysquyj443
   - &yoshi-ssh age1cy3a7tff074yz56xxcrz55le7j526ca5jjyz3ud0fsj9nj8m8apqrv4ket
@@ -30,11 +40,13 @@ creation_rules:
     key_groups:
     - age:
       - *desktop
+      - *laptop
       - *sandbox
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *desktop
+      - *laptop
       - *desktop-root
       - *yoshi-ssh
       - *kirby-ssh
