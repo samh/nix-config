@@ -37,6 +37,7 @@
           "/home/samh/src/ai-stack"
           "/var/lib/forgejo"
           "/var/lib/gitea"
+          "/var/lib/homarr"
           "/var/lib/karakeep"
           # /var/lib/nixos contains uid/gid mappings; might be useful to keep
           # permissions consistent
