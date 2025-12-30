@@ -166,7 +166,7 @@ in {
       PORT = "3010";
       DISABLE_SIGNUPS = "true";
       DISABLE_NEW_RELEASE_CHECK = "true";
-      NEXTAUTH_URL = "keep.${config.my.hostDomain}";
+      NEXTAUTH_URL = "https://keep.${config.my.hostDomain}";
       CRAWLER_FULL_PAGE_ARCHIVE = "true";
     };
   };
