@@ -15,7 +15,7 @@
     "modesetting"
     # Load NVIDIA driver.
     # Not sure if we need this for just using CUDA.
-    "nvidia"
+    #"nvidia"
   ];
 
   hardware.graphics.enable = true;
@@ -23,7 +23,7 @@
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
     nvidiaSettings = true;
-    open = false; # Set to false for proprietary drivers
+    open = true; # Set to false for proprietary drivers
   };
 
   hardware.nvidia-container-toolkit.enable = config.virtualisation.podman.enable;
