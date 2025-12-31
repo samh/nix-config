@@ -23,8 +23,8 @@
         foxundermoon.shell-format
 
         # Containers
-        #ms-azuretools.vscode-containers # "Container Tools"
-        #ms-vscode-remote.remote-containers # "Dev Containers"
+        ms-azuretools.vscode-containers # "Container Tools"
+        ms-vscode-remote.remote-containers # "Dev Containers"
 
         # Remote
         ms-vscode-remote.remote-ssh
@@ -32,7 +32,8 @@
         #ms-vscode-remote.vscode-remote-extensionpack
 
         # AI
-        github.copilot
+        #github.copilot
+        github.copilot-chat
       ])
       ++ (with pkgs.vscode-marketplace-release; [
         #saoudrizwan.claude-dev # Cline
