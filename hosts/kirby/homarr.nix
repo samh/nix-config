@@ -10,7 +10,7 @@
   group = "homarr";
 
   #container_tag = "latest";
-  container_tag = "v1.48.0";
+  container_tag = "v1.49.1";
 
   dataDir = "/var/lib/homarr";
   appDataDir = "${dataDir}/appdata";
@@ -25,6 +25,8 @@ in {
     group = group;
     home = dataDir;
     createHome = true;
+    # Allow su to user for troubleshooting
+    shell = pkgs.fish;
     # Unclear if we should use linger or not; the module warns if we enable
     # "Podman container homarr is configured as rootless (user homarr) with
     #  `--sdnotify=conmon`, but lingering for this user is turned on."
