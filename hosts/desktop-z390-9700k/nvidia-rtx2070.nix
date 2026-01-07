@@ -10,24 +10,15 @@
   # to be able to unbind it for use in a VM.
   # See also vfio-host.nix.
 
-  services.xserver.videoDrivers = [
-    # Use Intel ("modesetting") driver first.
-    "modesetting"
-    # Load NVIDIA driver.
-    # Not sure if we need this for just using CUDA.
-    # Failing to include "nvidia" here produces an evaluation error for
-    # the container toolkit:
-    #
-    #   `nvidia-container-toolkit` requires nvidia drivers: set
-    #   `hardware.nvidia.datacenter.enable`, add "nvidia" to
-    #   `services.xserver.videoDrivers`, or set
-    #   `hardware.nvidia-container-toolkit.suppressNvidiaDriverAssertion`
-    #   if the driver is provided by another NixOS module (e.g. from NixOS-WSL)
-    #
-    "nvidia"
-  ];
+  # Force the desktop stack to use the iGPU.
+  services.xserver.videoDrivers = ["modesetting"];
 
   hardware.graphics.enable = true;
+
+  # Ensure the NVIDIA *kernel modules* are included in the system closure so
+  # `modprobe nvidia` works after unbinding from vfio-pci.
+  boot.extraModulePackages = lib.mkAfter [config.hardware.nvidia.package.passthru.open];
+
   hardware.nvidia = {
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
@@ -35,7 +26,10 @@
     open = true; # Set to false for proprietary drivers
   };
 
-  hardware.nvidia-container-toolkit.enable = config.virtualisation.podman.enable;
+  hardware.nvidia-container-toolkit = {
+    enable = config.virtualisation.podman.enable;
+    suppressNvidiaDriverAssertion = true;
+  };
 
   environment.systemPackages = with pkgs; [
     nvtopPackages.nvidia
