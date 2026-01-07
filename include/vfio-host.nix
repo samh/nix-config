@@ -31,7 +31,10 @@
   # One of the issues of vfio passthrough is the graphic drivers loading onto
   # the card before we can attach the vfio-pci driver, to prevent this we can
   # set a modules blacklist in our configuration.
-  boot.blacklistedKernelModules = ["nvidia" "nouveau"];
+  boot.blacklistedKernelModules = [
+    #"nvidia"
+    "nouveau"
+  ];
   # For AMD guest GPU
   #boot.blacklistedKernelModules = [ "amdgpu" "radeon" ];
 

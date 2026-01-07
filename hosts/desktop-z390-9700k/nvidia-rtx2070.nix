@@ -15,7 +15,16 @@
     "modesetting"
     # Load NVIDIA driver.
     # Not sure if we need this for just using CUDA.
-    #"nvidia"
+    # Failing to include "nvidia" here produces an evaluation error for
+    # the container toolkit:
+    #
+    #   `nvidia-container-toolkit` requires nvidia drivers: set
+    #   `hardware.nvidia.datacenter.enable`, add "nvidia" to
+    #   `services.xserver.videoDrivers`, or set
+    #   `hardware.nvidia-container-toolkit.suppressNvidiaDriverAssertion`
+    #   if the driver is provided by another NixOS module (e.g. from NixOS-WSL)
+    #
+    "nvidia"
   ];
 
   hardware.graphics.enable = true;
