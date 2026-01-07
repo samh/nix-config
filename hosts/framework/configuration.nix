@@ -179,7 +179,7 @@
       syncthing
       vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
     ])
-    ++ (with inputs.llm-agents.packages.${pkgs.system}; [
+    ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
       codex
       copilot-cli
       #gemini-cli

@@ -174,7 +174,7 @@
       #mitmproxy
       #nodejs_20
     ])
-    ++ (with inputs.llm-agents.packages.${pkgs.system}; [
+    ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
       codex
       copilot-cli
       #gemini-cli
