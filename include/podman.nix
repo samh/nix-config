@@ -30,6 +30,16 @@ in {
       podman-compose
       #podlet # Generate Quadlet files from command/compose
     ];
+    environment.variables = {
+      # "The deprecated BoltDB database driver is in use. This driver will be
+      #  removed in the upcoming Podman 6.0 release in mid 2026. It is advised
+      #  that you migrate to SQLite to avoid issues when this occurs. Set
+      #  SUPPRESS_BOLTDB_WARNING environment variable to remove this message."
+      #
+      # This warning is pointless until migration support is added in a future
+      # podman release. See https://github.com/containers/podman/issues/27628
+      SUPPRESS_BOLTDB_WARNING = "1";
+    };
     # In rootful mode, podman uses subuid mappings for 'containers'
     # when using '--userns=auto'.
     # See https://docs.podman.io/en/latest/markdown/podman-run.1.html#userns-mode

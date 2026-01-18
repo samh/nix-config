@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -31,12 +32,22 @@
   # One of the issues of vfio passthrough is the graphic drivers loading onto
   # the card before we can attach the vfio-pci driver, to prevent this we can
   # set a modules blacklist in our configuration.
-  boot.blacklistedKernelModules = ["nvidia" "nouveau"];
+  boot.blacklistedKernelModules = [
+    #"nvidia"
+    "nouveau"
+  ];
   # For AMD guest GPU
   #boot.blacklistedKernelModules = [ "amdgpu" "radeon" ];
 
   # Extra kernel modules required for VFIO
-  boot.kernelModules = ["vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio"];
+  boot.kernelModules = ["vfio_pci" "vfio_iommu_type1" "vfio"];
+
+  # Load vfio-pci early so it can claim the GPU before other drivers.
+  boot.initrd.kernelModules = lib.mkAfter [
+    "vfio"
+    "vfio_iommu_type1"
+    "vfio_pci"
+  ];
 
   # Attach the video card to the vfio-pci driver
   # This should be the PCI ids of your GPU and GPU sound card

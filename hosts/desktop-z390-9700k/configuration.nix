@@ -13,9 +13,10 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./mounts.nix
-    #./nvidia-rtx2070.nix
+    ./nvidia-rtx2070.nix
     #./proxy.nix
     ./syncthing.nix
+    ./ups.nix
 
     inputs.sops-nix.nixosModules.sops
 
@@ -173,7 +174,7 @@
       #mitmproxy
       #nodejs_20
     ])
-    ++ (with inputs.llm-agents.packages.${pkgs.system}; [
+    ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
       codex
       copilot-cli
       #gemini-cli
