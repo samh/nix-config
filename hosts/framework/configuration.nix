@@ -184,7 +184,7 @@
       copilot-cli
       #gemini-cli
       #goose-cli
-      #opencode
+      opencode
     ]);
 
   # Some programs need SUID wrappers, can be configured further or are
