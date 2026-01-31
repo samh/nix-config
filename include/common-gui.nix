@@ -45,10 +45,24 @@
         noto-fonts-cjk-sans
         noto-fonts-cjk-serif
         noto-fonts-color-emoji
+        # "The Liberation Fonts is font collection which aims to provide
+        # document layout compatibility as usage of Times New Roman, Arial,
+        # Courier New."
+        # There is also a "corefonts" unfree package that contains the
+        # actual Microsoft fonts.
         liberation_ttf
+        #ubuntu-classic
       ];
       fonts.enableDefaultPackages = true;
       fonts.fontDir.enable = true;
+      # Attempt to fix weird font mismatches
+      fonts.fontconfig = {
+        defaultFonts = {
+          serif = ["Liberation Serif"];
+          sansSerif = ["Liberation Sans"];
+          monospace = ["Liberation Mono"];
+        };
+      };
 
       # Enable scanner support (also needs extra user groups)
       # https://nixos.wiki/wiki/Scanners
