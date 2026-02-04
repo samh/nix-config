@@ -15,6 +15,7 @@
     ./mounts.nix
     ./nvidia-rtx2070.nix
     #./proxy.nix
+    ./relacon-remap.nix
     ./syncthing.nix
     ./ups.nix
 
