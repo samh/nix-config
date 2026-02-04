@@ -99,6 +99,7 @@ in {
         dua # Disk Usage Analyzer (ncdu alternative)
         element-desktop
         exfatprogs
+        evtest # for testing input devices
         filezilla
         fira-code
         gnumake
@@ -110,6 +111,7 @@ in {
         just
         keepassxc
         kdiff3
+        libinput # CLI, may be useful for getting info about input devices
         lsof # tool to list open files
         mpv
         #neofetch
