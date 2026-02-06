@@ -25,3 +25,13 @@ def task_up():
     update `flake.lock` and commit
     """
     return cmd("nix flake update --commit-lock-file")
+
+
+def task_update_llm_agents():
+    """update only the llm-agents flake input"""
+    return cmd("nix flake update llm-agents")
+
+
+def task_up_llm():
+    """short alias for update_llm_agents"""
+    return task_update_llm_agents()
