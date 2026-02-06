@@ -19,7 +19,9 @@
     hardware.url = "github:nixos/nixos-hardware";
 
     llm-agents.url = "github:numtide/llm-agents.nix";
-    llm-agents.inputs.nixpkgs.follows = "nixpkgs";
+    # Following nixpkgs causes cache mismatch, making us have to compile
+    # instead of using binaries from the numtide cache.
+    #llm-agents.inputs.nixpkgs.follows = "nixpkgs";
 
     # This is one of the options for getting additional / newer extensions
     # for VS Code (compared to the set in nixpkgs)
