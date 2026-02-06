@@ -13,6 +13,7 @@
     ../include/kde.nix
     ../include/mounts-yoshi.nix
     ../include/nix-ld.nix
+    ../include/numtide-cache.nix
     ../include/virt-manager.nix
 
     ./borg-backup.nix

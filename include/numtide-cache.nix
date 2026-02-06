@@ -1,5 +1,5 @@
 {...}: {
-  # Used for https://github.com/numtide/llm-agents
+  # Used for https://github.com/numtide/llm-agents.nix
   nix.settings = {
     extra-substituters = ["https://cache.numtide.com"];
     extra-trusted-public-keys = [
