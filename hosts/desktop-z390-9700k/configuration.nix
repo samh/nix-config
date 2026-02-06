@@ -181,7 +181,11 @@
       copilot-cli
       #gemini-cli
       #goose-cli
-      #opencode
+      opencode
+
+      agent-browser
+      backlog-md
+      beads
     ]);
 
   # TODO: only allow per package
