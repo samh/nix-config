@@ -142,6 +142,7 @@
       nextcloud-client
       nixos-rebuild-ng
       nh # Yet another nix cli helper
+      nodejs # for npm; see https://wiki.nixos.org/wiki/Node.js
       pkgs.unstable.podlet # Generate Quadlet files from command/compose
       restic # Backup program
       socat
