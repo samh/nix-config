@@ -343,6 +343,55 @@ while IFS=$'\t' read -r _ host status version last_update; do
   (( ${#last_update} > update_w )) && update_w=${#last_update}
 done < "$sorted_rows"
 
+color_enabled=0
+if [[ -t 1 ]] && [[ -z "${NO_COLOR:-}" ]] && [[ "${TERM:-}" != "dumb" ]]; then
+  color_enabled=1
+fi
+
+color_reset=$'\033[0m'
+color_red=$'\033[31m'
+color_yellow=$'\033[33m'
+color_green=$'\033[32m'
+
+now_epoch="$(date +%s)"
+
+date_color_for() {
+  local value="$1"
+  local last_epoch
+  local age_days
+
+  if [[ "$value" == "unknown" ]] || [[ "$value" == "n/a" ]]; then
+    return 1
+  fi
+
+  if ! last_epoch="$(date -d "$value" +%s 2>/dev/null)"; then
+    return 1
+  fi
+
+  age_days=$(( (now_epoch - last_epoch) / 86400 ))
+  if (( age_days > 30 )); then
+    printf '%s' "$color_red"
+  elif (( age_days > 7 )); then
+    printf '%s' "$color_yellow"
+  else
+    printf '%s' "$color_green"
+  fi
+}
+
+print_cell() {
+  local value="$1"
+  local width="$2"
+  local color="${3:-}"
+  local padded
+
+  padded="$(printf "%-${width}s" "$value")"
+  if (( color_enabled == 1 )) && [[ -n "$color" ]]; then
+    printf '%s%s%s' "$color" "$padded" "$color_reset"
+  else
+    printf '%s' "$padded"
+  fi
+}
+
 printf 'Expected release: %s\n\n' "$expected_release"
 printf "%-${host_w}s  %-${status_w}s  %-${version_w}s  %-${update_w}s\n" "HOST" "STATUS" "VERSION" "LAST_UPDATE"
 printf "%-${host_w}s  %-${status_w}s  %-${version_w}s  %-${update_w}s\n" \
@@ -352,8 +401,27 @@ printf "%-${host_w}s  %-${status_w}s  %-${version_w}s  %-${update_w}s\n" \
   "$(printf '%*s' "$update_w" '' | tr ' ' '-')"
 
 while IFS=$'\t' read -r _ host status version last_update; do
-  printf "%-${host_w}s  %-${status_w}s  %-${version_w}s  %-${update_w}s\n" \
-    "$host" "$status" "$version" "$last_update"
+  version_color=""
+  update_color=""
+
+  if [[ "$version" != "$expected_release" ]]; then
+    version_color="$color_red"
+  fi
+
+  if update_color="$(date_color_for "$last_update")"; then
+    :
+  else
+    update_color=""
+  fi
+
+  print_cell "$host" "$host_w"
+  printf '  '
+  print_cell "$status" "$status_w"
+  printf '  '
+  print_cell "$version" "$version_w" "$version_color"
+  printf '  '
+  print_cell "$last_update" "$update_w" "$update_color"
+  printf '\n'
 done < "$sorted_rows"
 
 printf '\nSummary:\n'
