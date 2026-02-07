@@ -182,11 +182,17 @@
       vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
     ])
     ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
+      # codex takes a long time to compile; to avoid, numtide cache should be
+      # enabled, and use their flake's pinned nixpkgs version instead of
+      # following our own.
       codex
       copilot-cli
       #gemini-cli
       #goose-cli
       opencode
+
+      backlog-md
+      beads
     ]);
 
   # Some programs need SUID wrappers, can be configured further or are
