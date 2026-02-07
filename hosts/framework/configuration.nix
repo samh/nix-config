@@ -154,7 +154,8 @@
     (with pkgs; [
       android-file-transfer
       fossil
-      pkgs.unstable.makemkv
+      # Seems to take a lot of time to build due to openjdk-headless?
+      #pkgs.unstable.makemkv
       mkvtoolnix
       nextcloud-client
       nixos-generators
