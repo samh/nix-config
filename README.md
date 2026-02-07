@@ -5,6 +5,8 @@
   - Shortcut: `doit up`
 - Run a check: `nix flake check --no-build`
   - Shortcut: `doit check`
+- Check remote host update status: `./scripts/check-host-updates.sh`
+  - Fail if anything is outdated/unreachable: `./scripts/check-host-updates.sh --strict`
 - Rebuild the local host:
   - `nh os boot -a` (or `switch`)
   - `nh home switch -a .`
