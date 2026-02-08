@@ -1,6 +1,7 @@
 [hosts.kirby]
 ip_address = "192.168.5.50"
 tailscale_address = "100.64.5.50"
+syncthing_id = "ROD27TF-F3WYRAD-WLIQXQR-P3NE2KM-4M537EG-FNMDWYU-VG2JW6W-HKXDHAS"
 
 [hosts.yoshi]
 ip_address = "192.168.5.40"

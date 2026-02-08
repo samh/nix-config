@@ -33,6 +33,7 @@ in {
         devices = [
           "vfio-windows"
           "yoshi"
+          "kirby"
           "fwdesktop-cachy"
           "fwnixos"
           "work-laptop"
@@ -44,7 +45,7 @@ in {
         id = "jjbsv-stmrg";
         enable = true;
         path = "${config.my.homeDir}/Notes/Notes-Personal";
-        devices = ["vfio-windows" "yoshi" "fwdesktop-cachy" "fwnixos" "pixel8"];
+        devices = ["vfio-windows" "yoshi" "kirby" "fwdesktop-cachy" "fwnixos" "pixel8"];
         versioning = defaultVersioning;
       };
       # Calibre work library (technical reference material, including

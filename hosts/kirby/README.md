@@ -10,6 +10,19 @@
    Home Assistant shared folder.
 4. `tailscale up --advertise-tags=tag:server --advertise-routes=192.168.5.0/24,192.168.107.0/24,192.168.108.0/24`
 
+#### Notes History (Syncthing + Gitea)
+1. Add a private SSH deploy key in SOPS as `notes-history-gitea-deploy-key`.
+2. Add the deploy key public half to both Gitea repos:
+   - `samh/notes-shared`
+   - `samh/notes-personal`
+3. Create the repos in Gitea if they do not exist yet.
+4. After first Syncthing startup on kirby, get its device ID and add
+   `hosts.kirby.syncthing_id` in `include/metadata.toml`, then add `kirby`
+   to Notes folder `devices` lists on peers that share those folders.
+5. Generate/rotate deploy key in SOPS:
+   - `cd /home/samh/projects/nixos`
+   - `./scripts/generate-sops-deploy-key.sh`
+
 #### Paperless Database
 1. If the paperless services are running, stop them:
    ```

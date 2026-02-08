@@ -41,7 +41,7 @@ in {
         id = "evgke-fvs53";
         enable = true;
         path = "${config.my.homeDir}/Notes/Notes-Shared";
-        devices = ["fwnixos" "nixos-2022-desktop"];
+        devices = ["fwnixos" "nixos-2022-desktop" "kirby"];
         versioning = defaultVersioning;
       };
 
@@ -49,7 +49,7 @@ in {
         id = "jjbsv-stmrg";
         enable = true;
         path = "${config.my.homeDir}/Notes/Notes-Personal";
-        devices = ["fwnixos" "nixos-2022-desktop"];
+        devices = ["fwnixos" "nixos-2022-desktop" "kirby"];
         versioning = defaultVersioning;
       };
 

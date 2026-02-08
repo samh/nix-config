@@ -26,8 +26,10 @@ in {
     ./gitea.nix
     ./homarr.nix
     ./mounts.nix
+    ./notes-history.nix
     ./proxy.nix
     ./samba.nix
+    ./syncthing.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
