@@ -14,6 +14,10 @@ up:
 update-llm-agents:
   nix flake update llm-agents
 
+# Update the VS Code extensions flake
+update-vscode:
+  nix flake update nix-vscode-extensions
+
 # Short alias for update-llm-agents.
 up-llm:
   @just update-llm-agents
