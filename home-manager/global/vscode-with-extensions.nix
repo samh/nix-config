@@ -38,6 +38,7 @@
       ++ (with pkgs.vscode-marketplace-release; [
         #saoudrizwan.claude-dev # Cline
         #mkhl.shfmt # Shell script formatting
+        openai.chatgpt # OpenAI Codex
       ]);
   };
 }
