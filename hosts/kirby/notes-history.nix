@@ -62,6 +62,21 @@
         git -C "$dst" config user.email ${lib.escapeShellArg gitIdentityEmail}
       fi
 
+      # Ignore per-device Obsidian workspace state in history snapshots.
+      mkdir -p "$dst/.git/info"
+      workspace_exclude_present=0
+      if [ -f "$dst/.git/info/exclude" ]; then
+        while IFS= read -r line; do
+          if [ "$line" = ".obsidian/workspace.json" ]; then
+            workspace_exclude_present=1
+            break
+          fi
+        done < "$dst/.git/info/exclude"
+      fi
+      if [ "$workspace_exclude_present" -eq 0 ]; then
+        echo ".obsidian/workspace.json" >> "$dst/.git/info/exclude"
+      fi
+
       rsync -a --delete \
         --exclude ".git/" \
         --exclude ".stfolder" \
@@ -69,6 +84,11 @@
         --exclude ".stversions" \
         --exclude "*.sync-conflict-*" \
         "$src"/ "$dst"/
+
+      # If the file is already tracked, ignore local changes to it.
+      if git -C "$dst" ls-files --error-unmatch ".obsidian/workspace.json" >/dev/null 2>&1; then
+        git -C "$dst" update-index --skip-worktree ".obsidian/workspace.json" || true
+      fi
 
       current_remote="$(git -C "$dst" remote get-url origin 2>/dev/null || true)"
       if [ -z "$current_remote" ]; then
