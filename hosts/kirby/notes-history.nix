@@ -182,6 +182,11 @@
       ensure_exclude_line ".stversions"
       ensure_exclude_line "*.sync-conflict-*"
 
+      stignore_file="$work_tree/.stignore"
+      if [ ! -e "$stignore_file" ]; then
+        printf '%s\n' '#include .stignore-sync' > "$stignore_file"
+      fi
+
       current_remote="$(git_repo remote get-url origin 2>/dev/null || true)"
       if [ -z "$current_remote" ]; then
         git_repo remote add origin "$remote"
