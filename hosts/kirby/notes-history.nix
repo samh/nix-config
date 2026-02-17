@@ -4,109 +4,370 @@
   pkgs,
   ...
 }: let
-  # Mirrors Syncthing notes into local git repos and auto-pushes to Gitea.
-  # Keeps .git outside Syncthing-managed directories to avoid repo corruption.
+  # Bidirectional sync between Syncthing-managed notes folders and Gitea.
+  # Keeps git metadata outside Syncthing-managed directories.
   historyRoot = "/var/lib/notes-history";
   deployKeySecret = "notes-history-gitea-deploy-key";
+  giteaApiTokenSecret = "notes-history-gitea-api-token";
+  uptimeKumaPushUrlSecret = "notes-history-uptime-kuma-push-url";
   gitIdentityName = "Notes History Bot";
   gitIdentityEmail = "notes-history@${config.my.hostDomain}";
   defaultBranch = "main";
+  conflictBranch = "conflict/kirby";
   giteaSshHost = "gitea.${config.my.hostDomain}";
+  giteaHttpBase = "https://${giteaSshHost}";
 
   repos = {
     notes-shared = {
-      src = "${config.my.homeDir}/Notes/Notes-Shared";
-      dst = "${historyRoot}/notes-shared";
+      workTree = "${config.my.homeDir}/Notes/Notes-Shared";
+      gitDir = "${historyRoot}/notes-shared.git";
       remote = "gitea@${giteaSshHost}:${config.my.user}/notes-shared.git";
+      owner = config.my.user;
+      repoName = "notes-shared";
     };
     notes-personal = {
-      src = "${config.my.homeDir}/Notes/Notes-Personal";
-      dst = "${historyRoot}/notes-personal";
+      workTree = "${config.my.homeDir}/Notes/Notes-Personal";
+      gitDir = "${historyRoot}/notes-personal.git";
       remote = "gitea@${giteaSshHost}:${config.my.user}/notes-personal.git";
+      owner = config.my.user;
+      repoName = "notes-personal";
     };
   };
 
   mkService = name: repo: {
-    description = "Record and push history for ${name}";
+    description = "Bidirectional notes sync for ${name}";
     after = ["syncthing.service" "gitea.service" "network-online.target"];
     wants = ["network-online.target"];
-    path = with pkgs; [coreutils git openssh rsync util-linux];
+    onFailure = ["notes-history-alert@%n.service"];
+    path = with pkgs; [coreutils curl git jq openssh util-linux];
     serviceConfig = {
       Type = "oneshot";
       User = config.my.user;
       Group = "users";
       Environment = "HOME=${config.my.homeDir}";
-      # Only needs read access to source notes and write access to history repos.
       ReadWritePaths = [
         historyRoot
+        repo.workTree
       ];
     };
     script = ''
       set -euo pipefail
 
-      src=${lib.escapeShellArg repo.src}
-      dst=${lib.escapeShellArg repo.dst}
+      work_tree=${lib.escapeShellArg repo.workTree}
+      git_dir=${lib.escapeShellArg repo.gitDir}
       remote=${lib.escapeShellArg repo.remote}
       branch=${lib.escapeShellArg defaultBranch}
+      conflict_branch=${lib.escapeShellArg conflictBranch}
       key=${lib.escapeShellArg config.sops.secrets.${deployKeySecret}.path}
+      api_token_file=${lib.escapeShellArg config.sops.secrets.${giteaApiTokenSecret}.path}
+      kuma_url_file=${lib.escapeShellArg config.sops.secrets.${uptimeKumaPushUrlSecret}.path}
+      owner=${lib.escapeShellArg repo.owner}
+      gitea_api=${lib.escapeShellArg "${giteaHttpBase}/api/v1/repos/${repo.owner}/${repo.repoName}"}
+      state_file=${lib.escapeShellArg "${historyRoot}/${name}.state.json"}
+      local_main_ref="refs/heads/$branch"
+      remote_main_ref="refs/remotes/origin/$branch"
+      conflict_ref="refs/heads/$conflict_branch"
+      remote_conflict_ref="refs/remotes/origin/$conflict_branch"
 
-      [ -d "$src" ] || exit 0
-      mkdir -p "$dst"
+      [ -d "$work_tree" ] || exit 0
+      mkdir -p "$git_dir"
 
-      exec 9>"$dst/.history.lock"
+      exec 9>"${historyRoot}/${name}.lock"
       flock -n 9 || exit 0
 
-      if [ ! -d "$dst/.git" ]; then
-        git init -b "$branch" "$dst"
-        git -C "$dst" config user.name ${lib.escapeShellArg gitIdentityName}
-        git -C "$dst" config user.email ${lib.escapeShellArg gitIdentityEmail}
+      ssh_cmd="ssh -i $key -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+      export GIT_SSH_COMMAND="$ssh_cmd"
+
+      git_repo() {
+        git --git-dir="$git_dir" "$@"
+      }
+
+      git_wt() {
+        git --git-dir="$git_dir" --work-tree="$work_tree" "$@"
+      }
+
+      has_ref() {
+        git_repo show-ref --verify --quiet "$1"
+      }
+
+      send_kuma() {
+        status="$1"
+        message="$2"
+        [ -r "$kuma_url_file" ] || return 0
+        kuma_url="$(tr -d '\n' < "$kuma_url_file")"
+        [ -n "$kuma_url" ] || return 0
+        curl -fsS --max-time 15 --get \
+          --data-urlencode "status=$status" \
+          --data-urlencode "msg=$message" \
+          "$kuma_url" >/dev/null || true
+      }
+
+      ensure_exclude_line() {
+        pattern="$1"
+        exclude_file="$git_dir/info/exclude"
+        mkdir -p "$git_dir/info"
+        if [ -f "$exclude_file" ] && grep -Fqx "$pattern" "$exclude_file"; then
+          return 0
+        fi
+        echo "$pattern" >> "$exclude_file"
+      }
+
+      worktree_matches_ref() {
+        ref="$1"
+        idx="$(mktemp "${historyRoot}/.${name}.index.XXXXXX")"
+        if ! GIT_INDEX_FILE="$idx" git_wt read-tree "$ref" >/dev/null 2>&1; then
+          rm -f "$idx"
+          return 1
+        fi
+        GIT_INDEX_FILE="$idx" git_wt add -A
+        if GIT_INDEX_FILE="$idx" git_wt diff --cached --quiet "$ref" --; then
+          rm -f "$idx"
+          return 0
+        fi
+        rm -f "$idx"
+        return 1
+      }
+
+      ensure_conflict_pr() {
+        [ -r "$api_token_file" ] || return 0
+        api_token="$(tr -d '\n' < "$api_token_file")"
+        [ -n "$api_token" ] || return 0
+
+        pulls_url="$gitea_api/pulls"
+        pulls_json=""
+        if ! pulls_json="$(curl -fsS \
+          -H "Authorization: token $api_token" \
+          --get \
+          --data-urlencode "state=open" \
+          --data-urlencode "base=$branch" \
+          --data-urlencode "head=$owner:$conflict_branch" \
+          "$pulls_url" 2>/dev/null)"; then
+          return 0
+        fi
+
+        existing_number="$(printf '%s' "$pulls_json" | jq -r '.[0].number // empty')"
+        if [ -n "$existing_number" ]; then
+          printf '%s' "$pulls_json" | jq -r '.[0].html_url // empty'
+          return 0
+        fi
+
+        now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+        payload="$(jq -nc \
+          --arg title "notes(${name}): sync conflict on $now" \
+          --arg head "$conflict_branch" \
+          --arg base "$branch" \
+          --arg body "Automated conflict branch created by notes-history service on kirby." \
+          '{title: $title, head: $head, base: $base, body: $body}')"
+        if pulls_json="$(curl -fsS \
+          -X POST \
+          -H "Authorization: token $api_token" \
+          -H "Content-Type: application/json" \
+          -d "$payload" \
+          "$pulls_url" 2>/dev/null)"; then
+          printf '%s' "$pulls_json" | jq -r '.html_url // empty'
+        fi
+      }
+
+      if [ ! -d "$git_dir/objects" ]; then
+        git init --bare "$git_dir"
       fi
 
-      # Ignore per-device Obsidian workspace state in history snapshots.
-      mkdir -p "$dst/.git/info"
-      workspace_exclude_present=0
-      if [ -f "$dst/.git/info/exclude" ]; then
-        while IFS= read -r line; do
-          if [ "$line" = ".obsidian/workspace.json" ]; then
-            workspace_exclude_present=1
-            break
-          fi
-        done < "$dst/.git/info/exclude"
-      fi
-      if [ "$workspace_exclude_present" -eq 0 ]; then
-        echo ".obsidian/workspace.json" >> "$dst/.git/info/exclude"
-      fi
+      git_repo config user.name ${lib.escapeShellArg gitIdentityName}
+      git_repo config user.email ${lib.escapeShellArg gitIdentityEmail}
+      git_repo symbolic-ref HEAD "$local_main_ref" >/dev/null 2>&1 || true
 
-      rsync -a --delete \
-        --exclude ".git/" \
-        --exclude ".stfolder" \
-        --exclude ".stignore" \
-        --exclude ".stversions" \
-        --exclude "*.sync-conflict-*" \
-        "$src"/ "$dst"/
+      ensure_exclude_line ".obsidian/workspace.json"
+      ensure_exclude_line ".stfolder"
+      ensure_exclude_line ".stignore"
+      ensure_exclude_line ".stversions"
+      ensure_exclude_line "*.sync-conflict-*"
 
-      # If the file is already tracked, ignore local changes to it.
-      if git -C "$dst" ls-files --error-unmatch ".obsidian/workspace.json" >/dev/null 2>&1; then
-        git -C "$dst" update-index --skip-worktree ".obsidian/workspace.json" || true
-      fi
-
-      current_remote="$(git -C "$dst" remote get-url origin 2>/dev/null || true)"
+      current_remote="$(git_repo remote get-url origin 2>/dev/null || true)"
       if [ -z "$current_remote" ]; then
-        git -C "$dst" remote add origin "$remote"
+        git_repo remote add origin "$remote"
       elif [ "$current_remote" != "$remote" ]; then
-        git -C "$dst" remote set-url origin "$remote"
+        git_repo remote set-url origin "$remote"
       fi
 
-      git -C "$dst" add -A
-      if ! git -C "$dst" diff --cached --quiet; then
+      git_repo fetch --prune origin
+
+      if ! has_ref "$local_main_ref" && has_ref "$remote_main_ref"; then
+        git_repo update-ref "$local_main_ref" "$remote_main_ref"
+      fi
+
+      git_repo symbolic-ref HEAD "$local_main_ref" >/dev/null 2>&1 || true
+      git_wt reset --mixed -q "$local_main_ref" >/dev/null 2>&1 || true
+
+      local_dirty=0
+      if [ -n "$(git_wt status --porcelain --untracked-files=all)" ]; then
+        local_dirty=1
+      fi
+
+      local_ahead=0
+      remote_ahead=0
+      if has_ref "$local_main_ref" && has_ref "$remote_main_ref"; then
+        counts="$(git_repo rev-list --left-right --count "$local_main_ref...$remote_main_ref")"
+        ahead_count="''${counts%% *}"
+        behind_count="''${counts##* }"
+        if [ "$ahead_count" -gt 0 ]; then
+          local_ahead=1
+        fi
+        if [ "$behind_count" -gt 0 ]; then
+          remote_ahead=1
+        fi
+      elif has_ref "$local_main_ref" && ! has_ref "$remote_main_ref"; then
+        local_ahead=1
+      elif ! has_ref "$local_main_ref" && has_ref "$remote_main_ref"; then
+        remote_ahead=1
+      fi
+
+      prior_mode=""
+      prior_conflict_head=""
+      if [ -f "$state_file" ]; then
+        prior_mode="$(jq -r '.mode // empty' "$state_file" 2>/dev/null || true)"
+        prior_conflict_head="$(jq -r '.conflict_head // empty' "$state_file" 2>/dev/null || true)"
+      fi
+
+      clear_conflict_state() {
+        if [ "$prior_mode" = "conflict" ]; then
+          send_kuma "up" "notes-history ${name}: conflict resolved on $branch"
+        fi
+        rm -f "$state_file"
+      }
+
+      # If local main is behind but work tree already matches remote main, fast-forward.
+      if [ "$remote_ahead" -eq 1 ] && [ "$local_dirty" -eq 1 ] && [ "$local_ahead" -eq 0 ] && has_ref "$remote_main_ref"; then
+        if worktree_matches_ref "$remote_main_ref"; then
+          git_repo update-ref "$local_main_ref" "$remote_main_ref"
+          git_wt reset --hard -q "$local_main_ref"
+          clear_conflict_state
+          exit 0
+        fi
+      fi
+
+      if [ "$remote_ahead" -eq 0 ] && [ "$local_dirty" -eq 1 ]; then
+        git_wt add -A
+        if ! git_wt diff --cached --quiet; then
+          timestamp="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git_wt -c commit.gpgSign=false commit -m "notes(${name}): $timestamp"
+        fi
+        git_repo push -u origin "$branch"
+        clear_conflict_state
+        exit 0
+      fi
+
+      if [ "$remote_ahead" -eq 1 ] && [ "$local_dirty" -eq 0 ] && [ "$local_ahead" -eq 0 ]; then
+        git_repo update-ref "$local_main_ref" "$remote_main_ref"
+        git_wt reset --hard -q "$local_main_ref"
+        clear_conflict_state
+        exit 0
+      fi
+
+      if [ "$remote_ahead" -eq 0 ] && [ "$local_dirty" -eq 0 ] && [ "$local_ahead" -eq 1 ]; then
+        git_repo push -u origin "$branch"
+        clear_conflict_state
+        exit 0
+      fi
+
+      if [ "$remote_ahead" -eq 1 ] && { [ "$local_dirty" -eq 1 ] || [ "$local_ahead" -eq 1 ]; }; then
+        # Create/update a long-lived conflict branch and PR.
+        if has_ref "$remote_conflict_ref"; then
+          git_repo update-ref "$conflict_ref" "$remote_conflict_ref"
+        elif ! has_ref "$conflict_ref" && has_ref "$remote_main_ref"; then
+          git_repo update-ref "$conflict_ref" "$remote_main_ref"
+        elif ! has_ref "$conflict_ref" && has_ref "$local_main_ref"; then
+          git_repo update-ref "$conflict_ref" "$local_main_ref"
+        fi
+
+        if [ "$local_dirty" -eq 1 ]; then
+          git_repo symbolic-ref HEAD "$conflict_ref"
+          git_wt reset --mixed -q "$conflict_ref" >/dev/null 2>&1 || true
+          git_wt add -A
+          if ! git_wt diff --cached --quiet; then
+            timestamp="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git_wt -c commit.gpgSign=false commit -m "notes(${name}): conflict snapshot $timestamp"
+          fi
+        elif [ "$local_ahead" -eq 1 ] && has_ref "$local_main_ref"; then
+          git_repo update-ref "$conflict_ref" "$local_main_ref"
+        fi
+
+        git_repo push -u origin "$conflict_branch"
+        pr_url="$(ensure_conflict_pr || true)"
+        conflict_head="$(git_repo rev-parse "$conflict_ref" 2>/dev/null || true)"
+        now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+        jq -nc \
+          --arg mode "conflict" \
+          --arg branch "$conflict_branch" \
+          --arg pr_url "$pr_url" \
+          --arg conflict_head "$conflict_head" \
+          --arg updated_at "$now" \
+          '{mode: $mode, branch: $branch, pr_url: $pr_url, conflict_head: $conflict_head, updated_at: $updated_at}' \
+          > "$state_file"
+
+        if [ "$prior_mode" != "conflict" ] || [ "$prior_conflict_head" != "$conflict_head" ]; then
+          alert_msg="notes-history ${name}: conflict branch pushed ($conflict_branch)"
+          if [ -n "$pr_url" ]; then
+            alert_msg="$alert_msg PR: $pr_url"
+          fi
+          send_kuma "down" "$alert_msg"
+        fi
+        exit 0
+      fi
+
+      # Nothing to do (already in sync).
+      if [ "$remote_ahead" -eq 0 ] && [ "$local_dirty" -eq 0 ] && [ "$local_ahead" -eq 0 ]; then
+        clear_conflict_state
+        exit 0
+      fi
+
+      # Fallback: create regular snapshot commit and push main.
+      git_wt add -A
+      if ! git_wt diff --cached --quiet; then
         timestamp="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-        git -C "$dst" -c commit.gpgSign=false commit -m "notes(${name}): $timestamp"
+        git_wt -c commit.gpgSign=false commit -m "notes(${name}): $timestamp"
+      fi
+      git_repo push -u origin "$branch"
+      clear_conflict_state
+    '';
+  };
+
+  mkAlertService = {
+    description = "Send notes-history failure alerts";
+    path = with pkgs; [coreutils curl jq systemd];
+    serviceConfig = {
+      Type = "oneshot";
+      User = config.my.user;
+      Group = "users";
+      Environment = "FAILED_UNIT=%i";
+    };
+    script = ''
+      set -euo pipefail
+
+      kuma_url_file=${lib.escapeShellArg config.sops.secrets.${uptimeKumaPushUrlSecret}.path}
+      failed_unit="''${FAILED_UNIT:-unknown}"
+      repo="''${failed_unit#notes-history-}"
+      repo="''${repo%.service}"
+      state_file=${lib.escapeShellArg historyRoot}/"''${repo}.state.json"
+
+      [ -r "$kuma_url_file" ] || exit 0
+      kuma_url="$(tr -d '\n' < "$kuma_url_file")"
+      [ -n "$kuma_url" ] || exit 0
+
+      reason="$(systemctl show -p Result --value "$failed_unit" 2>/dev/null || true)"
+      status="$(systemctl show -p ExecMainStatus --value "$failed_unit" 2>/dev/null || true)"
+      msg="notes-history failure: ''${failed_unit} (result=''${reason:-unknown}, status=''${status:-unknown})"
+
+      if [ -f "$state_file" ]; then
+        pr_url="$(jq -r '.pr_url // empty' "$state_file" 2>/dev/null || true)"
+        if [ -n "$pr_url" ]; then
+          msg="''${msg} PR: ''${pr_url}"
+        fi
       fi
 
-      # Always attempt push so prior failed pushes are retried even with no
-      # new file changes.
-      GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new" \
-        git -C "$dst" push -u origin "$branch"
+      curl -fsS --max-time 15 --get \
+        --data-urlencode "status=down" \
+        --data-urlencode "msg=$msg" \
+        "$kuma_url" >/dev/null || true
     '';
   };
 
@@ -126,11 +387,25 @@ in {
     group = "users";
     mode = "0400";
   };
+  sops.secrets.${giteaApiTokenSecret} = {
+    owner = config.my.user;
+    group = "users";
+    mode = "0400";
+  };
+  sops.secrets.${uptimeKumaPushUrlSecret} = {
+    owner = config.my.user;
+    group = "users";
+    mode = "0400";
+  };
 
   systemd.tmpfiles.rules = [
     "d ${historyRoot} 0750 ${config.my.user} users - -"
   ];
 
-  systemd.services = lib.mapAttrs' (n: r: lib.nameValuePair "notes-history-${n}" (mkService n r)) repos;
+  systemd.services =
+    (lib.mapAttrs' (n: r: lib.nameValuePair "notes-history-${n}" (mkService n r)) repos)
+    // {
+      "notes-history-alert@" = mkAlertService;
+    };
   systemd.timers = lib.mapAttrs' (n: _: lib.nameValuePair "notes-history-${n}" (mkTimer n)) repos;
 }
