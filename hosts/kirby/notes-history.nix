@@ -39,7 +39,7 @@
     after = ["syncthing.service" "gitea.service" "network-online.target"];
     wants = ["network-online.target"];
     onFailure = ["notes-history-alert@%n.service"];
-    path = with pkgs; [coreutils curl git jq openssh util-linux];
+    path = with pkgs; [coreutils curl gawk git jq openssh util-linux];
     serviceConfig = {
       Type = "oneshot";
       User = config.my.user;
@@ -110,6 +110,59 @@
           return 0
         fi
         echo "$pattern" >> "$exclude_file"
+      }
+
+      ensure_managed_gitignore_block() {
+        gitignore_file="$work_tree/.gitignore"
+        begin_marker="# notes-history managed block"
+        end_marker="# end notes-history managed block"
+        managed_block="$(cat <<'EOF'
+      # notes-history managed block
+      .obsidian/workspace.json
+      .stfolder
+      .stignore
+      .stversions
+      *.sync-conflict-*
+      # end notes-history managed block
+      EOF
+      )"
+
+        if [ ! -f "$gitignore_file" ]; then
+          printf '%s\n' "$managed_block" > "$gitignore_file"
+          return 0
+        fi
+
+        tmp_file="$(mktemp "${historyRoot}/.${name}.gitignore.XXXXXX")"
+        awk -v begin="$begin_marker" -v end="$end_marker" -v block="$managed_block" '
+          BEGIN {
+            in_block = 0;
+            replaced = 0;
+          }
+          $0 == begin {
+            if (replaced == 0) {
+              print block;
+              replaced = 1;
+            }
+            in_block = 1;
+            next;
+          }
+          $0 == end {
+            in_block = 0;
+            next;
+          }
+          in_block == 0 {
+            print;
+          }
+          END {
+            if (replaced == 0) {
+              if (NR > 0) {
+                print "";
+              }
+              print block;
+            }
+          }
+        ' "$gitignore_file" > "$tmp_file"
+        mv "$tmp_file" "$gitignore_file"
       }
 
       worktree_matches_ref() {
@@ -186,6 +239,7 @@
       if [ ! -e "$stignore_file" ]; then
         printf '%s\n' '#include .stignore-sync' > "$stignore_file"
       fi
+      ensure_managed_gitignore_block
 
       current_remote="$(git_repo remote get-url origin 2>/dev/null || true)"
       if [ -z "$current_remote" ]; then
