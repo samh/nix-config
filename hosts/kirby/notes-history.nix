@@ -206,9 +206,8 @@
       local_ahead=0
       remote_ahead=0
       if has_ref "$local_main_ref" && has_ref "$remote_main_ref"; then
-        counts="$(git_repo rev-list --left-right --count "$local_main_ref...$remote_main_ref")"
-        ahead_count="''${counts%% *}"
-        behind_count="''${counts##* }"
+        ahead_count="$(git_repo rev-list --count "$remote_main_ref..$local_main_ref")"
+        behind_count="$(git_repo rev-list --count "$local_main_ref..$remote_main_ref")"
         if [ "$ahead_count" -gt 0 ]; then
           local_ahead=1
         fi
