@@ -173,7 +173,7 @@
           return 1
         fi
         GIT_INDEX_FILE="$idx" git_wt add -A
-        if GIT_INDEX_FILE="$idx" git_wt diff --cached --quiet "$ref" --; then
+        if GIT_INDEX_FILE="$idx" git_wt diff --cached --ignore-cr-at-eol --quiet "$ref" --; then
           rm -f "$idx"
           return 0
         fi
@@ -227,6 +227,8 @@
 
       git_repo config user.name ${lib.escapeShellArg gitIdentityName}
       git_repo config user.email ${lib.escapeShellArg gitIdentityEmail}
+      git_repo config core.autocrlf false
+      git_repo config core.safecrlf false
       git_repo symbolic-ref HEAD "$local_main_ref" >/dev/null 2>&1 || true
 
       ensure_exclude_line ".obsidian/workspace.json"
@@ -258,7 +260,11 @@
       git_wt reset --mixed -q "$local_main_ref" >/dev/null 2>&1 || true
 
       local_dirty=0
-      if [ -n "$(git_wt status --porcelain --untracked-files=all)" ]; then
+      if has_ref "$local_main_ref"; then
+        if ! worktree_matches_ref "$local_main_ref"; then
+          local_dirty=1
+        fi
+      elif [ -n "$(git_wt status --porcelain --untracked-files=all)" ]; then
         local_dirty=1
       fi
 
