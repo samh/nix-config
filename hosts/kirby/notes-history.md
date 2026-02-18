@@ -149,6 +149,39 @@ git --git-dir=/var/lib/notes-history/notes-shared.git remote -v
 git --git-dir=/var/lib/notes-history/notes-personal.git remote -v
 ```
 
+## Using Git In The Notes Work Trees
+`status`, `diff`, and similar commands require both `--git-dir` and `--work-tree`.
+
+Working examples:
+```bash
+git --git-dir=/var/lib/notes-history/notes-personal.git --work-tree=/home/samh/Notes/Notes-Personal status
+git --git-dir=/var/lib/notes-history/notes-personal.git --work-tree=/home/samh/Notes/Notes-Personal diff
+git --git-dir=/var/lib/notes-history/notes-shared.git --work-tree=/home/samh/Notes/Notes-Shared status
+```
+
+`--git-dir` alone is only for commands that do not need a work tree (for example `log`):
+```bash
+git --git-dir=/var/lib/notes-history/notes-personal.git log --oneline -n 20
+```
+
+Optional shell helpers:
+```bash
+gnotes-personal() {
+  git --git-dir=/var/lib/notes-history/notes-personal.git --work-tree=/home/samh/Notes/Notes-Personal "$@"
+}
+
+gnotes-shared() {
+  git --git-dir=/var/lib/notes-history/notes-shared.git --work-tree=/home/samh/Notes/Notes-Shared "$@"
+}
+```
+
+Then:
+```bash
+gnotes-personal status
+gnotes-personal diff
+gnotes-shared log --oneline -n 20
+```
+
 ## Troubleshooting
 - Push/auth failures:
   - Verify deploy key installed on both Gitea repos.
