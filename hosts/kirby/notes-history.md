@@ -113,6 +113,104 @@ When PR is merged/branch deleted:
 1. If local is clean, converge back to `main`, clear conflict state, send `up`.
 2. If new local changes arrived in the meantime, preserve them and start a new conflict cycle (no data loss).
 
+## Conflict Resolution Runbook
+Use this when a conflict PR is open from `conflict/kirby` to `main`.
+
+### Standard Resolve And Merge
+1. Open the PR in Gitea and review the changed files.
+2. Resolve conflicts either in Gitea or in a normal clone:
+   ```bash
+   git clone gitea@gitea.kirby.hartsfield.xyz:samh/notes-personal.git /tmp/notes-personal-resolve
+   cd /tmp/notes-personal-resolve
+   git checkout conflict/kirby
+   git fetch origin
+   git merge origin/main
+   # resolve files
+   git add -A
+   git commit
+   git push origin conflict/kirby
+   ```
+3. Merge the PR into `main`.
+4. Let timer run (or trigger it) to converge on kirby:
+   ```bash
+   sudo systemctl start notes-history-notes-personal.service
+   ```
+5. Verify logs:
+   ```bash
+   journalctl -u notes-history-notes-personal.service --since "5 min ago" --no-pager
+   ```
+
+### Rebase Conflict Branch Instead Of Merge
+If you prefer linear history on the conflict branch:
+```bash
+git clone gitea@gitea.kirby.hartsfield.xyz:samh/notes-personal.git /tmp/notes-personal-rebase
+cd /tmp/notes-personal-rebase
+git checkout conflict/kirby
+git fetch origin
+git rebase origin/main
+# resolve rebase conflicts if prompted
+git add -A
+git rebase --continue
+git push --force-with-lease origin conflict/kirby
+```
+
+Then merge PR normally.
+
+Notes:
+- Use `--force-with-lease`, not plain `--force`.
+- Rebasing updates commit SHAs; this is expected.
+
+### Manual Work Safety On Kirby
+If you are doing manual merge/rebase/reset work directly on kirby (not only in
+an external clone), pause timers first to avoid races (might also want to stop Syncthing):
+
+```bash
+sudo systemctl stop notes-history-notes-shared.timer notes-history-notes-personal.timer syncthing.service
+```
+
+Wait for any in-progress oneshot service to finish:
+
+```bash
+while systemctl is-active --quiet notes-history-notes-shared.service; do sleep 1; done
+while systemctl is-active --quiet notes-history-notes-personal.service; do sleep 1; done
+```
+
+After manual work:
+
+```bash
+# Run the service immediately if desired
+sudo systemctl start notes-history-notes-shared.service notes-history-notes-personal.service
+# Resume the timers and syncthing
+sudo systemctl start notes-history-notes-shared.timer notes-history-notes-personal.timer syncthing.service
+```
+
+Only stop running services directly if a run is stuck, and you intentionally
+want to abort it.
+
+
+### Close PR Without Merging
+There are two different intents:
+
+1. Keep local pending edits:
+   - Close PR in Gitea without merge.
+   - Expected: automation may create a new conflict PR later, because local and remote are still divergent.
+
+2. Discard pending local edits and return to `main`:
+   - Pause timers first; see "Manual Work Safety On Kirby"
+   - Close PR and delete `conflict/kirby` in Gitea.
+   - Reset kirby work tree to `origin/main` (this discards unmerged local edits):
+     ```bash
+     git --git-dir=/var/lib/notes-history/notes-personal.git fetch origin
+     git --git-dir=/var/lib/notes-history/notes-personal.git update-ref refs/heads/main refs/remotes/origin/main
+     git --git-dir=/var/lib/notes-history/notes-personal.git --work-tree=/home/samh/Notes/Notes-Personal reset --hard refs/heads/main
+     sudo systemctl start notes-history-notes-personal.service
+     ```
+
+### Shared Repo Variant
+For `notes-shared`, replace:
+- `notes-personal` with `notes-shared`
+- `/home/samh/Notes/Notes-Personal` with `/home/samh/Notes/Notes-Shared`
+
 ## Alerts / Monitoring
 The service sends Uptime Kuma push events for:
 - Conflict created/updated (`down`)
