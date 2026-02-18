@@ -6,6 +6,7 @@
 }: let
   # Bidirectional sync between Syncthing-managed notes folders and Gitea.
   # Keeps git metadata outside Syncthing-managed directories.
+  # Canonical docs: hosts/kirby/notes-history.md
   historyRoot = "/var/lib/notes-history";
   deployKeySecret = "notes-history-gitea-deploy-key";
   giteaApiTokenSecret = "notes-history-gitea-api-token";
@@ -299,6 +300,22 @@
         rm -f "$state_file"
       }
 
+      post_merge_local_changes=0
+      # If we were in conflict mode and the remote conflict branch is gone,
+      # treat it as resolved upstream (usually merged/closed). Only auto-converge
+      # if local content is clean so we never drop new Syncthing edits.
+      if [ "$prior_mode" = "conflict" ] && ! has_ref "$remote_conflict_ref"; then
+        if [ "$local_dirty" -eq 0 ] && [ "$local_ahead" -eq 0 ]; then
+          if [ "$remote_ahead" -eq 1 ] && has_ref "$remote_main_ref"; then
+            git_repo update-ref "$local_main_ref" "$remote_main_ref"
+            git_wt reset --hard -q "$local_main_ref"
+          fi
+          clear_conflict_state
+          exit 0
+        fi
+        post_merge_local_changes=1
+      fi
+
       # If local main is behind but work tree already matches remote main, fast-forward.
       if [ "$remote_ahead" -eq 1 ] && [ "$local_dirty" -eq 1 ] && [ "$local_ahead" -eq 0 ] && has_ref "$remote_main_ref"; then
         if worktree_matches_ref "$remote_main_ref"; then
@@ -368,8 +385,11 @@
           '{mode: $mode, branch: $branch, pr_url: $pr_url, conflict_head: $conflict_head, updated_at: $updated_at}' \
           > "$state_file"
 
-        if [ "$prior_mode" != "conflict" ] || [ "$prior_conflict_head" != "$conflict_head" ]; then
+        if [ "$prior_mode" != "conflict" ] || [ "$prior_conflict_head" != "$conflict_head" ] || [ "$post_merge_local_changes" -eq 1 ]; then
           alert_msg="notes-history ${name}: conflict branch pushed ($conflict_branch)"
+          if [ "$post_merge_local_changes" -eq 1 ]; then
+            alert_msg="notes-history ${name}: local changes arrived after conflict merge; conflict branch pushed ($conflict_branch)"
+          fi
           if [ -n "$pr_url" ]; then
             alert_msg="$alert_msg PR: $pr_url"
           fi
