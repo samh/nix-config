@@ -171,6 +171,7 @@
       samba # Provides smbd for quickemu
       spice-gtk
       virt-viewer # remote-viewer
+      cloud-utils # utilities for noninteractive VM builds (cloud-init)
 
       # Using system-level Firefox for now (see more notes in common.nix).
       firefox
