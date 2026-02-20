@@ -213,11 +213,10 @@ For `notes-shared`, replace:
 
 ## Alerts / Monitoring
 The service sends Uptime Kuma push events for:
-- Conflict created/updated (`down`)
-- Conflict resolved (`up`)
+- Every successful timer run as heartbeat:
+  - `up` when there is no outstanding `conflict/kirby` branch
+  - `down` when `conflict/kirby` is still outstanding
 - Unit failure (`down` via `OnFailure`)
-
-It does not currently send periodic heartbeat `up` on every successful timer run.
 
 ## Operations Quick Commands
 ```bash

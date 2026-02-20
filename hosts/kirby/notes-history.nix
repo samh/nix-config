@@ -95,12 +95,50 @@
         status="$1"
         message="$2"
         [ -r "$kuma_url_file" ] || return 0
-        kuma_url="$(tr -d '\n' < "$kuma_url_file")"
+        kuma_url_raw="$(tr -d '\n' < "$kuma_url_file")"
+        [ -n "$kuma_url_raw" ] || return 0
+        # Normalize to the push endpoint path so we don't send duplicate query keys
+        # when the stored URL already includes defaults like ?status=up&msg=OK&ping=.
+        kuma_url="''${kuma_url_raw%%\?*}"
         [ -n "$kuma_url" ] || return 0
         curl -fsS --max-time 15 --get \
           --data-urlencode "status=$status" \
           --data-urlencode "msg=$message" \
+          --data-urlencode "ping=" \
           "$kuma_url" >/dev/null || true
+      }
+
+      conflict_heartbeat_message() {
+        msg="notes-history ${name}: outstanding conflict on $conflict_branch"
+        if [ -f "$state_file" ]; then
+          pr_url="$(jq -r '.pr_url // empty' "$state_file" 2>/dev/null || true)"
+          if [ -n "$pr_url" ]; then
+            msg="$msg PR: $pr_url"
+          fi
+        fi
+        printf '%s' "$msg"
+      }
+
+      finish_success() {
+        up_msg="notes-history ${name}: heartbeat up on $branch"
+        if [ $# -ge 1 ] && [ -n "$1" ]; then
+          up_msg="$1"
+        fi
+
+        down_msg=""
+        if [ $# -ge 2 ] && [ -n "$2" ]; then
+          down_msg="$2"
+        fi
+
+        if has_ref "$remote_conflict_ref"; then
+          if [ -z "$down_msg" ]; then
+            down_msg="$(conflict_heartbeat_message)"
+          fi
+          send_kuma "down" "$down_msg"
+        else
+          send_kuma "up" "$up_msg"
+        fi
+        exit 0
       }
 
       ensure_exclude_line() {
@@ -287,15 +325,13 @@
       fi
 
       prior_mode=""
-      prior_conflict_head=""
       if [ -f "$state_file" ]; then
         prior_mode="$(jq -r '.mode // empty' "$state_file" 2>/dev/null || true)"
-        prior_conflict_head="$(jq -r '.conflict_head // empty' "$state_file" 2>/dev/null || true)"
       fi
 
       clear_conflict_state() {
-        if [ "$prior_mode" = "conflict" ]; then
-          send_kuma "up" "notes-history ${name}: conflict resolved on $branch"
+        if has_ref "$remote_conflict_ref"; then
+          return 0
         fi
         rm -f "$state_file"
       }
@@ -311,7 +347,7 @@
             git_wt reset --hard -q "$local_main_ref"
           fi
           clear_conflict_state
-          exit 0
+          finish_success "notes-history ${name}: conflict resolved on $branch"
         fi
         post_merge_local_changes=1
       fi
@@ -322,7 +358,7 @@
           git_repo update-ref "$local_main_ref" "$remote_main_ref"
           git_wt reset --hard -q "$local_main_ref"
           clear_conflict_state
-          exit 0
+          finish_success
         fi
       fi
 
@@ -334,20 +370,20 @@
         fi
         git_repo push -u origin "$branch"
         clear_conflict_state
-        exit 0
+        finish_success
       fi
 
       if [ "$remote_ahead" -eq 1 ] && [ "$local_dirty" -eq 0 ] && [ "$local_ahead" -eq 0 ]; then
         git_repo update-ref "$local_main_ref" "$remote_main_ref"
         git_wt reset --hard -q "$local_main_ref"
         clear_conflict_state
-        exit 0
+        finish_success
       fi
 
       if [ "$remote_ahead" -eq 0 ] && [ "$local_dirty" -eq 0 ] && [ "$local_ahead" -eq 1 ]; then
         git_repo push -u origin "$branch"
         clear_conflict_state
-        exit 0
+        finish_success
       fi
 
       if [ "$remote_ahead" -eq 1 ] && { [ "$local_dirty" -eq 1 ] || [ "$local_ahead" -eq 1 ]; }; then
@@ -385,23 +421,22 @@
           '{mode: $mode, branch: $branch, pr_url: $pr_url, conflict_head: $conflict_head, updated_at: $updated_at}' \
           > "$state_file"
 
-        if [ "$prior_mode" != "conflict" ] || [ "$prior_conflict_head" != "$conflict_head" ] || [ "$post_merge_local_changes" -eq 1 ]; then
-          alert_msg="notes-history ${name}: conflict branch pushed ($conflict_branch)"
-          if [ "$post_merge_local_changes" -eq 1 ]; then
-            alert_msg="notes-history ${name}: local changes arrived after conflict merge; conflict branch pushed ($conflict_branch)"
-          fi
-          if [ -n "$pr_url" ]; then
-            alert_msg="$alert_msg PR: $pr_url"
-          fi
-          send_kuma "down" "$alert_msg"
+        alert_msg="notes-history ${name}: outstanding conflict on $conflict_branch"
+        if [ "$post_merge_local_changes" -eq 1 ]; then
+          alert_msg="notes-history ${name}: local changes arrived after conflict merge; outstanding conflict on $conflict_branch"
         fi
-        exit 0
+        if [ -n "$pr_url" ]; then
+          alert_msg="$alert_msg PR: $pr_url"
+        fi
+
+        git_repo update-ref "$remote_conflict_ref" "$conflict_head" >/dev/null 2>&1 || true
+        finish_success "" "$alert_msg"
       fi
 
       # Nothing to do (already in sync).
       if [ "$remote_ahead" -eq 0 ] && [ "$local_dirty" -eq 0 ] && [ "$local_ahead" -eq 0 ]; then
         clear_conflict_state
-        exit 0
+        finish_success
       fi
 
       # Fallback: create regular snapshot commit and push main.
@@ -412,6 +447,7 @@
       fi
       git_repo push -u origin "$branch"
       clear_conflict_state
+      finish_success
     '';
   };
 
@@ -434,7 +470,9 @@
       state_file=${lib.escapeShellArg historyRoot}/"''${repo}.state.json"
 
       [ -r "$kuma_url_file" ] || exit 0
-      kuma_url="$(tr -d '\n' < "$kuma_url_file")"
+      kuma_url_raw="$(tr -d '\n' < "$kuma_url_file")"
+      [ -n "$kuma_url_raw" ] || exit 0
+      kuma_url="''${kuma_url_raw%%\?*}"
       [ -n "$kuma_url" ] || exit 0
 
       reason="$(systemctl show -p Result --value "$failed_unit" 2>/dev/null || true)"
@@ -451,6 +489,7 @@
       curl -fsS --max-time 15 --get \
         --data-urlencode "status=down" \
         --data-urlencode "msg=$msg" \
+        --data-urlencode "ping=" \
         "$kuma_url" >/dev/null || true
     '';
   };
