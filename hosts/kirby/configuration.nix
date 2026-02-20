@@ -63,9 +63,28 @@ in {
   #boot.kernelModules = ["vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio"];
 
   networking.hostName = "kirby"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  # Static networking using systemd-networkd.
+  # Keep the address aligned with metadata.toml so services that reference
+  # "myIP" (e.g. Blocky bind addresses) stay consistent.
+  networking.networkmanager.enable = false;
+  networking.useDHCP = false;
+  systemd.network = {
+    enable = true;
+    wait-online.anyInterface = true;
+    networks."10-lan-static" = {
+      # Match common ethernet names across hardware.
+      matchConfig.Name = "en*";
+      # keep in sync with metadata host IP
+      address = ["${myIP}/24"];
+      routes = [{Gateway = "192.168.5.1";}];
+      networkConfig = {
+        # Keep current resolver behavior: lakitu first, then local Blocky.
+        DNS = ["192.168.10.10" "${myIP}"];
+        IPv6AcceptRA = true;
+      };
+      linkConfig.RequiredForOnline = "routable";
+    };
+  };
 
   # Allow my user for remote builds
   # see https://nixos.wiki/wiki/Nixos-rebuild
@@ -292,6 +311,33 @@ in {
   # around by having the service restart itself.
   services.blocky.settings.ports = {
     dns = "127.0.0.1:53,${myIP}:53,${myTailscaleIP}:53";
+  };
+
+  # Break-glass profile for booting on unknown networks.
+  # Use this GRUB entry if the default static LAN configuration cannot route.
+  specialisation."rescue-dhcp" = {
+    inheritParentConfig = true;
+    configuration = {
+      system.nixos.tags = ["rescue-dhcp"];
+
+      networking.networkmanager.enable = lib.mkForce false;
+      networking.useDHCP = lib.mkForce false;
+      systemd.network.enable = lib.mkForce true;
+      systemd.network.wait-online.anyInterface = lib.mkForce true;
+      systemd.network.networks = lib.mkForce {
+        "90-rescue-dhcp" = {
+          matchConfig.Name = "en*";
+          networkConfig = {
+            DHCP = "ipv4";
+            IPv6AcceptRA = true;
+          };
+          linkConfig.RequiredForOnline = "routable";
+        };
+      };
+
+      # Avoid binding to static metadata LAN IP while in rescue mode.
+      services.blocky.enable = lib.mkForce false;
+    };
   };
 
   # This value determines the NixOS release from which the default
