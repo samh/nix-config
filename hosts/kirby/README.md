@@ -19,10 +19,11 @@ Quick bootstrap:
 2. Generate deploy key:
    - `cd /etc/nixos`
    - `./scripts/generate-sops-deploy-key.sh`
-3. Create bot token and Uptime Kuma push URL; store secrets:
+3. Create bot token and per-repo Uptime Kuma push URLs; store secrets:
    - `notes-history-gitea-deploy-key`
    - `notes-history-gitea-api-token`
-   - `notes-history-uptime-kuma-push-url`
+   - `notes-history-uptime-kuma-push-url-notes-shared`
+   - `notes-history-uptime-kuma-push-url-notes-personal`
 4. Rebuild and smoke test:
    - `sudo nixos-rebuild switch`
    - `sudo systemctl start notes-history-notes-shared.service notes-history-notes-personal.service`

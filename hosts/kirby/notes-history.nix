@@ -10,7 +10,10 @@
   historyRoot = "/var/lib/notes-history";
   deployKeySecret = "notes-history-gitea-deploy-key";
   giteaApiTokenSecret = "notes-history-gitea-api-token";
-  uptimeKumaPushUrlSecret = "notes-history-uptime-kuma-push-url";
+  uptimeKumaPushUrlSecrets = {
+    notes-shared = "notes-history-uptime-kuma-push-url-notes-shared";
+    notes-personal = "notes-history-uptime-kuma-push-url-notes-personal";
+  };
   gitIdentityName = "Notes History Bot";
   gitIdentityEmail = "notes-history@${config.my.hostDomain}";
   defaultBranch = "main";
@@ -61,7 +64,7 @@
       conflict_branch=${lib.escapeShellArg conflictBranch}
       key=${lib.escapeShellArg config.sops.secrets.${deployKeySecret}.path}
       api_token_file=${lib.escapeShellArg config.sops.secrets.${giteaApiTokenSecret}.path}
-      kuma_url_file=${lib.escapeShellArg config.sops.secrets.${uptimeKumaPushUrlSecret}.path}
+      kuma_url_file=${lib.escapeShellArg config.sops.secrets.${uptimeKumaPushUrlSecrets.${name}}.path}
       owner=${lib.escapeShellArg repo.owner}
       gitea_api=${lib.escapeShellArg "${giteaHttpBase}/api/v1/repos/${repo.owner}/${repo.repoName}"}
       state_file=${lib.escapeShellArg "${historyRoot}/${name}.state.json"}
@@ -463,11 +466,22 @@
     script = ''
       set -euo pipefail
 
-      kuma_url_file=${lib.escapeShellArg config.sops.secrets.${uptimeKumaPushUrlSecret}.path}
       failed_unit="''${FAILED_UNIT:-unknown}"
       repo="''${failed_unit#notes-history-}"
       repo="''${repo%.service}"
       state_file=${lib.escapeShellArg historyRoot}/"''${repo}.state.json"
+
+      case "$repo" in
+        notes-shared)
+          kuma_url_file=${lib.escapeShellArg config.sops.secrets.${uptimeKumaPushUrlSecrets."notes-shared"}.path}
+          ;;
+        notes-personal)
+          kuma_url_file=${lib.escapeShellArg config.sops.secrets.${uptimeKumaPushUrlSecrets."notes-personal"}.path}
+          ;;
+        *)
+          exit 0
+          ;;
+      esac
 
       [ -r "$kuma_url_file" ] || exit 0
       kuma_url_raw="$(tr -d '\n' < "$kuma_url_file")"
@@ -515,7 +529,12 @@ in {
     group = "users";
     mode = "0400";
   };
-  sops.secrets.${uptimeKumaPushUrlSecret} = {
+  sops.secrets.${uptimeKumaPushUrlSecrets."notes-shared"} = {
+    owner = config.my.user;
+    group = "users";
+    mode = "0400";
+  };
+  sops.secrets.${uptimeKumaPushUrlSecrets."notes-personal"} = {
     owner = config.my.user;
     group = "users";
     mode = "0400";

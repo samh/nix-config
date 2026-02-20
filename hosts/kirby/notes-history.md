@@ -58,12 +58,14 @@ Timer cadence:
 Required SOPS keys:
 - `notes-history-gitea-deploy-key` (SSH key for Git push/pull)
 - `notes-history-gitea-api-token` (Gitea API token for PR creation/update)
-- `notes-history-uptime-kuma-push-url` (Uptime Kuma Push monitor URL)
+- `notes-history-uptime-kuma-push-url-notes-shared` (Uptime Kuma Push monitor URL for `notes-shared`)
+- `notes-history-uptime-kuma-push-url-notes-personal` (Uptime Kuma Push monitor URL for `notes-personal`)
 
 Runtime secret files:
 - `/run/secrets/notes-history-gitea-deploy-key`
 - `/run/secrets/notes-history-gitea-api-token`
-- `/run/secrets/notes-history-uptime-kuma-push-url`
+- `/run/secrets/notes-history-uptime-kuma-push-url-notes-shared`
+- `/run/secrets/notes-history-uptime-kuma-push-url-notes-personal`
 
 ## Setup And Bootstrap
 1. Create Gitea repos if needed:
@@ -80,8 +82,10 @@ Runtime secret files:
 6. Sign in as bot and create token:
    - Settings -> Applications -> Access Tokens
    - Store token as `notes-history-gitea-api-token`
-7. Create Uptime Kuma Push monitor and store URL as `notes-history-uptime-kuma-push-url`.
-8. Confirm all three keys exist in `secrets/secrets.yaml`.
+7. Create two Uptime Kuma Push monitors and store URLs as:
+   - `notes-history-uptime-kuma-push-url-notes-shared`
+   - `notes-history-uptime-kuma-push-url-notes-personal`
+8. Confirm all four keys exist in `secrets/secrets.yaml`.
 9. Rebuild:
    - `cd /etc/nixos`
    - `sudo nixos-rebuild switch`
