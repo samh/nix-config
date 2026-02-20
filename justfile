@@ -25,3 +25,8 @@ up-llm:
 # Run host update check.
 check-host-updates:
   scripts/check-host-updates.sh
+
+# Interactively edit sops secrets
+[group('sops')]
+secrets-edit:
+  sops secrets/secrets.yaml

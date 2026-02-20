@@ -11,17 +11,22 @@
 4. `tailscale up --advertise-tags=tag:server --advertise-routes=192.168.5.0/24,192.168.107.0/24,192.168.108.0/24`
 
 #### Notes History (Syncthing + Gitea)
-1. Add a private SSH deploy key in SOPS as `notes-history-gitea-deploy-key`.
-2. Add the deploy key public half to both Gitea repos:
-   - `samh/notes-shared`
-   - `samh/notes-personal`
-3. Create the repos in Gitea if they do not exist yet.
-4. After first Syncthing startup on kirby, get its device ID and add
-   `hosts.kirby.syncthing_id` in `include/metadata.toml`, then add `kirby`
-   to Notes folder `devices` lists on peers that share those folders.
-5. Generate/rotate deploy key in SOPS:
-   - `cd /home/samh/projects/nixos`
+Canonical technical docs:
+- [`hosts/kirby/notes-history.md`](./notes-history.md)
+
+Quick bootstrap:
+1. Create repos `samh/notes-shared` and `samh/notes-personal` in Gitea.
+2. Generate deploy key:
+   - `cd /etc/nixos`
    - `./scripts/generate-sops-deploy-key.sh`
+3. Create bot token and per-repo Uptime Kuma push URLs; store secrets:
+   - `notes-history-gitea-deploy-key`
+   - `notes-history-gitea-api-token`
+   - `notes-history-uptime-kuma-push-url-notes-shared`
+   - `notes-history-uptime-kuma-push-url-notes-personal`
+4. Rebuild and smoke test:
+   - `sudo nixos-rebuild switch`
+   - `sudo systemctl start notes-history-notes-shared.service notes-history-notes-personal.service`
 
 #### Paperless Database
 1. If the paperless services are running, stop them:
