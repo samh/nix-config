@@ -152,6 +152,10 @@
       vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
       zellij # Terminal multiplexer (tmux alternative)
 
+      # Python development
+      python313Packages.nox
+      python313Packages.pyyaml
+
       # qemu / quickemu
       #
       # smbd support issue - see See https://github.com/quickemu-project/quickemu/issues/722
