@@ -77,6 +77,7 @@ in {
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     dconf-editor
+    file-roller
     gnome-calculator
     gnome-disk-utility
     gnome-logs
@@ -101,7 +102,6 @@ in {
   #   enableSSHSupport = true;
   # };
 
-  programs.file-roller.enable = true;
   programs.firefox.enable = true;
 
   # List services that you want to enable:
@@ -113,18 +113,17 @@ in {
   services.btrfs.autoScrub.enable = false;
 
   # Disable sleep completely - this host runs the network router VM!
-  services.xserver.displayManager.gdm.autoSuspend = false;
+  services.displayManager.gdm.autoSuspend = false;
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;
   systemd.targets.hibernate.enable = false;
   systemd.targets.hybrid-sleep.enable = false;
-  services.logind.lidSwitch = "ignore";
-  services.logind.extraConfig = ''
-    HandleSuspendKey=ignore
-    HandleHibernateKey=ignore
-    HandleLidSwitch=ignore
-    IdleAction=ignore
-  '';
+  services.logind.settings.Login = {
+    HandleSuspendKey = "ignore";
+    HandleHibernateKey = "ignore";
+    HandleLidSwitch = "ignore";
+    IdleAction = "ignore";
+  };
 
   my.common.podman.enable = true;
   my.common.tailscale.enable = true;

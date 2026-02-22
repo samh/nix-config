@@ -226,7 +226,8 @@
         #};
       };
     };
-    programs.ssh.startAgent = true;
+    # GNOME enables gcr-ssh-agent; keep classic ssh-agent for non-GNOME hosts.
+    programs.ssh.startAgent = lib.mkDefault (!config.services.desktopManager.gnome.enable);
 
     # Enable periodic TRIM for SSDs
     services.fstrim.enable = true;
