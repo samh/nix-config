@@ -65,8 +65,10 @@ sudo nixos-rebuild boot --flake /etc/nixos#kirby
 3. Set BIOS to UEFI and confirm boot order points to NixOS EFI entry.
 4. Boot once with local monitor/keyboard available.
 5. Verify LAN IP, Tailscale, and key services (`nginx`, `blocky`, `samba`, `postgresql`, `forgejo`, `gitea`).
-6. Run `nixos-rebuild switch` on new hardware and re-check service health.
-7. Validate DNS behavior from a LAN client (`kirby`, `kirby.hartsfield.xyz`, `ha.hartsfield.xyz`, etc.).
+6. Check Home Assistant VM
+7. Check podman services, make sure network access is working: `tensorzero`, `open-webui`
+8. Run `nixos-rebuild switch` on new hardware and re-check service health.
+9. Validate DNS behavior from a LAN client (`kirby`, `kirby.hartsfield.xyz`, `ha.hartsfield.xyz`, etc.).
 
 ## Optional: Rename LVM VG (`dell7050` -> `kirby`)
 Current root/swap mounts are UUID-based, so VG rename is mostly cosmetic.
@@ -79,7 +81,7 @@ Recommended process (with local console available):
    ```
 2. Rename VG:
    ```bash
-   sudo vgrename dell7050 kirby
+   sudo vgrename dell7050 kirbynvme
    ```
 3. Rebuild boot config:
    ```bash
