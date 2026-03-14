@@ -52,6 +52,9 @@
           "/var/lib/tailscale"
           # Home Assistant backups
           "/srv/shares/homeassistant-backup"
+          # Rootless podman volumes
+          #/home/samh/.local/share/containers/storage/volumes # all volumes
+          /home/samh/.local/share/containers/storage/volumes/open-webui_open-terminal-home
         ];
         repositories = [
           {
