@@ -31,7 +31,8 @@
   boot.loader.grub.device = "nodev";
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.useOSProber = true;
-  boot.loader.grub.configurationLimit = 25;
+  # /boot is a bit small on laptop (512MB)
+  boot.loader.grub.configurationLimit = 12;
   # Try to boot Windows by default. Another option would be to set to
   # "saved" to boot the previously-used option.
   boot.loader.grub.default = 2;
