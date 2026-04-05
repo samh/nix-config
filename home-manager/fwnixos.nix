@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./global
-    ./global/vscode-with-extensions.nix
+    #./global/vscode-with-extensions.nix
   ];
 
   home.packages = with pkgs; [
