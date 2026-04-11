@@ -13,6 +13,7 @@
 {
   imports = [
     ./common-options.nix
+    ./metadata.nix
     ./sysctl.nix
   ];
   options = {
