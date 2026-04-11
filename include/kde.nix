@@ -13,6 +13,11 @@
   my.gui.sound.enable = lib.mkDefault true;
   services.xserver.enable = true;
 
+  # Attempt to fix Alt shortcuts changing TTY
+  # See https://github.com/NixOS/nixpkgs/issues/422331#issuecomment-3898587982
+  systemd.services."getty@tty2".enable = false;
+  systemd.services."autovt@tty2".enable = false;
+
   # Enable the Plasma 6 Desktop Environment.
   # SDDM started freezing on login, so I switched to LightDM.
   #services.displayManager.sddm.enable = true;
