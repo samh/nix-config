@@ -30,6 +30,10 @@ up-llm:
 check-host-updates:
   scripts/check-host-updates.sh
 
+# Rebuild a remote host from the top level.
+rebuild-host *args:
+  scripts/rebuild-host.sh {{args}}
+
 # Interactively edit sops secrets
 [group('sops')]
 secrets-edit:

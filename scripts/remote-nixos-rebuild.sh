@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Rebuild remotely. Use like 'nixos-rebuild'.
-# Intended to be called from other scripts, e.g. 'yoshi/rebuild.sh switch'.
+# Intended to be called from scripts/rebuild-host.sh.
 set -euo pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -13,7 +13,7 @@ export TARGET
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <nixos-rebuild arguments>"
     echo
-    echo "Example: ./nixos-rebuild.sh switch"
+    echo "Example: scripts/rebuild-host.sh yoshi switch"
     echo
     # Prompt y/n if the user wants to just sync
     read -p "Would you like to run sync? (y/n) " -n 1 -r

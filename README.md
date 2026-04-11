@@ -7,6 +7,9 @@
   - Shortcut: `doit check`
 - Check remote host update status: `./scripts/check-host-updates.sh`
   - Fail if anything is outdated/unreachable: `./scripts/check-host-updates.sh --strict`
+- Rebuild a remote host from the repo root:
+  - `./scripts/rebuild-host.sh`
+  - Shortcut: `just rebuild-host`
 - Rebuild the local host:
   - `nh os boot -a` (or `switch`)
   - `nh home switch -a .`
@@ -90,14 +93,17 @@ sudo nixos-rebuild boot
 
 ### Remote Builds
 I haven't found a remote management solution that I like yet, so I'm using
-plain `ssh` for now with a simple wrapper script, which runs from each
-machine's subdirectory:
+plain `ssh` for now with a shared top-level wrapper:
 
 ```shell
-./hosts/yoshi/nixos-rebuild.sh boot
+./scripts/rebuild-host.sh
+# or non-interactively:
+./scripts/rebuild-host.sh yoshi boot
 ```
 
-This has the advantage of being able to use `nh` to get nice-looking output.
+This discovers hosts from `flake.nix`, prompts for the host/action when
+omitted, syncs the repo to the remote machine, and then uses `nh` there when
+available to get nice-looking output.
 
 ## Source Layout
 
