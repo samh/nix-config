@@ -237,3 +237,8 @@ The custom `abs_roles` claim maps:
 - If LDAPS certificate validation fails, confirm both `sso` and `ldap` are covered by the shared ACME certificate.
 - If replication does not start, confirm the peer replication certificate was copied correctly and the replication port is reachable between the hosts.
 - If Audiobookshelf login fails, verify the UI-side OIDC settings and confirm the `abs_roles` claim is being requested and returned.
+
+## TODO
+
+- [ ] Fix duplication of acme config
+- [ ] Add to borg backup
