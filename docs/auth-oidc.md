@@ -135,6 +135,47 @@ If the cluster reports a domain UUID mismatch on first join, run on `yoshi`:
 sudo -u kanidm kanidmd refresh-replication-consumer -c /etc/kanidm/server.toml
 ```
 
+## User Setup
+
+The repo currently provisions:
+
+- Kanidm groups
+- OIDC clients
+- client secrets and related server-side config
+
+The repo does not currently provision individual people.
+
+When to create users:
+
+- after the initial Kanidm bootstrap succeeds
+- after both nodes are up
+- after replication certificate exchange is complete
+- before testing application logins
+
+How to create users in phase 1:
+
+- create them manually in the Kanidm web UI at `https://sso.hartsfield.xyz`
+- or create them manually with the Kanidm CLI if you prefer
+
+What to assign:
+
+- every user who should log into Homarr should be added to `homarr-users`
+- every user who should administer Homarr should also be added to `homarr-admins`
+- every user who should log into Audiobookshelf should be added to `audiobookshelf-users`
+- every user who should administer Audiobookshelf should also be added to `audiobookshelf-admins`
+
+Recommended phase 1 approach:
+
+- create a small number of manual users first
+- verify login to Homarr and Audiobookshelf
+- verify the same user works across both services
+- only then add more users
+
+Future option:
+
+- if you want users managed declaratively in the repo, the next step would be to add `services.kanidm.provision.persons` on the primary provisioning node
+- that is not enabled yet because phase 1 is focused on validating the auth stack and service integration first
+
 ## Homarr
 
 Homarr is configured declaratively for mixed local credentials plus OIDC:
