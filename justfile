@@ -6,6 +6,10 @@ default:
 check:
   nix flake check --no-build
 
+# Format nix files
+fmt:
+  alejandra .
+
 # Update `flake.lock` and commit.
 [group('update')]
 up:
