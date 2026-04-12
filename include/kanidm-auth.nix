@@ -118,32 +118,32 @@ in {
         package = pkgs.kanidmWithSecretProvisioning_1_9;
 
         enableServer = true;
-        serverSettings =
-          {
-            bindaddress = "127.0.0.1:${toString cfg.httpsPort}";
-            ldapbindaddress = "0.0.0.0:${toString cfg.ldapPort}";
-            origin = "https://${cfg.ssoHost}";
-            domain = config.my.baseDomain;
-            role = "WriteReplica";
-            tls_chain = "/var/lib/acme/${acmeCertName}/fullchain.pem";
-            tls_key = "/var/lib/acme/${acmeCertName}/key.pem";
-            online_backup = {
-              path = "/var/lib/kanidm/backups";
-              schedule = "15 04 * * *";
-              versions = 7;
-            };
-            replication = {
+        serverSettings = {
+          bindaddress = "127.0.0.1:${toString cfg.httpsPort}";
+          ldapbindaddress = "0.0.0.0:${toString cfg.ldapPort}";
+          origin = "https://${cfg.ssoHost}";
+          domain = config.my.baseDomain;
+          role = "WriteReplica";
+          tls_chain = "/var/lib/acme/${acmeCertName}/fullchain.pem";
+          tls_key = "/var/lib/acme/${acmeCertName}/key.pem";
+          online_backup = {
+            path = "/var/lib/kanidm/backups";
+            schedule = "15 04 * * *";
+            versions = 7;
+          };
+          replication =
+            {
               origin = "repl://${config.my.hostDomain}:${toString cfg.replicationPort}";
               bindaddress = "0.0.0.0:${toString cfg.replicationPort}";
+            }
+            // optionalAttrs (peerReplOrigin != null && cfg.peerReplicationCertificate != null) {
+              "${peerReplOrigin}" = {
+                type = "mutual-pull";
+                partner_cert = cfg.peerReplicationCertificate;
+                automatic_refresh = config.networking.hostName != cfg.manualPrimaryHost;
+              };
             };
-          }
-          // optionalAttrs (peerReplOrigin != null && cfg.peerReplicationCertificate != null) {
-            replication.${peerReplOrigin} = {
-              type = "mutual-pull";
-              partner_cert = cfg.peerReplicationCertificate;
-              automatic_refresh = config.networking.hostName != cfg.manualPrimaryHost;
-            };
-          };
+        };
         provision = {
           enable = isProvisioningNode;
           instanceUrl = "https://localhost:${toString cfg.httpsPort}";
