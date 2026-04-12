@@ -117,7 +117,7 @@ Initial deployment:
 3. On each host, print its replication certificate:
 
 ```shell
-sudo -u kanidm kanidmd show-replication-certificate -c /etc/kanidm/server.toml
+sudo -u kanidm /etc/profiles/per-user/kanidm/bin/kanidmd show-replication-certificate -c /etc/kanidm/server.toml
 ```
 
 4. Copy `kirby`'s certificate into `yoshi`'s `my.auth.kanidm.peerReplicationCertificate`.

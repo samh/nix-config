@@ -51,8 +51,8 @@ in {
     mode = "0400";
   };
   sops.secrets."kanidm/oauth2/homarr_client_secret" = {
-    owner = user;
-    group = group;
+    owner = "kanidm";
+    group = "kanidm";
     mode = "0400";
   };
 
