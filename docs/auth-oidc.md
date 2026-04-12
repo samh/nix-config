@@ -132,7 +132,7 @@ Phase 1 replication sync:
 If the cluster reports a domain UUID mismatch on first join, run on `yoshi`:
 
 ```shell
-sudo -u kanidm kanidmd refresh-replication-consumer -c /etc/kanidm/server.toml
+sudo -u kanidm /etc/profiles/per-user/kanidm/bin/kanidmd refresh-replication-consumer -c /etc/kanidm/server.toml
 ```
 
 ## User Setup
