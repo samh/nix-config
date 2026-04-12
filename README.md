@@ -17,6 +17,8 @@
     - `sudo nixos-rebuild boot` (or `switch`)
     - `home-manager switch`
 - Auto-format: `nix fmt`
+- Shared auth docs: [`docs/auth-oidc.md`](/home/samh/projects/nixos/docs/auth-oidc.md)
+- Phase 2 VIP design: [`docs/auth-phase-2-vip.md`](/home/samh/projects/nixos/docs/auth-phase-2-vip.md)
 
 ## Initial Setup
 To make this the default configuration for a machine, make a symbolic link

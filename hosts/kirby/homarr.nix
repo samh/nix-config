@@ -50,6 +50,11 @@ in {
     group = group;
     mode = "0400";
   };
+  sops.secrets."kanidm/oauth2/homarr_client_secret" = {
+    owner = user;
+    group = group;
+    mode = "0400";
+  };
 
   # Render an env-file at activation time (not in the Nix store).
   sops.templates."homarr.env" = {
@@ -58,6 +63,15 @@ in {
     mode = "0400";
     content = ''
       SECRET_ENCRYPTION_KEY=${config.sops.placeholder."homarr-secret-encryption-key"}
+      BASE_URL=https://homarr.${config.my.hostDomain}
+      NEXTAUTH_URL=https://homarr.${config.my.hostDomain}
+      AUTH_PROVIDERS=credentials,oidc
+      AUTH_OIDC_ISSUER=https://${config.my.auth.kanidm.ssoHost}/oauth2/openid/homarr
+      AUTH_OIDC_CLIENT_ID=homarr
+      AUTH_OIDC_CLIENT_SECRET=${config.sops.placeholder."kanidm/oauth2/homarr_client_secret"}
+      AUTH_OIDC_CLIENT_NAME=Kanidm
+      AUTH_OIDC_SCOPE_OVERWRITE=openid email profile groups_name
+      AUTH_OIDC_GROUPS_ATTRIBUTE=groups
     '';
   };
 

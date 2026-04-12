@@ -16,6 +16,7 @@
     ../../include/nextcloud.nix
     ../../include/nix-ld.nix
     ../../include/nginx.nix
+    ../../include/kanidm-auth.nix
     ../../include/gui
     inputs.sops-nix.nixosModules.sops
     #../include/virt-manager.nix
@@ -188,6 +189,12 @@
   # Local (personal) configuration settings
   # (see common-options.nix)
   my.common.tailscale.enable = true;
+  my.auth.kanidm = {
+    enable = true;
+    manualPrimaryHost = "kirby";
+    peerHost = "kirby";
+    peerReplicationCertificate = null;
+  };
 
   services.tailscale.package = pkgs.unstable.tailscale;
   services.tailscale.port = 41642;
