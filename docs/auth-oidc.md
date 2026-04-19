@@ -7,6 +7,15 @@ This repo uses a two-node Kanidm deployment on `kirby` and `yoshi` to provide:
 - local-LAN operation even when the public internet is unavailable
 - phase 1 manual failover with a clean path to a phase 2 LAN VIP
 
+## Status
+- Kanidm is set up as a two-node replicated pair with:
+  - shared OIDC hostname https://sso.hartsfield.xyz
+  - local-only LDAPS hostname ldap.hartsfield.xyz
+  - phase-1 manual failover using manualPrimaryHost = "kirby"
+- Homarr on kirby is wired for OIDC (but not working), with local credentials still enabled as break-glass.
+- Audiobookshelf on yoshi has the Kanidm OIDC client provisioned, but its final OIDC enablement is still partly app-UI-side.
+- Replication was previously confirmed healthy after both hosts were rebuilt. kirby and yoshi were both logging Incremental Replication Success.
+
 ## Architecture
 
 - `kirby` and `yoshi` both run Kanidm.
@@ -297,5 +306,8 @@ The custom `abs_roles` claim maps:
 
 ## TODO
 
+- [ ] Get Homarr auth working
+- [ ] Get Audiobookshelf auth working - needs manual setup in Audiobookshelf GUI
 - [ ] Fix duplication of acme config
 - [ ] Add to borg backup
+- [ ] [Improve failover using VIP](auth-phase-2-vip.md)
