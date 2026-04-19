@@ -150,6 +150,7 @@
       spotify
       syncthing
       vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
+      waypipe
       zellij # Terminal multiplexer (tmux alternative)
 
       # Python development
