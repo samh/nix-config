@@ -99,11 +99,19 @@
         matchConfig.Name = "br1";
         networkConfig = {
           DHCP = "ipv4";
+          # Prefer the local Blocky instance running on lakitu itself.
+          # If it is unavailable, fall back to public DNS and then the router.
+          DNS = [
+            "127.0.0.1"
+            "1.1.1.1"
+            "192.168.10.1"
+          ];
           VLAN = [
             "vlan107"
             "vlan108"
           ];
         };
+        dhcpV4Config.UseDNS = false;
         bridgeConfig = {};
         linkConfig = {
           # or "routable" with IP addresses configured
