@@ -104,6 +104,10 @@ in {
 
       users.users.nginx.extraGroups = ["kanidm"];
 
+      environment.systemPackages = [
+        config.services.kanidm.package
+      ];
+
       networking.firewall.allowedTCPPorts = [
         cfg.ldapPort
         cfg.replicationPort
@@ -117,7 +121,11 @@ in {
       services.kanidm = {
         package = pkgs.kanidmWithSecretProvisioning_1_9;
 
+        enableClient = true;
         enableServer = true;
+        clientSettings = {
+          uri = "https://${cfg.ssoHost}";
+        };
         serverSettings = {
           bindaddress = "127.0.0.1:${toString cfg.httpsPort}";
           ldapbindaddress = "0.0.0.0:${toString cfg.ldapPort}";
