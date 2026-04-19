@@ -58,9 +58,21 @@
       # Attempt to fix weird font mismatches
       fonts.fontconfig = {
         defaultFonts = {
-          serif = ["Liberation Serif"];
-          sansSerif = ["Liberation Sans"];
-          monospace = ["Liberation Mono"];
+          # Some apps, including Firefox, can otherwise pick monochrome emoji
+          # from other fonts instead of the installed color emoji font.
+          serif = [
+            "Liberation Serif"
+            "Noto Color Emoji"
+          ];
+          sansSerif = [
+            "Liberation Sans"
+            "Noto Color Emoji"
+          ];
+          monospace = [
+            "Liberation Mono"
+            "Noto Color Emoji"
+          ];
+          emoji = ["Noto Color Emoji"];
         };
       };
 
