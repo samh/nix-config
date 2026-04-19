@@ -33,6 +33,15 @@ Applications should always use those shared names, never `kirby`-specific or `yo
 - [`hosts/kirby/homarr.nix`](../hosts/kirby/homarr.nix): Homarr OIDC wiring
 - [`docs/auth-phase-2-vip.md`](auth-phase-2-vip.md): planned LAN VIP follow-up
 
+## Upstream Kanidm References
+
+These upstream docs are the best references for account and group management:
+
+- [Accounts and groups](https://kanidm.github.io/kanidm/stable/accounts/intro.html)
+- [People accounts](https://kanidm.github.io/kanidm/stable/accounts/people_accounts.html)
+
+This repo doc focuses on how those concepts map onto `kirby`, `yoshi`, Homarr, and Audiobookshelf.
+
 ## SOPS Secrets To Create
 
 Add these secrets to `secrets/secrets.yaml` before deployment:
@@ -145,6 +154,13 @@ The repo currently provisions:
 
 The repo does not currently provision individual people.
 
+Important account distinction:
+
+- `admin` is a break-glass Kanidm configuration administrator
+- `idm_admin` is the account intended for managing people and groups
+- use `idm_admin`, not `admin`, when bootstrapping named user accounts and group membership
+- do not use `admin` or `idm_admin` as a normal day-to-day login for apps
+
 When to create users:
 
 - after the initial Kanidm bootstrap succeeds
@@ -154,11 +170,14 @@ When to create users:
 
 How to create users in phase 1:
 
-- create them manually in the Kanidm web UI at `https://sso.hartsfield.xyz`
-- or create them manually with the Kanidm CLI if you prefer
+- use the Kanidm CLI as `idm_admin`
+- the `kanidm` CLI is installed into the normal system PATH on auth-enabled hosts
+- the repo also writes the Kanidm client config, so plain `kanidm ...` commands use `https://sso.hartsfield.xyz` by default after rebuild
+- the web UI is useful for sign-in and profile/app views, but person management is documented through the CLI
 
 What to assign:
 
+- create a named personal account for yourself first
 - every user who should log into Homarr should be added to `homarr-users`
 - every user who should administer Homarr should also be added to `homarr-admins`
 - every user who should log into Audiobookshelf should be added to `audiobookshelf-users`
@@ -166,10 +185,48 @@ What to assign:
 
 Recommended phase 1 approach:
 
-- create a small number of manual users first
+- log in as `idm_admin` only long enough to create a small number of named users
+- grant those named users the needed app groups
 - verify login to Homarr and Audiobookshelf
 - verify the same user works across both services
+- stop using `idm_admin` for routine app access once named accounts work
 - only then add more users
+
+Example bootstrap flow:
+
+```shell
+kanidm login --name idm_admin
+kanidm person create alice "Alice Example"
+kanidm person update alice --mail alice@example.com
+kanidm group add-members homarr-users alice
+kanidm group add-members audiobookshelf-users alice
+```
+
+If the named user should administer an app, also add them to the matching admin group:
+
+```shell
+kanidm group add-members homarr-admins alice
+kanidm group add-members audiobookshelf-admins alice
+```
+
+Credential setup is a separate step. Creating a person does not automatically create a usable password.
+
+For a quick manual setup:
+
+```shell
+kanidm person credential update samh
+```
+
+For a more user-driven onboarding flow, create a reset token instead:
+
+```shell
+kanidm person credential create-reset-token samh
+```
+
+Upstream references for credentials and people:
+
+- [People accounts](https://kanidm.github.io/kanidm/stable/accounts/people_accounts.html)
+- [Authentication and credentials](https://kanidm.github.io/kanidm/stable/accounts/authentication_and_credentials.html)
 
 Future option:
 
