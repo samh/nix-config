@@ -191,9 +191,15 @@
       #gemini-cli
       #goose-cli
       opencode
+      pi
 
-      backlog-md
-      beads
+      # Disable these for now as I haven't been using them.
+      # Leaving here in case I want to re-enable when needed.
+      # Can also run them directly, e.g.
+      #   nix run github:numtide/llm-agents.nix  # show launcher with all tools
+      #   nix run github:numtide/llm-agents.nix#beads
+      #backlog-md
+      #beads
     ]);
 
   # Some programs need SUID wrappers, can be configured further or are
