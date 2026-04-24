@@ -289,7 +289,7 @@
 
   # Mount a magic /usr/bin to make shebangs work
   # https://github.com/Mic92/envfs
-  services.envfs.enable = true;
+  services.envfs.enable = false;
 
   # Gaming
   programs.steam.enable = true;
