@@ -161,10 +161,24 @@ in {
       PAPERLESS_OCR_LANGUAGE = "eng";
       PAPERLESS_FILENAME_FORMAT = "{{ created_year }}/{{ correspondent }}/{{ title }}";
       PAPERLESS_DATE_ORDER = "MDY";
+      # Comment below is from Codex/GPT-5.5; I don't know for sure if it's
+      # accurate, but I've been seeing errors like this in paperless when
+      # it tries to consume scanned PDFs:
+      #
+      #    [Errno 2] No such file or directory: '/tmp/paperless/tmp95dyg5lh'
+      #
+      # Keep OCR scratch data out of /tmp. Paperless workers expect the
+      # scratch parent to exist, but service-private /tmp can be cleaned
+      # while the long-running services are still active.
+      PAPERLESS_SCRATCH_DIR = "/var/lib/paperless/tmp";
       # Try to give scanner time to finish writing
       PAPERLESS_CONSUMER_INOTIFY_DELAY = "120";
     };
   };
+  systemd.tmpfiles.rules = [
+    # Ensure that PAPERLESS_SCRATCH_DIR exists, with correct permissions
+    "d /var/lib/paperless/tmp 0770 paperless inbox - -"
+  ];
   users.users.paperless = {
     # Add to scanner group so it can read scanned documents.
     # Primary group is used in the paperless module to set the
