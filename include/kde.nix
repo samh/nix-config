@@ -68,6 +68,10 @@
 
   programs.partition-manager.enable = true; # KDE Partition Manager
 
+  # Attempt to unlock default kwallet on login.
+  # Must be named "kdewallet" and password must match user password.
+  security.pam.services.lightdm.kwallet.enable = true;
+
   # Exclude some KDE Plasma packages
   # https://nixos.wiki/wiki/KDE
   # Attempt to disable kwallet to be able to use KeePassXC's secret service
@@ -76,11 +80,4 @@
   #  kwallet-pam
   #  kwalletmanager
   #];
-  # Try to override options from
-  # https://github.com/NixOS/nixpkgs/blob/nixos-22.11/nixos/modules/services/x11/desktop-managers/plasma5.nix
-  # to disable kwallet.
-  #security.pam.services.gdm.enableKwallet = pkgs.lib.mkForce false;
-  #security.pam.services.kdm.enableKwallet = pkgs.lib.mkForce false;
-  #security.pam.services.lightdm.enableKwallet = pkgs.lib.mkForce false;
-  #security.pam.services.sddm.enableKwallet = pkgs.lib.mkForce false;
 }
