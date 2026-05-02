@@ -106,7 +106,7 @@
       source_directories = [
         "/storage/Pictures" # ~30G
         "/data/Photos" # device backups - Syncthing ~25G
-        "/storage/Backup-Photos" # ~80G
+        "/storage/Backup-Photos" # ~165G
       ];
       one_file_system = false;
       repositories = [
@@ -124,6 +124,50 @@
       keep_monthly = 6;
       keep_yearly = 1000;
       healthchecks = {ping_url = "\${HEALTHCHECKS_URL_PHOTOS:-empty}";};
+    };
+
+    "immich" = {
+      source_directories = [
+        "/data/ImmichLibrary" # ~150G
+        # container config
+        "/home/samh/src/stacks/immich"
+      ];
+      exclude_patterns = [
+        # Exclude database dir - it needs to be dumped
+        "pf:/home/samh/src/stacks/immich/postgres"
+      ];
+
+      # Immich Library duplicates much of photo backup dir, which is why
+      # we use the same repo.
+      one_file_system = false;
+      repositories = [
+        {
+          label = "borgbase-photos";
+          path = "ssh://a7a635p6@a7a635p6.repo.borgbase.com/./repo";
+        }
+      ];
+      encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass-photos";
+      compression = "auto,zstd,9";
+      keep_within = "24H";
+      keep_daily = 7;
+      keep_weekly = 4;
+      keep_monthly = 6;
+      keep_yearly = 1000;
+      healthchecks = {ping_url = "\${HEALTHCHECKS_URL_IMMICH:-empty}";};
+
+      # Manual dump command (don't use "-f" because it would save inside the container):
+      # sudo -u samh podman exec immich_postgres pg_dump -U postgres -Fc immich > /path/to/immich.dump
+      postgresql_databases = [
+        {
+          name = "immich";
+          username = "postgres";
+          format = "custom";
+          compression = "none"; # borg compresses anyway
+          pg_dump_command = "sudo -u samh podman exec immich_postgres pg_dump";
+          pg_restore_command = "sudo -u samh podman exec immich_postgres pg_restore";
+          psql_command = "sudo -u samh podman exec immich_postgres psql";
+        }
+      ];
     };
 
     "media" =
