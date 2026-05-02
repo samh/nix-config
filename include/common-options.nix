@@ -107,6 +107,7 @@ in {
         gocryptfs
         #gparted
         helix # Modern modal text editor
+        jq
         #junction # choose which application to open links
         just
         keepassxc
