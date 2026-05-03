@@ -192,6 +192,7 @@ in {
           "/storage/Library/Music-Grace"
           "/storage/Library/Music-Kids"
           "/storage/Books" # ~35G
+          "/storage/Audiobooks/Library" # ~100G
         ];
         one_file_system = false;
         repositories = [
