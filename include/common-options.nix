@@ -90,6 +90,7 @@ in {
         alejandra # Nix formatter
         bat # cat with syntax highlighting
         bfs # A breadth-first version of the UNIX find command
+        bubblewrap
         bwm_ng # console network/disk monitor
         catclock # provides 'xclock'
         # cope provides nice colors for things like lsusb, but it was also
