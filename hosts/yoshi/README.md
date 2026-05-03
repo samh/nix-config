@@ -7,8 +7,8 @@
 ## State / Manual Setup Steps
 1. *See [top-level README.md](../../README.md) for common steps.*
 2. Run `smbpasswd -a samh` to set the samba password for myself.
-3. Borg backup for photos: `HEALTHCHECKS_URL_PHOTOS` in `/root/borgmatic.env`,
-   password in `/root/borg-pass-photos`
+3. Borg backup for photos: password in `/root/borg-pass-photos`
+   (update healthcheck URL if needed in sops secrets)
 4. For Calibre Server, user database needs to exist:
    `/var/lib/calibre-server/server-users.sqlite`
    (created by Calibre GUI or command line); the GUI creates it at

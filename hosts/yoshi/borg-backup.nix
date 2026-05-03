@@ -190,6 +190,12 @@
         keep_yearly = 10;
       };
   };
+
+  # Use sops secrets instead of manually editing /root/borgmatic.env
+  sops.secrets.borgmatic-env-yoshi = {};
+  systemd.services.borgmatic.serviceConfig.EnvironmentFile =
+    config.sops.secrets."borgmatic-env-yoshi".path;
+
   programs.ssh.knownHosts = {
     # EU repo - SSH host keys are different.
     "jhbk0u3p.repo.borgbase.com" = {
