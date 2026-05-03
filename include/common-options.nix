@@ -86,6 +86,7 @@ in {
     })
     (mkIf cfg.extras.enable {
       environment.systemPackages = with pkgs; [
+        age # encryption tool - used to manage keys for use with sops
         alejandra # Nix formatter
         bat # cat with syntax highlighting
         bfs # A breadth-first version of the UNIX find command
@@ -132,6 +133,7 @@ in {
         shellcheck # shell script linter
         shfmt # shell script formatter
         smplayer
+        sops # For editing secrets files
         thunderbird
         tlrc # tldr client - simplified quick reference pages
         unrar

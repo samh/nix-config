@@ -146,7 +146,6 @@
       pkgs.unstable.podlet # Generate Quadlet files from command/compose
       restic # Backup program
       socat
-      sops # For editing secrets files
       spotify
       syncthing
       vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
