@@ -135,13 +135,21 @@ in {
 
     "immich" = {
       source_directories = [
-        "/data/ImmichLibrary" # ~150G
+        "/data/ImmichLibrary" # ~100G after exclusions
         # container config
         "/home/samh/src/stacks/immich"
       ];
       exclude_patterns = [
         # Exclude database dir - it needs to be dumped
         "pf:/home/samh/src/stacks/immich/postgres"
+        # Exclude database backups - these are covered by borgmatic database dumps
+        "pf:/data/ImmichLibrary/backups"
+        # Exclude thumbnails - they will be regenerated
+        "pf:/data/ImmichLibrary/thumbs"
+        # Exclude encoded video - these can be regenerated, though it might require
+        # some cleanup after a restore.
+        # This is a big one: currently ~50GB, 1/3 the size of ImmichLibrary.
+        "pf:/data/ImmichLibrary/encoded-video"
       ];
 
       # Immich Library duplicates much of photo backup dir, which is why
