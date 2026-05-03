@@ -36,6 +36,7 @@
   # TODO: is it possible to add to the path of the "borgmatic" wrapper script,
   #       so it works when running that directly?
   systemd.services.borgmatic.path = [
+    pkgs.podman
     config.services.postgresql.package
   ];
 
@@ -163,9 +164,9 @@
           username = "postgres";
           format = "custom";
           compression = "none"; # borg compresses anyway
-          pg_dump_command = "sudo -u samh podman exec immich_postgres pg_dump";
-          pg_restore_command = "sudo -u samh podman exec immich_postgres pg_restore";
-          psql_command = "sudo -u samh podman exec immich_postgres psql";
+          pg_dump_command = "${pkgs.sudo}/bin/sudo -u samh ${pkgs.podman}/bin/podman exec immich_postgres pg_dump";
+          pg_restore_command = "${pkgs.sudo}/bin/sudo -u samh ${pkgs.podman}/bin/podman exec immich_postgres pg_restore";
+          psql_command = "${pkgs.sudo}/bin/sudo -u samh ${pkgs.podman}/bin/podman exec immich_postgres psql";
         }
       ];
     };
