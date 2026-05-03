@@ -98,6 +98,8 @@ in {
             format = "custom";
           }
         ];
+        # Required when postgresql_databases hooks are configured.
+        read_special = true;
         repositories = [
           {
             label = "borgbase-general";
@@ -177,6 +179,8 @@ in {
           psql_command = "${samhPodman} exec -i immich_postgres psql";
         }
       ];
+      # Required when postgresql_databases hooks are configured.
+      read_special = true;
     };
 
     "media" =

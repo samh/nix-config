@@ -74,6 +74,8 @@
             format = "custom";
           }
         ];
+        # Required when postgresql_databases hooks are configured.
+        read_special = true;
 
         commands = [
           {
