@@ -16,7 +16,11 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  samhUid = toString config.users.users.samh.uid;
+  asSamh = "${pkgs.systemd}/bin/systemd-run --quiet --wait --pipe --collect --uid=samh --setenv=XDG_RUNTIME_DIR=/run/user/${samhUid}";
+  samhPodman = "${asSamh} ${pkgs.podman}/bin/podman";
+in {
   imports = [
     ../include/borg-backup.nix
   ];
@@ -157,16 +161,20 @@
       healthchecks = {ping_url = "\${HEALTHCHECKS_URL_IMMICH:-empty}";};
 
       # Manual dump command (don't use "-f" because it would save inside the container):
-      # sudo -u samh podman exec immich_postgres pg_dump -U postgres -Fc immich > /path/to/immich.dump
+      # podman exec immich_postgres pg_dump -U postgres -Fc immich > /path/to/immich.dump
+      #
+      # Borgmatic's upstream systemd unit is hardened with NoNewPrivileges,
+      # RestrictSUIDSGID, and no CAP_SETUID, so don't use sudo/runuser here.
+      # Ask PID 1 to run a short transient service as samh instead.
       postgresql_databases = [
         {
           name = "immich";
           username = "postgres";
           format = "custom";
           compression = "none"; # borg compresses anyway
-          pg_dump_command = "${pkgs.sudo}/bin/sudo -u samh ${pkgs.podman}/bin/podman exec immich_postgres pg_dump";
-          pg_restore_command = "${pkgs.sudo}/bin/sudo -u samh ${pkgs.podman}/bin/podman exec immich_postgres pg_restore";
-          psql_command = "${pkgs.sudo}/bin/sudo -u samh ${pkgs.podman}/bin/podman exec immich_postgres psql";
+          pg_dump_command = "${samhPodman} exec immich_postgres pg_dump";
+          pg_restore_command = "${samhPodman} exec -i immich_postgres pg_restore";
+          psql_command = "${samhPodman} exec -i immich_postgres psql";
         }
       ];
     };
