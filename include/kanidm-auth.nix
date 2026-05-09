@@ -119,7 +119,7 @@ in {
       };
 
       services.kanidm = {
-        package = pkgs.kanidmWithSecretProvisioning_1_9;
+        package = pkgs.kanidmWithSecretProvisioning_1_10;
 
         enableClient = true;
         enableServer = true;
