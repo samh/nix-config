@@ -161,6 +161,8 @@ in {
           path = "ssh://a7a635p6@a7a635p6.repo.borgbase.com/./repo";
         }
       ];
+      # Since it is the same repo, set a name to distinguish
+      archive_name_format = "immich-yoshi-{now}";
       encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass-photos";
       compression = "auto,zstd,9";
       keep_within = "24H";
