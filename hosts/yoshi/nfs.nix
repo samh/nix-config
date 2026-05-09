@@ -26,11 +26,25 @@ in {
     "d ${nfs_root}/Retro 0755 - - -"
   ];
 
-  # Bind mount actual directories into NFSv4 pseudo-root
-  fileSystems."${nfs_root}/Retro" = {
-    device = "/storage/Games/Retro";
-    options = ["bind"];
-  };
+  # Bind mount Retro into the NFSv4 pseudo-root after local filesystems have
+  # settled so mergerfs has a stable view of /storage.
+  systemd.mounts = [
+    {
+      description = "Bind Retro into the NFSv4 export tree";
+      what = "/storage/Games/Retro";
+      where = "${nfs_root}/Retro";
+      type = "none";
+      options = "bind,nofail";
+      after = [
+        "local-fs.target"
+        "storage.mount"
+      ];
+      wants = ["storage.mount"];
+      before = ["nfs-server.service"];
+      wantedBy = ["nfs-server.service"];
+      unitConfig.ConditionPathExists = "/storage/Games/Retro";
+    }
+  ];
 
   # Enable NFS server
   services.nfs.server = {
