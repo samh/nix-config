@@ -31,7 +31,12 @@
     "general" =
       config.my.borg.borgmatic-defaults
       // {
-        archive_name_format = "kirby-general-{now:%Y-%m-%dT%H:%M:%S.%f}";
+        # Keep the previous default name to be the same as previous backups;
+        # however, the default match pattern also matches the
+        # "kirby-postgresql" naming below, so we add the "2" (matching
+        # any year in this millennium).
+        archive_name_format = "kirby-{now:%Y-%m-%dT%H:%M:%S.%f}";
+        match_archives = "sh:kirby-2*";
         encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass-general";
         source_directories = [
           "/root"
