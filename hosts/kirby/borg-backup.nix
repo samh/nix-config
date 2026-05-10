@@ -31,6 +31,7 @@
     "general" =
       config.my.borg.borgmatic-defaults
       // {
+        archive_name_format = "kirby-general-{now:%Y-%m-%dT%H:%M:%S.%f}";
         encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass-general";
         source_directories = [
           "/root"
@@ -56,35 +57,14 @@
           #/home/samh/.local/share/containers/storage/volumes # all volumes
           "/home/samh/.local/share/containers/storage/volumes/open-webui_open-terminal-home"
         ];
-        # read_special is required for the PostgreSQL hook below, but Homarr's
-        # podman runtime tree contains control files that can block borg reads.
-        exclude_patterns =
-          config.my.borg.common-exclude-patterns
-          ++ [
-            "sh:/var/lib/homarr/.local/share/containers/storage/overlay-containers/**/userdata/ctl"
-            "sh:/var/lib/homarr/.local/share/containers/storage/overlay-containers/**/userdata/winsz"
-          ];
+        # Disable explicitly - sometimes borg can get stuck trying to read special files
+        read_special = false;
         repositories = [
           {
             label = "borgbase";
             path = "ssh://f66k66p2@f66k66p2.repo.borgbase.com/./repo";
           }
         ];
-        # Note: since borgmatic is running as root, I created a "root" user
-        # in the database who can read all databases; it's using the default
-        # peer authentication. See the 'ensureUsers' and 'postStart' above.
-        postgresql_databases = [
-          {
-            # To list databases, run: `sudo -u postgres psql -l`
-            # "all" to dump all databases on the host.
-            name = "all";
-            # dumps each database to a separate file in "custom" format
-            format = "custom";
-          }
-        ];
-        # Required when postgresql_databases hooks are configured.
-        read_special = true;
-
         commands = [
           {
             before = "action";
@@ -124,6 +104,34 @@
         # Healthchecks error: 400 Client Error: Bad Request for url: https://hc-ping.com/$%7BHEALTHCHECKS_URL:-%7D
         # Seems to work if we give it some arbitrary string.
         healthchecks = {ping_url = "\${HEALTHCHECKS_URL:-empty}";};
+      };
+
+    "postgresql" =
+      config.my.borg.borgmatic-defaults
+      // {
+        archive_name_format = "kirby-postgresql-{now:%Y-%m-%dT%H:%M:%S.%f}";
+        encryption_passcommand = "${pkgs.coreutils}/bin/cat /root/borg-pass-general";
+        source_directories = [];
+        repositories = [
+          {
+            label = "borgbase";
+            path = "ssh://f66k66p2@f66k66p2.repo.borgbase.com/./repo";
+          }
+        ];
+        # Required when postgresql_databases hooks are configured.
+        read_special = true;
+        # Note: since borgmatic is running as root, I created a "root" user
+        # in the database who can read all databases; it's using the default
+        # peer authentication. See the 'ensureUsers' and 'postStart' above.
+        postgresql_databases = [
+          {
+            # To list databases, run: `sudo -u postgres psql -l`
+            # "all" to dump all databases on the host.
+            name = "all";
+            # dumps each database to a separate file in "custom" format
+            format = "custom";
+          }
+        ];
       };
   };
 
