@@ -56,6 +56,14 @@
           #/home/samh/.local/share/containers/storage/volumes # all volumes
           "/home/samh/.local/share/containers/storage/volumes/open-webui_open-terminal-home"
         ];
+        # read_special is required for the PostgreSQL hook below, but Homarr's
+        # podman runtime tree contains control files that can block borg reads.
+        exclude_patterns =
+          config.my.borg.common-exclude-patterns
+          ++ [
+            "sh:/var/lib/homarr/.local/share/containers/storage/overlay-containers/**/userdata/ctl"
+            "sh:/var/lib/homarr/.local/share/containers/storage/overlay-containers/**/userdata/winsz"
+          ];
         repositories = [
           {
             label = "borgbase";
