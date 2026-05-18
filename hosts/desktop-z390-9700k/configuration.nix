@@ -150,6 +150,7 @@
       syncthing
       vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
       waypipe
+      pkgs.unstable.zed-editor
       #zellij # Terminal multiplexer (tmux alternative)
 
       # Python development
@@ -187,6 +188,7 @@
       #gemini-cli
       #goose-cli
       opencode
+      pi
 
       # Disable these for now as I haven't been using them.
       # Leaving here in case I want to re-enable when needed.
