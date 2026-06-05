@@ -221,7 +221,10 @@
 
   # Enable Nextcloud
   my.nextcloud.enable = true;
-  my.nextcloud.office.enable = true;
+  # collabora-online is currently failing to build in NixOS 26.05, and it also
+  # seems to be going through a long local C++ build rather than using cached
+  # binaries.
+  #my.nextcloud.office.enable = true;
 
   # TODO: need to adjust permissions or exclusions
   # See journal for update-locatedb.service
