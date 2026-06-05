@@ -10,7 +10,7 @@ in {
   security.acme.certs."${openwebui_host}" = {
     dnsProvider = "cloudflare";
     # sops.secrets.acme.env configured in acme.nix
-    credentialsFile = config.sops.secrets."acme-env".path;
+    environmentFile = config.sops.secrets."acme-env".path;
     #    group = "caddy";
     group = "nginx";
   };

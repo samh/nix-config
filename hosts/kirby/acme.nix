@@ -13,7 +13,7 @@
   };
   #  security.acme.defaults = {
   #    dnsProvider = "cloudflare";
-  #    credentialsFile = config.sops.secrets."acme-env".path;
+  #    environmentFile = config.sops.secrets."acme-env".path;
   #  };
   security.acme.certs."kirby.${config.my.baseDomain}" = {
     domain = "*.kirby.${config.my.baseDomain}";
@@ -21,14 +21,14 @@
     # to use digitalocean for sandbox/testing machines.
     dnsProvider = "cloudflare";
     # dnsProvider = "digitalocean";
-    credentialsFile = config.sops.secrets."acme-env".path;
+    environmentFile = config.sops.secrets."acme-env".path;
     group = "nginx";
   };
   security.acme.certs."sso.${config.my.baseDomain}" = {
     domain = "sso.${config.my.baseDomain}";
     extraDomainNames = ["ldap.${config.my.baseDomain}"];
     dnsProvider = "cloudflare";
-    credentialsFile = config.sops.secrets."acme-env".path;
+    environmentFile = config.sops.secrets."acme-env".path;
     group = "kanidm";
   };
 }

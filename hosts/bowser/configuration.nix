@@ -103,7 +103,6 @@
   # LLM framework
   services.ollama = {
     enable = true;
-    acceleration = "cuda";
     package = pkgs.unstable.ollama-cuda;
     host = "0.0.0.0";
     environmentVariables = {

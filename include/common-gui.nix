@@ -103,7 +103,7 @@
         # to system-level, home-manager, or nix-env.
         #firefox
         gsmartcontrol
-        xorg.xkill
+        xkill
       ];
     })
   ];

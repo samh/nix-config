@@ -112,7 +112,7 @@
     dnsProvider = "digitalocean";
     # Should contain something like:
     # DO_AUTH_TOKEN=dop_...
-    credentialsFile = config.sops.secrets."goomba-acme-env".path;
+    environmentFile = config.sops.secrets."goomba-acme-env".path;
     group = "nginx";
   };
 

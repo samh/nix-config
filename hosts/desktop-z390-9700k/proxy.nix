@@ -14,7 +14,7 @@ in {
 
   security.acme.certs."${openwebui_host}" = {
     dnsProvider = "cloudflare";
-    credentialsFile = config.sops.secrets."acme-env".path;
+    environmentFile = config.sops.secrets."acme-env".path;
     group = "caddy";
   };
 

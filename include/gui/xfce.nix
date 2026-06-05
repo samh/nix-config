@@ -46,7 +46,7 @@ in {
       ulauncher # Launcher, comparing this and rofi
       xfce.xfce4-panel-profiles
       xfce.xfce4-whiskermenu-plugin
-      xorg.xhost
+      xhost
     ];
   };
 }

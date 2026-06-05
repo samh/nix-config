@@ -14,14 +14,14 @@
   security.acme.certs."${config.my.hostDomain}" = {
     domain = "*.${config.my.hostDomain}";
     dnsProvider = "cloudflare";
-    credentialsFile = config.sops.secrets."acme-env".path;
+    environmentFile = config.sops.secrets."acme-env".path;
     group = "nginx";
   };
   security.acme.certs."sso.${config.my.baseDomain}" = {
     domain = "sso.${config.my.baseDomain}";
     extraDomainNames = ["ldap.${config.my.baseDomain}"];
     dnsProvider = "cloudflare";
-    credentialsFile = config.sops.secrets."acme-env".path;
+    environmentFile = config.sops.secrets."acme-env".path;
     group = "kanidm";
   };
 }
