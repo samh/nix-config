@@ -21,13 +21,14 @@
 
     inputs.sops-nix.nixosModules.sops
 
-    ../include/common.nix
-    ../include/ext-mounts.nix
-    ../include/kde.nix
-    ../include/mounts-yoshi.nix
-    ../include/nix-ld.nix
-    ../include/numtide-cache.nix
-    ../include/vfio-host.nix
+    ../../include/common.nix
+    ../../include/gui
+    ../../include/ext-mounts.nix
+    #../../include/kde.nix
+    ../../include/mounts-yoshi.nix
+    ../../include/nix-ld.nix
+    ../../include/numtide-cache.nix
+    ../../include/vfio-host.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -98,6 +99,15 @@
 
   # Enable the X11 windowing system.
   my.gui.enable = true;
+  #my.gui.cosmic.enable = true;
+  my.gui.xfce.enable = true;
+  # XFCE’s module enables GNOME Keyring by default; disable it if using KeePassXC.
+  # Downside is KeePassXC won't unlock at login (so e.g. the Nextcloud app might
+  # be unhappy).
+  #services.gnome.gnome-keyring.enable = lib.mkForce false;
+  # Optional: Enable system76-scheduler for slight performance improvement
+  services.system76-scheduler.enable = true;
+  programs.partition-manager.enable = true; # KDE Partition Manager
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -140,6 +150,7 @@
       #lmstudio # LM Studio (AI)
       moonlight-qt
       nextcloud-client
+      nixd # Nix language server
       nixos-rebuild-ng
       nh # Yet another nix cli helper
       nodejs # for npm; see https://wiki.nixos.org/wiki/Node.js
@@ -237,7 +248,11 @@
   users.users.vm2 = {
     uid = 5050;
     isNormalUser = true;
-    extraGroups = ["wheel" "audio" "multimedia"];
+    extraGroups = [
+      "wheel"
+      "audio"
+      "multimedia"
+    ];
     shell = pkgs.fish;
   };
 
@@ -251,13 +266,22 @@
   networking.firewall.interfaces.virbr0 = {
     # 'default' (NAT) network
     allowedTCPPorts = [53];
-    allowedUDPPorts = [53 67];
+    allowedUDPPorts = [
+      53
+      67
+    ];
   };
   networking.firewall.interfaces.virbr2 = {
     # 'host-only' network
     # 4656 = pulseaudio
-    allowedTCPPorts = [53 4656];
-    allowedUDPPorts = [53 67];
+    allowedTCPPorts = [
+      53
+      4656
+    ];
+    allowedUDPPorts = [
+      53
+      67
+    ];
   };
 
   # Allow ollama over tailscale (ollama running in container)
@@ -282,7 +306,7 @@
   };
 
   programs.firejail.enable = true;
-  programs.kdeconnect.enable = true;
+  #programs.kdeconnect.enable = true;
   programs.yazi.enable = true;
 
   # TODO: need to adjust permissions or exclusions

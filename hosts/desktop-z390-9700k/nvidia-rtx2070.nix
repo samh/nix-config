@@ -13,7 +13,8 @@
   # Intel iGPU drives the display, but we still list "nvidia" here so that
   # X11/KDE session environment is configured properly (even though the dGPU
   # is bound to vfio-pci at boot).
-  services.xserver.videoDrivers = ["modesetting" "nvidia"];
+  #services.xserver.videoDrivers = ["modesetting" "nvidia"];
+  services.xserver.videoDrivers = ["intel"];
 
   hardware.graphics.enable = true;
 

@@ -19,9 +19,14 @@ in {
     # Enable the X11 windowing system.
     my.gui.enable = lib.mkDefault true;
     my.gui.sound.enable = lib.mkDefault true;
+    programs.gnupg.agent.enable = lib.mkForce false;
 
     # Enable the Xfce Desktop Environment.
     services.xserver.desktopManager.xfce.enable = true;
+    services.gnome.gnome-keyring.enable = lib.mkDefault true;
+    security.pam.services.lightdm.enableGnomeKeyring = lib.mkDefault true;
+    programs.seahorse.enable = config.services.gnome.gnome-keyring.enable;
+
     # https://nixos.wiki/wiki/Thunar
     programs.thunar.enable = true;
     programs.thunar.plugins = with pkgs.xfce; [
@@ -36,6 +41,9 @@ in {
 
     environment.systemPackages = with pkgs; [
       galculator # GTK calculator
+      #pavucontrol # Audio mixer
+      rofi # Launcher
+      ulauncher # Launcher, comparing this and rofi
       xfce.xfce4-panel-profiles
       xfce.xfce4-whiskermenu-plugin
       xorg.xhost

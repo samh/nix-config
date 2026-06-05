@@ -228,7 +228,12 @@
       };
     };
     # GNOME enables gcr-ssh-agent; keep classic ssh-agent for non-GNOME hosts.
+    # Apparently Cosmic enables it too? But it's broken in the NixOS 25.11 version.
+    # See: https://github.com/pop-os/cosmic-session/issues/148
+    #  and https://github.com/pop-os/cosmic-session/pull/181
     programs.ssh.startAgent = lib.mkDefault (!config.services.desktopManager.gnome.enable);
+    #programs.ssh.startAgent = lib.mkDefault (!config.services.gnome.gcr-ssh-agent.enable);
+    services.gnome.gcr-ssh-agent.enable = lib.mkDefault (config.services.desktopManager.gnome.enable);
 
     # Enable periodic TRIM for SSDs
     services.fstrim.enable = true;
