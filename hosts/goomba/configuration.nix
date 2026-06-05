@@ -320,6 +320,7 @@
     settings = {
       http_url = "https://ldap.${config.my.hostDomain}";
       ldap_base_dn = config.my.ldapBaseDn;
+      force_ldap_user_pass_reset = "always";
       # Email is not really required (username is "admin"), it's just nice to
       # not show as "admin@example.com".
       ldap_user_email = "admin@${config.my.hostDomain}";

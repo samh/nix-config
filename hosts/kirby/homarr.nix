@@ -27,12 +27,7 @@ in {
     createHome = true;
     # Allow su to user for troubleshooting
     shell = pkgs.fish;
-    # Unclear if we should use linger or not; the module warns if we enable
-    # "Podman container homarr is configured as rootless (user homarr) with
-    #  `--sdnotify=conmon`, but lingering for this user is turned on."
-    # But I'm not clear on why this is. Could also try setting
-    # sdnotify = "healthy".
-    linger = false;
+    linger = true;
     autoSubUidGidRange = true;
   };
 
@@ -101,8 +96,6 @@ in {
     # Optional hardening (safe defaults; can remove if you prefer)
     extraOptions = [
       "--security-opt=no-new-privileges"
-      # Used for non-lingering user (default is systemd, which fails and
-      # falls back to this with a warning if user is not lingering)
       "--cgroup-manager=cgroupfs"
     ];
   };

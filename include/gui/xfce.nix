@@ -29,7 +29,7 @@ in {
 
     # https://nixos.wiki/wiki/Thunar
     programs.thunar.enable = true;
-    programs.thunar.plugins = with pkgs.xfce; [
+    programs.thunar.plugins = with pkgs; [
       thunar-archive-plugin
       thunar-media-tags-plugin
       thunar-volman
@@ -44,8 +44,8 @@ in {
       #pavucontrol # Audio mixer
       rofi # Launcher
       ulauncher # Launcher, comparing this and rofi
-      xfce.xfce4-panel-profiles
-      xfce.xfce4-whiskermenu-plugin
+      xfce4-panel-profiles
+      xfce4-whiskermenu-plugin
       xhost
     ];
   };
