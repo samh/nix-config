@@ -159,7 +159,7 @@
     ];
   };
 
-  my.allowedUnfree = ["intel-ocl"];
+  my.allowedUnfree = ["intel-ocl" "nvidia-kernel-modules"];
 
   # nginx for reverse proxy
   my.nginx = {
