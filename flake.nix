@@ -7,9 +7,12 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-    # You can access packages and modules from different nixpkgs revs
-    # at the same time. Here's an working example:
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Reuse the nixpkgs revision from llm-agents so unstable packages stay
+    # aligned with the versions available from the numtide cache.
+    # I did this to reduce the number of copies of nixpkgs in my config.
+    # This is not ideal, since unstable packages will update if I only update
+    # llm-agents, but most of the time it should be fine.
+    nixpkgs-unstable.follows = "llm-agents/nixpkgs";
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
     # Home manager
