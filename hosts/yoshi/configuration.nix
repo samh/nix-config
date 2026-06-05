@@ -311,6 +311,7 @@
     useACMEHost = config.my.hostDomain;
   };
   # ImmichFrame running using podman compose
+  # TODO: try services.immichframe (26.11)?
   services.nginx.virtualHosts."immichframe" = {
     serverName = "immichframe.${config.my.hostDomain}";
     locations."/" = {
