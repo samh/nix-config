@@ -3,7 +3,7 @@
   upsName = "cp1500pfclcd";
 in {
   imports = [
-    ../include/power-ups.nix
+    ../../include/power-ups.nix
   ];
 
   power.ups.ups.${upsName} = {

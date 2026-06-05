@@ -13,12 +13,12 @@
   myTailscaleIP = config.my.metadata.hosts.${config.networking.hostName}.tailscale_address;
 in {
   imports = [
-    ../include/common.nix
-    ../include/dns-blocky.nix
-    ../include/ext-mounts.nix
-    ../include/kanidm-auth.nix
-    ../include/nginx.nix
-    ../include/virt-manager.nix
+    ../../include/common.nix
+    ../../include/dns-blocky.nix
+    ../../include/ext-mounts.nix
+    ../../include/kanidm-auth.nix
+    ../../include/nginx.nix
+    ../../include/virt-manager.nix
     inputs.sops-nix.nixosModules.sops
 
     ./acme.nix

@@ -22,7 +22,7 @@
   samhPodman = "${asSamh} ${pkgs.podman}/bin/podman";
 in {
   imports = [
-    ../include/borg-backup.nix
+    ../../include/borg-backup.nix
   ];
 
   # Create a postgresql user for root to be used by borgmatic to dump all

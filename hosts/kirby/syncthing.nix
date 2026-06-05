@@ -13,7 +13,7 @@
   };
 in {
   imports = [
-    ../include/syncthing.nix
+    ../../include/syncthing.nix
   ];
 
   services.syncthing.settings = {
