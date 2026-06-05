@@ -154,14 +154,14 @@
       nixos-rebuild-ng
       nh # Yet another nix cli helper
       nodejs # for npm; see https://wiki.nixos.org/wiki/Node.js
-      pkgs.unstable.podlet # Generate Quadlet files from command/compose
+      podlet # Generate Quadlet files from command/compose
       restic # Backup program
       socat
       spotify
       syncthing
       vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
       waypipe
-      pkgs.unstable.zed-editor
+      zed-editor
       #zellij # Terminal multiplexer (tmux alternative)
 
       # Python development

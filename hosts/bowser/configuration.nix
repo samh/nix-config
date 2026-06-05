@@ -62,8 +62,6 @@
   environment.systemPackages = with pkgs; [
     dua # Disk Usage Analyzer (ncdu alternative)
     git # required for building flakes
-    pkgs.unstable.gollama # Tool for managing Ollama models - https://github.com/sammcj/gollama/
-    # pkgs.unstable.isd # Waiting for it to be added to unstable
     nh # Yet another nix cli helper
     nvtopPackages.nvidia
     uv # Python package tool
