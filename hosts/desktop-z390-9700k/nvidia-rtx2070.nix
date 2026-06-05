@@ -14,7 +14,7 @@
   # X11/KDE session environment is configured properly (even though the dGPU
   # is bound to vfio-pci at boot).
   #services.xserver.videoDrivers = ["modesetting" "nvidia"];
-  services.xserver.videoDrivers = ["intel"];
+  services.xserver.videoDrivers = ["intel" "nvidia"];
 
   hardware.graphics.enable = true;
 
