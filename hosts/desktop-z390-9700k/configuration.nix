@@ -141,7 +141,6 @@
       btrfs-assistant
       docker-compose
       ghostty # Fast, native, feature-rich terminal emulator pushing modern features
-      #gollama # Manage ollama models
       #jellyfin-media-player # pulls in Qt5; I don't use this much on desktop
       just
       qdirstat
