@@ -181,6 +181,7 @@
 
       syncthing
       vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
+      zed-editor
     ])
     ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
       # codex takes a long time to compile; to avoid, numtide cache should be
