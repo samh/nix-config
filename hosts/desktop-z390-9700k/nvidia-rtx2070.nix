@@ -28,15 +28,25 @@
     open = true; # Set to false for proprietary drivers
   };
 
-  # Do not generate NVIDIA CDI devices at boot. The GPU is normally bound to
-  # vfio-pci, so nvidia-ctk/NVML probes just fail and load NVIDIA modules.
+  hardware.nvidia-container-toolkit = {
+    enable = config.virtualisation.podman.enable;
+    # The NVIDIA driver is intentionally kept out of services.xserver.videoDrivers
+    # because the GPU is normally bound to vfio-pci at boot.
+    suppressNvidiaDriverAssertion = true;
+  };
+
+  # Keep the NVIDIA container toolkit available, but do not generate CDI devices
+  # at boot or when Podman starts. The GPU is normally bound to vfio-pci, so a
+  # boot-time nvidia-ctk/NVML probe just fails and loads NVIDIA modules.
   #
-  # Tradeoff: host-side NVIDIA containers will not work from a cold boot with
-  # the stock CDI setup. For those, first unbind the GPU from vfio-pci, bind it
-  # to the NVIDIA driver, then run a one-shot CDI generation/restart as part of
-  # that workflow. Re-enabling this option globally favors host containers over
-  # the normal VM passthrough path and can recreate the boot-time probe failures.
-  hardware.nvidia-container-toolkit.enable = false;
+  # Host-side NVIDIA containers still need the manual bind/unbind flow: unbind
+  # the GPU from vfio-pci, bind it to the NVIDIA driver, then restart this
+  # one-shot generator or let the toolkit's udev rule restart it when /dev/nvidia*
+  # appears.
+  systemd.services.nvidia-container-toolkit-cdi-generator = {
+    wantedBy = lib.mkForce [];
+    requiredBy = lib.mkForce [];
+  };
 
   environment.systemPackages = with pkgs; [
     nvtopPackages.nvidia
