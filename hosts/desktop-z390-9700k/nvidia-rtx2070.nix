@@ -10,11 +10,10 @@
   # to be able to unbind it for use in a VM.
   # See also vfio-host.nix.
 
-  # Intel iGPU drives the display, but we still list "nvidia" here so that
-  # X11/KDE session environment is configured properly (even though the dGPU
-  # is bound to vfio-pci at boot).
-  #services.xserver.videoDrivers = ["modesetting" "nvidia"];
-  services.xserver.videoDrivers = ["intel" "nvidia"];
+  # The Intel iGPU drives the host display. Use Xorg's built-in modesetting
+  # driver; the legacy xf86-video-intel driver fails to load on 26.05, and
+  # listing "nvidia" here makes Xorg try to use the GPU that VFIO owns.
+  services.xserver.videoDrivers = ["modesetting"];
 
   hardware.graphics.enable = true;
 
@@ -29,16 +28,24 @@
     open = true; # Set to false for proprietary drivers
   };
 
-  hardware.nvidia-container-toolkit.enable = config.virtualisation.podman.enable;
+  # Do not generate NVIDIA CDI devices at boot. The GPU is normally bound to
+  # vfio-pci, so nvidia-ctk/NVML probes just fail and load NVIDIA modules.
+  #
+  # Tradeoff: host-side NVIDIA containers will not work from a cold boot with
+  # the stock CDI setup. For those, first unbind the GPU from vfio-pci, bind it
+  # to the NVIDIA driver, then run a one-shot CDI generation/restart as part of
+  # that workflow. Re-enabling this option globally favors host containers over
+  # the normal VM passthrough path and can recreate the boot-time probe failures.
+  hardware.nvidia-container-toolkit.enable = false;
 
   environment.systemPackages = with pkgs; [
     nvtopPackages.nvidia
 
-    # nvidia-cdi-generator needs to find nvidia-smi (and other tools) on the host
-    # to generate a non-empty CDI spec.
-    # It seems like this would normally be added by adding "nvidia" to
-    # services.xserver.videoDrivers, but that is causing the display manager to
-    # fail in NixOS 25.11.
+    # Keep NVIDIA userspace tools available for manual bind/unbind workflows.
+    # nvidia-cdi-generator needs nvidia-smi and related binaries to generate a
+    # non-empty CDI spec after the card has been rebound to the NVIDIA driver.
+    # Do not add "nvidia" to services.xserver.videoDrivers just to get these
+    # tools; that makes the display manager try to use the VFIO-owned card.
     config.hardware.nvidia.package.bin
   ];
 
