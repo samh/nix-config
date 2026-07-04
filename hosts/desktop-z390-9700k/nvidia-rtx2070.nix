@@ -42,10 +42,22 @@
   # Host-side NVIDIA containers still need the manual bind/unbind flow: unbind
   # the GPU from vfio-pci, bind it to the NVIDIA driver, then restart this
   # one-shot generator or let the toolkit's udev rule restart it when /dev/nvidia*
-  # appears.
+  # appears. The condition below makes the udev-triggered start a clean no-op
+  # unless the GPU is actually bound to NVIDIA.
   systemd.services.nvidia-container-toolkit-cdi-generator = {
     wantedBy = lib.mkForce [];
     requiredBy = lib.mkForce [];
+    serviceConfig = {
+      ExecCondition = "${pkgs.writeShellScript "nvidia-cdi-gpu-bound-to-nvidia" ''
+        driver="$(readlink -f /sys/bus/pci/devices/0000:01:00.0/driver 2>/dev/null || true)"
+        test "$(basename "$driver")" = nvidia
+        test -e /proc/driver/nvidia/gpus/0000:01:00.0/information
+      ''}";
+      # Multiple NVIDIA udev events can issue overlapping `restart` requests.
+      # Treat the resulting stop signal as benign; real generator exit errors
+      # still fail the unit.
+      SuccessExitStatus = "SIGTERM";
+    };
   };
 
   environment.systemPackages = with pkgs; [
