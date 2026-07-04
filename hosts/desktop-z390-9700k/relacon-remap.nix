@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{lib, ...}: {
   # Remap Relacon trackball media buttons to arrow keys
   # (this is the handheld remote trackball, with USB receiver)
   #
@@ -35,4 +35,11 @@
       ];
     };
   };
+
+  # The Relacon USB receiver is optional and may not be present at boot. The
+  # upstream evremap unit restarts on failure, which creates a noisy loop when
+  # the receiver is unplugged or enumerates late. Leave the service enabled for
+  # normal use, but fail once when the device is absent; start/restart it after
+  # plugging the receiver in.
+  systemd.services.evremap.serviceConfig.Restart = lib.mkForce "no";
 }
