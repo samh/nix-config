@@ -15,6 +15,7 @@
   ];
   samba_permission_opts = [
     "uid=${toString config.users.users.${config.my.user}.uid}"
+    "forceuid"
     "file_mode=0660"
     "dir_mode=0770"
   ];
@@ -46,6 +47,7 @@ in {
       ++ [
         "credentials=/root/smb-secrets"
         "gid=${toString config.users.groups.multimedia.gid}"
+        "forcegid"
       ];
   };
   # Audiobooks library (writes with "audiobookshelf" group permissions)
@@ -58,6 +60,7 @@ in {
       ++ [
         "credentials=/root/smb-secrets"
         "gid=${toString config.users.groups.multimedia.gid}"
+        "forcegid"
       ];
   };
   # Retro games
