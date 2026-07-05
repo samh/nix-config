@@ -81,6 +81,21 @@ in {
         "write list" = "${config.my.user}";
         "force group" = "multimedia";
       };
+      # Temporary share; same permissions as Library so it can be used as an
+      # "incoming" folder for that.
+      Share = {
+        "path" = "/storage/Library/Share";
+        "public" = "no";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "hosts allow" = "${allowed_ranges}";
+        "hosts deny" = "0.0.0.0/0";
+        "create mask" = "0664";
+        "directory mask" = "0775";
+        "write list" = "${config.my.user}";
+        "force group" = "multimedia";
+      };
       # For the Audiobooks Library, we want to use the 'audiobookshelf' group.
       AudiobooksLibrary = {
         "path" = "/storage/Audiobooks/Library";

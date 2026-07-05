@@ -71,7 +71,10 @@
   # RDP remote desktop
   services.xrdp = {
     enable = true;
-    openFirewall = false; # Use SSH tunnel (Remmina has built-in support)
+    # Try opening for now for easier access from Windows; mostly
+    # over Tailscale, so could instead limit to tailscale0 interface...
+    #openFirewall = false; # Use SSH tunnel (Remmina has built-in support)
+    openFirewall = true;
     defaultWindowManager = "xfce4-session";
   };
 
