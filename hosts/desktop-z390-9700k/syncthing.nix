@@ -48,6 +48,13 @@ in {
         devices = ["vfio-windows" "yoshi" "kirby" "fwdesktop-cachy" "fwnixos" "pixel8"];
         versioning = defaultVersioning;
       };
+      "Notes-AI-Collab" = {
+        id = "Notes-AI-Collab";
+        enable = true;
+        path = "${config.my.homeDir}/Notes/Notes-AI-Collab";
+        devices = ["hermes"];
+        versioning = defaultVersioning;
+      };
       # Calibre work library (technical reference material, including
       # e.g. books, manuals, quick reference cards)
       "Calibre-Work" = {
