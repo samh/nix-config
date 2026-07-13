@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  # Keep docs/sway.md in sync with Sway startup, shortcuts, and output settings.
   wayland.windowManager.sway = {
     enable = true;
     # The NixOS module installs the wrapped Sway package and LightDM session.

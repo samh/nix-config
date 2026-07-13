@@ -101,6 +101,7 @@
   my.gui.enable = true;
   #my.gui.cosmic.enable = true;
   my.gui.xfce.enable = true;
+  # Keep docs/sway.md in sync with Sway packages and session integration here.
   programs.sway = {
     enable = true;
     extraPackages = with pkgs; [

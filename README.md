@@ -17,6 +17,7 @@
     - `sudo nixos-rebuild boot` (or `switch`)
     - `home-manager switch`
 - Auto-format: `nix fmt`
+- Sway desktop session: [`docs/sway.md`](docs/sway.md)
 - Shared auth docs: [`docs/auth-oidc.md`](/home/samh/projects/nixos/docs/auth-oidc.md)
 - Phase 2 VIP design: [`docs/auth-phase-2-vip.md`](/home/samh/projects/nixos/docs/auth-phase-2-vip.md)
 
