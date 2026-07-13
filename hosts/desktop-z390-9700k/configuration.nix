@@ -101,6 +101,19 @@
   my.gui.enable = true;
   #my.gui.cosmic.enable = true;
   my.gui.xfce.enable = true;
+  programs.sway = {
+    enable = true;
+    extraPackages = with pkgs; [
+      fuzzel
+      grim
+      mako
+      slurp
+      swayidle
+      swaylock
+      waybar
+      wl-clipboard
+    ];
+  };
   # XFCE’s module enables GNOME Keyring by default; disable it if using KeePassXC.
   # Downside is KeePassXC won't unlock at login (so e.g. the Nextcloud app might
   # be unhappy).

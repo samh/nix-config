@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./global
+    ./global/sway.nix
     ./global/vscode-with-extensions.nix
   ];
 
