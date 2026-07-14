@@ -43,6 +43,19 @@ desktop portals, the polkit service, PAM support for swaylock, and XDG
 autostart for a window-manager-only session. These are not duplicated in the
 local configuration.
 
+### Waybar Configuration
+
+Waybar currently has no repository-defined settings or stylesheet. Starting
+it without explicit configuration makes it use the example configuration and
+stylesheet packaged with Waybar. The shared GUI configuration installs Font
+Awesome because that example uses its glyphs for status icons.
+
+The example is useful as a starting point, but it includes modules and helper
+file references that are not tailored to this host. A future customization
+should define `programs.waybar.settings` and `programs.waybar.style` in Home
+Manager, keeping the shared Sway startup entry responsible only for launching
+Waybar.
+
 ## Keyboard Shortcuts
 
 `Super` is the main window-management modifier. Sway calls it `Mod4`; `Alt` is
