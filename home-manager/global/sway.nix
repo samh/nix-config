@@ -25,6 +25,7 @@
       keybindings = {
         "${modifier}+Return" = "exec ${terminal}";
         "Mod1+space" = "exec ${menu}";
+        "Mod1+F4" = "kill";
         "${modifier}+d" = "exec ${menu}";
         "${modifier}+Shift+q" = "kill";
 

@@ -115,6 +115,10 @@
       wl-clipboard
     ];
   };
+  # LightDM starts graphical sessions on VT 2. Do not let an autovt getty
+  # concurrently claim that VT and handle Alt+F keys as console VT switches.
+  systemd.services."getty@tty2".enable = false;
+  systemd.services."autovt@tty2".enable = false;
   # XFCE’s module enables GNOME Keyring by default; disable it if using KeePassXC.
   # Downside is KeePassXC won't unlock at login (so e.g. the Nextcloud app might
   # be unhappy).
