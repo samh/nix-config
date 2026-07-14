@@ -62,8 +62,7 @@
         "Shift+Print" = "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy";
       };
 
-      # Output configuration intentionally remains empty until connector names,
-      # modes, positions, scale, and rotation can be observed under Sway.
+      # Output layouts belong in host-specific Home Manager profiles.
       output = {};
     };
   };

@@ -11,7 +11,9 @@ The configuration is split between:
   programs;
 - [`home-manager/global/sway.nix`](../home-manager/global/sway.nix), which
   defines the user-facing Sway configuration, startup programs, and keyboard
-  shortcuts.
+  shortcuts;
+- [`home-manager/nixos-2022-desktop.nix`](../home-manager/nixos-2022-desktop.nix),
+  which defines the host-specific monitor layout.
 
 Although the Home Manager module is under `home-manager/global`, it is
 currently imported only by
@@ -107,19 +109,93 @@ KeePassXC.
 
 ## Display and GPU Configuration
 
-No output layout is configured yet. Sway uses detected defaults so the
-configuration does not guess connector names, resolutions, positions, scale,
-or rotation.
+Sway identifies displays by their connector names. On this desktop the
+connectors and displays are:
 
-Inspect active outputs from a running Sway session with:
+| Connector | Display | Layout |
+| --- | --- | --- |
+| `DP-2` | HP Z27n G2 | Left, `2560x1440`, rotated 90 degrees counter-clockwise |
+| `HDMI-A-3` | LG UltraGear | Right, `2560x1440`, normal orientation |
+
+Connector names can change when a cable is moved to another port. Inspect the
+currently connected outputs, supported modes, active mode, position, and
+transform from a running Sway session with:
 
 ```shell
 swaymsg -t get_outputs
 ```
 
-Add verified settings to `wayland.windowManager.sway.config.output` in
-`home-manager/global/sway.nix`, then update this document with the resulting
-layout.
+For a shorter summary when `jq` is available:
+
+```shell
+swaymsg -t get_outputs --raw \
+  | jq '.[] | {name, make, model, modes, current_mode, transform, rect}'
+```
+
+### Changing the Layout Dynamically
+
+Use `swaymsg output` to test settings immediately without editing or applying
+the Home Manager configuration. The following command places the portrait HP
+on the left and vertically centers the LG on its right:
+
+```shell
+swaymsg 'output DP-2 mode 2560x1440@59.951Hz transform 270 position 0 0; output HDMI-A-3 mode 2560x1440@59.951Hz transform normal position 1440 560'
+```
+
+In Sway, transform `270` is a 270-degree clockwise rotation, which is the same
+as 90 degrees counter-clockwise. Rotation changes the HP's logical dimensions
+to 1440 by 2560 pixels. The LG therefore starts at X position 1440, and its Y
+position is `(2560 - 1440) / 2 = 560` to center it vertically.
+
+The important output properties are:
+
+- `mode`: physical resolution and optional refresh rate;
+- `transform`: rotation (`normal`, `90`, `180`, or `270`);
+- `position`: X and Y coordinates in the combined logical desktop, measured
+  from its top-left corner;
+- `scale`: optional display scaling, which defaults to `1` here.
+
+Re-run the command with different positions to experiment. Dynamic changes
+last only for the current Sway session unless the same settings are added to
+the persistent configuration. Run `swaymsg reload` to discard experiments and
+restore the persistent layout. To return to automatic detection, first remove
+the persistent output settings described below and apply the Home Manager
+configuration.
+
+### Configuring the Layout Persistently
+
+After verifying a layout dynamically, add it to
+`wayland.windowManager.sway.config.output` in
+`home-manager/nixos-2022-desktop.nix`. Output connector names and physical
+positions are host-specific, so they do not belong in
+`home-manager/global/sway.nix`. The persistent configuration is:
+
+```nix
+output = {
+  "DP-2" = {
+    mode = "2560x1440@59.951Hz";
+    transform = "270";
+    position = "0 0";
+  };
+  "HDMI-A-3" = {
+    mode = "2560x1440@59.951Hz";
+    transform = "normal";
+    position = "1440 560";
+  };
+};
+```
+
+Apply a persistent Home Manager change and reload the running compositor with:
+
+```shell
+nh home switch -a .
+swaymsg reload
+```
+
+If Sway rejects a setting, inspect the full output data again and use one of
+the modes advertised for that connector. Removing an output's attribute set
+from `home-manager/nixos-2022-desktop.nix` returns that output to Sway's
+detected defaults after the next configuration reload or login.
 
 The desktop display uses the Intel GPU through the `modesetting` driver. The
 NVIDIA GPU remains reserved for VFIO passthrough. Do not add NVIDIA-specific
