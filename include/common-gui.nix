@@ -39,6 +39,8 @@
       # https://nixos.wiki/wiki/Fonts
       # Note: more fonts are in common-options.nix
       fonts.packages = with pkgs; [
+        # Used by Waybar and other applications for interface icons.
+        font-awesome
         # Beautiful and free fonts for many languages
         # https://fonts.google.com/noto
         noto-fonts
