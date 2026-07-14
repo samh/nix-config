@@ -308,8 +308,6 @@
   #    allowedTCPPorts = [11434];
   #  };
 
-  programs.command-not-found.enable = true;
-
   programs.neovim = {
     enable = true;
     defaultEditor = true;
