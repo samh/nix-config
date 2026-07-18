@@ -170,6 +170,7 @@
       ncdu
       nh # Yet another nix cli helper
       ntfs3g
+      nvme-cli # `nvme` tool - NVMe management CLI
       psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
       pv # monitor progress of data through a pipe
       python3

@@ -124,6 +124,7 @@ in {
         nix-tree # Interactively browse dependency graphs of Nix derivations.
         #nixfmt
         #obsidian  # Installed via Flatpak
+        p7zip
         pre-commit
         pulseaudioFull
         #rar # seems like it requires downloading a binary from rarlab.com
