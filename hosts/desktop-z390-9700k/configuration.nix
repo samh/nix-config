@@ -166,6 +166,7 @@
       libation # Audible audiobook manager
       libreoffice-qt6-fresh
       #lmstudio # LM Studio (AI)
+      mcp-nixos
       moonlight-qt
       nextcloud-client
       nixd # Nix language server

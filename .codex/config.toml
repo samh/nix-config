@@ -1,0 +1,3 @@
+[mcp_servers.nixos]
+command = "/run/current-system/sw/bin/mcp-nixos"
+cwd = ".."
