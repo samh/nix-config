@@ -80,20 +80,6 @@ Waybar.
 The Sway `Alt+Space` binding is independent of XFCE keyboard settings. XFCE
 continues to use its existing `Alt+Space` Ulauncher shortcut.
 
-LightDM starts this host's graphical session on VT 2. The host configuration
-disables `getty@tty2` and its `autovt@tty2` alias so a console getty cannot
-claim the same VT as Sway and interpret `Alt+F1` through `Alt+F12` as console
-VT switches. Sway retains its normal `Ctrl+Alt+F1` through `Ctrl+Alt+F12` VT
-switching behavior.
-
-Apply the system-level VT fix and the user-level shortcut, then reload Sway:
-
-```shell
-nh os switch -a
-nh home switch -a .
-swaymsg reload
-```
-
 To save a screenshot already copied to the clipboard:
 
 ```shell
@@ -254,3 +240,11 @@ nix flake check --no-build
 When changing either Sway Nix file, update this document if the program list,
 startup behavior, shortcuts, security integration, output layout, or apply
 procedure changes.
+
+## TODO / Issues
+- [ ] Clicking the "power" icon in waybar just kills waybar
+- [ ] "Log Out" in the launcher doesn't work - GDBus error
+- [ ] No obvious methods for shutdown or reboot
+- [ ] Gray lock screen, doesn't sleep?
+- [ ] Notifications never go away - unsure if I like this or not
+- [ ] Alt+Space opens launcher but does not close it
