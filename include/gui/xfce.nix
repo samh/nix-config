@@ -6,6 +6,7 @@
   ...
 }: let
   cfg = config.my.gui.xfce;
+  x11Packages = import ./x11-packages.nix {inherit pkgs;};
 in {
   options = {
     my.gui.xfce.enable = lib.mkEnableOption "Xfce desktop";
@@ -39,14 +40,15 @@ in {
     # For Flatpak; doesn't seem to be needed when KDE Plasma is enabled.
     xdg.portal.enable = true;
 
-    environment.systemPackages = with pkgs; [
-      galculator # GTK calculator
-      #pavucontrol # Audio mixer
-      rofi # Launcher
-      ulauncher # Launcher, comparing this and rofi
-      xfce4-panel-profiles
-      xfce4-whiskermenu-plugin
-      xhost
-    ];
+    environment.systemPackages = with pkgs;
+      [
+        galculator # GTK calculator
+        #pavucontrol # Audio mixer
+        rofi # Launcher
+        ulauncher # Launcher, comparing this and rofi
+        xfce4-panel-profiles
+        xfce4-whiskermenu-plugin
+      ]
+      ++ x11Packages;
   };
 }
