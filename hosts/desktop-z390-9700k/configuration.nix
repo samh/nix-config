@@ -214,7 +214,7 @@
     ])
     ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
       codex
-      copilot-cli
+      #copilot-cli
       #gemini-cli
       #goose-cli
       opencode

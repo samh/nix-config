@@ -33,7 +33,7 @@
 
         # AI
         #github.copilot
-        github.copilot-chat
+        #github.copilot-chat
       ])
       ++ (with pkgs.vscode-marketplace-release; [
         #saoudrizwan.claude-dev # Cline

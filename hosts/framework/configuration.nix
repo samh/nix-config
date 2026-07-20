@@ -188,7 +188,7 @@
       # enabled, and use their flake's pinned nixpkgs version instead of
       # following our own.
       codex
-      copilot-cli
+      #copilot-cli
       #gemini-cli
       #goose-cli
       opencode
