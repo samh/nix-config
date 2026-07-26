@@ -108,7 +108,7 @@ in {
     (lib.concatMapStringsSep "\n" builtins.toJSON [
       {
         label = "lock";
-        action = "${pkgs.swaylock}/bin/swaylock -f";
+        action = "${pkgs.swaylock}/bin/swaylock -f -c 000000";
         text = "Lock";
         keybind = "l";
       }
@@ -151,7 +151,7 @@ in {
         {command = "${pkgs.mako}/bin/mako";}
         {command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";}
         {
-          command = "${pkgs.swayidle}/bin/swayidle -w timeout 600 '${pkgs.swaylock}/bin/swaylock -f' before-sleep '${pkgs.swaylock}/bin/swaylock -f' lock '${pkgs.swaylock}/bin/swaylock -f'";
+          command = "${pkgs.swayidle}/bin/swayidle -w timeout 600 '${pkgs.swaylock}/bin/swaylock -f -c 000000' before-sleep '${pkgs.swaylock}/bin/swaylock -f -c 000000' lock '${pkgs.swaylock}/bin/swaylock -f -c 000000'";
         }
       ];
 
@@ -191,7 +191,7 @@ in {
         "${modifier}+Shift+8" = "move container to workspace number 8";
         "${modifier}+Shift+9" = "move container to workspace number 9";
 
-        "${modifier}+Control+l" = "exec ${pkgs.swaylock}/bin/swaylock -f";
+        "${modifier}+Control+l" = "exec ${pkgs.swaylock}/bin/swaylock -f -c 000000";
         "${modifier}+Shift+e" = "exec ${powerMenu}";
         "Print" = "exec ${pkgs.grim}/bin/grim - | ${pkgs.wl-clipboard}/bin/wl-copy";
         "Shift+Print" = "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy";
