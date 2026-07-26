@@ -26,6 +26,7 @@ currently imported only by
 | Sway | The Wayland compositor and tiling window manager. It replaces XFWM's window-management and compositing roles; Waybar provides the panel. |
 | Ghostty | The terminal opened by `Super+Enter`. It was already the preferred terminal on this host. |
 | Waybar | The panel at the top or bottom of the screen. It provides workspace indicators, status information, and a system tray. |
+| wlogout | The session and power menu opened by Waybar's power button or `Super+Shift+E`. It provides lock, log out, reboot, and shut down actions. |
 | Fuzzel | A lightweight Wayland application launcher. Start it with `Alt+Space` or `Super+D`, type an application name, and press Enter. |
 | Mako | The notification daemon. It displays desktop notifications sent by applications. |
 | swaylock | The screen locker. It is used by the manual lock shortcut and by swayidle. |
@@ -45,16 +46,17 @@ local configuration.
 
 ### Waybar Configuration
 
-Waybar currently has no repository-defined settings or stylesheet. Starting
-it without explicit configuration makes it use the example configuration and
-stylesheet packaged with Waybar. The shared GUI configuration installs Font
-Awesome because that example uses its glyphs for status icons.
+Home Manager defines Waybar's modules and stylesheet. The left side shows Sway
+workspaces, the center shows the focused window, and the right side shows
+audio, network, CPU, RAM usage, clock, tray, and power controls. Wired
+connections are labeled `Wired`; hover over the label to see the interface
+name and address.
 
-The example is useful as a starting point, but it includes modules and helper
-file references that are not tailored to this host. A future customization
-should define `programs.waybar.settings` and `programs.waybar.style` in Home
-Manager, keeping the shared Sway startup entry responsible only for launching
-Waybar.
+Clicking the power icon opens wlogout. Its four actions are lock, log out,
+reboot, and shut down. The explicit wlogout layout uses Sway and systemd
+commands directly rather than desktop-environment-specific session helpers.
+The menu is limited to one output to avoid wlogout's broken multi-monitor
+spanning behavior.
 
 ## Keyboard Shortcuts
 
@@ -74,6 +76,7 @@ Waybar.
 | `Super+1` through `Super+9` | Switch to workspace 1 through 9 |
 | `Super+Shift+1` through `Super+Shift+9` | Move the focused window to workspace 1 through 9 |
 | `Super+Ctrl+L` | Lock the session with swaylock |
+| `Super+Shift+E` | Open the wlogout session and power menu |
 | `Print` | Copy a screenshot of all outputs to the clipboard |
 | `Shift+Print` | Select a region and copy its screenshot to the clipboard |
 
@@ -242,9 +245,6 @@ startup behavior, shortcuts, security integration, output layout, or apply
 procedure changes.
 
 ## TODO / Issues
-- [ ] Clicking the "power" icon in waybar just kills waybar
-- [ ] "Log Out" in the launcher doesn't work - GDBus error
-- [ ] No obvious methods for shutdown or reboot
 - [ ] Gray lock screen, doesn't sleep?
 - [ ] Notifications never go away - unsure if I like this or not
 - [ ] Alt+Space opens launcher but does not close it
