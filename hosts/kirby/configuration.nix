@@ -93,6 +93,11 @@ in {
   #   "error: cannot add path '/nix/store/...' because it lacks a signature by a trusted key"
   nix.settings.trusted-users = ["samh"];
 
+  # Karakeep 0.32.0 is built with pnpm 9 in the pinned nixpkgs revision.
+  # pnpm is only a build-time dependency here, but nixpkgs still requires an
+  # explicit exception because this version has known vulnerabilities.
+  nixpkgs.config.permittedInsecurePackages = ["pnpm-9.15.9"];
+
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
   sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
   sops.age.generateKey = false;
