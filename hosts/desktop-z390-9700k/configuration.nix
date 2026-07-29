@@ -178,6 +178,7 @@
       socat
       spotify
       syncthing
+      tigervnc
       vscodium.fhs # VS Code editor (FHS chroot version for using extensions from marketplace)
       waypipe
       zed-editor
