@@ -4,6 +4,13 @@
   ...
 }: let
   powerMenu = "${pkgs.wlogout}/bin/wlogout --no-span --buttons-per-row 4";
+  # Start gradually dimming the idle session after this many minutes.
+  dimAfterMinutes = 15;
+  # Finish dimming to a black screen after this many minutes.
+  blackAfterMinutes = 25;
+  # Require the password after this many minutes.
+  lockAfterMinutes = 30;
+  minutesToSeconds = minutes: toString (minutes * 60);
 in {
   # Keep docs/sway.md in sync with Sway startup, shortcuts, and output settings.
   programs.waybar = {
@@ -151,7 +158,7 @@ in {
         {command = "${pkgs.mako}/bin/mako";}
         {command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";}
         {
-          command = "${pkgs.swayidle}/bin/swayidle -w timeout 600 '${pkgs.swaylock}/bin/swaylock -f -c 000000' before-sleep '${pkgs.swaylock}/bin/swaylock -f -c 000000' lock '${pkgs.swaylock}/bin/swaylock -f -c 000000'";
+          command = "${pkgs.swayidle}/bin/swayidle -w timeout ${minutesToSeconds dimAfterMinutes} '${pkgs.chayang}/bin/chayang -d ${minutesToSeconds (blackAfterMinutes - dimAfterMinutes)} && ${pkgs.swaylock-effects}/bin/swaylock -c 000000 --grace ${minutesToSeconds (lockAfterMinutes - blackAfterMinutes)}' before-sleep '${pkgs.swaylock}/bin/swaylock -f -c 000000' lock '${pkgs.swaylock}/bin/swaylock -f -c 000000'";
         }
       ];
 

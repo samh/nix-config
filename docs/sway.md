@@ -30,7 +30,8 @@ currently imported only by
 | Fuzzel | A lightweight Wayland application launcher. Start it with `Alt+Space` or `Super+D`, type an application name, and press Enter. |
 | Mako | The notification daemon. It displays desktop notifications sent by applications. |
 | swaylock | The screen locker. It is used by the manual lock shortcut and by swayidle. |
-| swayidle | Watches for idle and sleep events. It locks after ten minutes of inactivity and before sleep, but does not automatically suspend or turn off displays. |
+| swayidle | Watches for idle and sleep events. It starts dimming the session after 15 minutes, makes the screen black after 25 minutes, and requires a password after 30 minutes of inactivity. It also locks before sleep. |
+| chayang | Gradually dims the idle session from 15 to 25 minutes without changing the displays' hardware brightness. |
 | grim | Takes screenshots from a Wayland compositor. |
 | slurp | Lets grim select a rectangular screen region interactively. |
 | wl-clipboard | Provides `wl-copy` and `wl-paste`. The screenshot shortcuts copy PNG images to the Wayland clipboard. |
