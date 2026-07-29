@@ -40,6 +40,13 @@ in {
         devices = ["nixos-2022-desktop" "pixel8" "yoshi" "kirby"];
         versioning = defaultVersioning;
       };
+      "Notes-AI-Collab" = {
+        id = "Notes-AI-Collab";
+        enable = true;
+        path = "${config.my.homeDir}/Notes/Notes-AI-Collab";
+        devices = ["hermes"];
+        versioning = defaultVersioning;
+      };
       "GameSync" = {
         id = "vq7fn-ijrih";
         enable = true;
