@@ -49,6 +49,8 @@ in {
             hosts = config.my.metadata.hosts;
             # Filter all hosts that have an IP address
             hostsWithIp = lib.filterAttrs (name: host: host ? ip_address) hosts;
+            # Extra DNS-only names, such as additional host interfaces.
+            staticHosts = config.my.metadata.dns.static_hosts or {};
             # Use mapAttrs' ("map attrs prime") to map the name as well as the value.
             fqdnMappings = lib.attrsets.mapAttrs' (name: value:
               # Add domain to name
@@ -58,6 +60,12 @@ in {
             hostsWithIp; # <--input to "mapAttrs'"
             # Bare hostnames without domain
             unqualifiedMappings = builtins.mapAttrs (name: value: value.ip_address) hostsWithIp;
+            staticFqdnMappings =
+              lib.mapAttrs' (
+                name: ip:
+                  lib.nameValuePair "${name}.${dom}" ip
+              )
+              staticHosts;
           in {
             # Don't make TTL too long, since we want to be able to change
             # IP addresses quickly or fix mistakes.
@@ -74,6 +82,7 @@ in {
             mapping =
               fqdnMappings
               // unqualifiedMappings
+              // staticFqdnMappings
               // {
                 # Alias for UniFi "inform" URL
                 "unifi.internal" = "${config.my.metadata.hosts.kirby.ip_address}";
