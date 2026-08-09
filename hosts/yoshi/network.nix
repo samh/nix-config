@@ -32,7 +32,14 @@
 {...}: {
   # This host previously used NetworkManager. The server has a fixed network
   # topology, so systemd-networkd is a simpler fit for the bonded interfaces.
-  networking.networkmanager.enable = false;
+  networking = {
+    networkmanager.enable = false;
+
+    # Prevent NixOS's traditional DHCP/interface configuration from also
+    # managing these interfaces. The complete topology and DHCP configuration
+    # are defined directly with systemd.network below.
+    useDHCP = false;
+  };
 
   systemd.network = {
     enable = true;
