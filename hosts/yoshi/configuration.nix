@@ -26,6 +26,7 @@
     ./ersatztv.nix
     ./jellyfin.nix
     ./mounts.nix
+    ./network.nix
     ./nfs.nix
     ./nvidia-660ti.nix
     ./samba.nix
@@ -50,9 +51,7 @@
   boot.kernelModules = ["sg"];
 
   networking.hostName = "yoshi"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  # Other networking options are configured in network.nix
 
   # Allow my user for remote builds
   # see https://nixos.wiki/wiki/Nixos-rebuild
