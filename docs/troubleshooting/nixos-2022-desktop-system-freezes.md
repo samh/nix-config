@@ -125,9 +125,9 @@ Conclusion: retain `fstrim` as a possible trigger for this particular freeze,
 but do not treat it as the general root cause. The older incidents occurred on
 varied days, at varied times, and under varied workloads.
 
-## Current hardware and firmware snapshot
+## Pre-update hardware and firmware snapshot
 
-Snapshot taken after the 2026-08-10 reboot:
+Snapshot taken after the 2026-08-10 08:57 reboot, before the BIOS update:
 
 - motherboard: Gigabyte Z390 DESIGNARE-CF
 - BIOS: American Megatrends F7, dated 2019-06-05 by DMI
@@ -180,6 +180,54 @@ References:
 - <https://github.com/torvalds/linux/blob/master/drivers/pci/pcie/pme.c>
 - <https://docs.kernel.org/power/pci.html>
 - personal note `pcieport PME Spurious native interrupt!.md`
+
+## Post-F10 baseline
+
+The direct F7-to-F10 update completed successfully. The first observed F10
+Linux boot began at 2026-08-10 10:14 EDT on Linux 7.1.5-zen1.
+The freeze boot used 7.1.3-zen2, so the kernel change is a confounding variable
+for this observation period. The history of recurrence across many kernels
+still makes F10 the more significant newly introduced variable.
+
+The user loaded **Optimized Defaults** after the update and changed only the
+default display output to the Intel iGPU. No other BIOS settings were manually
+restored or changed. This is the BIOS-setting baseline for the F10 observation
+period; record any later firmware-setting change as a separate experiment.
+
+Verified after boot:
+
+- DMI reports BIOS F10, dated 2023-12-21
+- the machine booted through UEFI from the existing NixOS ESP
+- `intel_iommu=on iommu=pt` remains on the kernel command line
+- DMAR, queued invalidation, and IRQ remapping initialized successfully
+- the Intel UHD 630 remains the host display using `i915`
+- all four RTX 2070 SUPER functions remain bound to `vfio-pci`
+- the GPU root port and four GPU functions remain together in IOMMU group 2
+- the active-backup network bond, display manager, Tailscale, and libvirt are
+  active
+
+F10 supplies CPU microcode revision `0xfa`; Linux then updates it early to
+`0x104`. F7 had supplied only `0xb8` before the same Linux update.
+
+The `00:01.0` spurious PME symptom remains present. The new boot logged 114
+warnings between 10:14:14 and 10:16:18. GPU functions 1 and 2 were runtime
+suspended, functions 0 and 3 were active, and `vfio_pci.disable_idle_d3`
+remained false. The immediately preceding F7 boot logged 152 such warnings.
+Inspection can itself provoke power-state activity, so those counts should not
+be interpreted as a reliable before-and-after rate comparison. The useful
+result is that F10 did not eliminate the warning.
+
+The PCIe warning about failed retraining on `00:1c.4` also appeared under both
+F7 and F10. That root port has the empty bus range associated with the board's
+Thunderbolt path; it is not the RTX, Ethernet, or either NVMe path.
+
+The system was marked degraded only because `evremap.service` could not find
+the disconnected ELECOM Relacon. The same failure occurred on the preceding
+F7 boot and is unrelated to the firmware change.
+
+Conclusion at this checkpoint: the update is correctly applied, the required
+host and VFIO topology is intact, and there is no identified immediate F10
+regression. The long-term freeze observation period begins with this boot.
 
 ## Ranked hypotheses
 
@@ -243,14 +291,18 @@ The long and irregular intervals make substitution tests slow but valuable.
 | 2024-03 onward | Tried XanMod kernels | Freeze recurred. | Completed; did not fix |
 | 2025-01 onward | Tried Zen kernels | Freeze recurred. | Completed; did not fix |
 | 2026-08-10 | Reviewed previous boot, storage health, timers, and hardware logs | Confirmed silent hard freeze; no final kernel signature. | Completed |
+| 2026-08-10 10:14 | Updated motherboard BIOS directly from F7 to F10; loaded Optimized Defaults and changed only default display output to the iGPU | Boot, iGPU, VT-d/IOMMU, VFIO bindings, groups, and network verified; spurious GPU-root-port PME warnings persist. | Applied; observation in progress |
 
-## Proposed controlled experiments
+## Controlled experiments
 
-Do not mark these as attempted until they are actually performed.
+Do not mark the remaining planned experiments as attempted until they are
+actually performed.
 
 ### A. Update motherboard firmware
 
 Recommended target: **F10**.
+
+Status: **Applied 2026-08-10; long-term observation in progress.**
 
 F10 is the newest non-letter-suffixed release listed for this board. F11a is
 newer and contains additional security fixes, but Gigabyte uses letter-suffixed
@@ -360,8 +412,8 @@ returning to earlier versions.
 6. Record the update date, exact settings restored, and the start of the
    observation period in the experiment log.
 
-This should be the first experiment because the firmware is old and the vendor
-specifically changed CPU power behavior after F7.
+This was selected as the first experiment because the firmware was old and the
+vendor specifically changed CPU power behavior after F7.
 
 ### B. Prevent VFIO idle D3
 
