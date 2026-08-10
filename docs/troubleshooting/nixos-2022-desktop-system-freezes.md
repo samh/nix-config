@@ -250,17 +250,32 @@ Do not mark these as attempted until they are actually performed.
 
 ### A. Update motherboard firmware
 
+Recommended target: **F10**.
+
+F10 is the newest non-letter-suffixed release listed for this board. F11a is
+newer and contains additional security fixes, but Gigabyte uses letter-suffixed
+versions such as `F4a` as examples of beta BIOS releases. For an experiment
+whose primary goal is eliminating rare stability failures, prefer the mature
+F10 release first.
+
+F10 is newer than F9 and is expected to contain the earlier F9 platform changes,
+including the CPU Vcore and power-behavior fix. This is an inference from normal
+full-image BIOS versioning; Gigabyte's release notes do not explicitly describe
+the updates as cumulative.
+
 1. Verify the physical motherboard revision before downloading firmware.
 2. Record or photograph all current BIOS settings.
-3. Decide between the newest non-letter-suffixed release and the newer
-   letter-suffixed release.
-4. Account for Gigabyte's warning that the capsule transition introduced by F9
+3. Download F10 only from the official support page and verify the listed
+   checksum (`1080`).
+4. Use the firmware's Q-Flash utility. Attempt the direct F7-to-F10 update;
+   avoid an extra F9 flash unless Q-Flash or official instructions require it.
+5. Account for Gigabyte's warning that the capsule transition introduced by F9
    prevents returning to earlier versions.
-5. After flashing, load optimized defaults.
-6. Initially leave XMP, overclocking, and enhanced multicore behavior disabled.
-7. Re-enable only the settings required for the host, including VT-d and the
+6. After flashing, load optimized defaults.
+7. Initially leave XMP, overclocking, and enhanced multicore behavior disabled.
+8. Re-enable only the settings required for the host, including VT-d and the
    intended iGPU/VFIO arrangement.
-8. Revalidate IOMMU groups before starting a passthrough VM.
+9. Revalidate IOMMU groups before starting a passthrough VM.
 
 This should be the first experiment because the firmware is old and the vendor
 specifically changed CPU power behavior after F7.
