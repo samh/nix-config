@@ -488,10 +488,103 @@ Also record:
 
 ### Better persistent capture
 
-Kernel netconsole to another local machine is the most promising next
-observability improvement. It can preserve kernel messages that never reach the
-local journal. Pstore/ramoops is also worth evaluating if a suitable persistent
-region can be configured.
+Decision on 2026-08-10: set up kernel netconsole now, using `yoshi` as the
+receiver. This is not premature: the failure is rare and the useful local
+journal tail is lost during the freeze, so waiting would risk losing another
+months-apart opportunity to capture evidence.
+
+Planned path:
+
+- sender: `nixos-2022-desktop`, LAN address `192.168.5.32`, device `bond0`
+- receiver: `yoshi`, LAN address `192.168.5.40`, fixed bond MAC
+  `02:00:00:00:00:40`
+- transport: kernel netconsole over a dedicated UDP port on the local LAN, not
+  over Tailscale
+- receiver firewall: accept the UDP port only from `192.168.5.32`
+- receiver storage: persistent, separately identifiable netconsole messages
+  with bounded retention
+- activation: start the sender only after `bond0` is online
+- verification: inject a recognizable test message through `/dev/kmsg`, verify
+  it on `yoshi`, reboot the sender, and verify capture again
+- resilience check: test bond failover separately before relying on it
+
+The current 7.1.5-zen1 kernel provides `CONFIG_NETCONSOLE=m`,
+`CONFIG_NETCONSOLE_DYNAMIC=y`, and `CONFIG_NETPOLL=y`. Yoshi is reachable at
+the intended LAN address and its configured bond MAC is stable.
+
+Implementation checkpoint on 2026-08-10:
+
+- added `hosts/yoshi/netconsole-receiver.nix`
+- added `hosts/desktop-z390-9700k/netconsole-sender.nix`
+- the Yoshi receiver listens continuously on UDP port 6666 and writes to its
+  persistent journal with identifier `netconsole-nixos-2022-desktop`
+- Yoshi's iptables firewall rule accepts that port only on `bond0` and only
+  from `192.168.5.32`
+- the desktop sender waits for `192.168.5.32` on `bond0`, then loads netconsole
+  in extended mode with release tagging and targets Yoshi's fixed bond MAC
+- `nix flake check --no-build` passed
+- complete Yoshi and desktop system closures built successfully
+- Yoshi receiver activation and DNS recovery are verified
+- desktop sender activation and end-to-end kernel-message delivery are verified
+- both Yoshi and the desktop now have the netconsole configuration in their
+  persistent system profiles
+
+The first Yoshi test activation started the initial socket-activated receiver
+successfully but was reported as failed because `blocky.service` could not
+restart: `systemd-resolved` already owned its loopback DNS stub addresses on
+port 53, while Blocky requested wildcard port 53. This was a pre-existing
+restart-order conflict exposed by activation, not a netconsole conflict.
+
+The Yoshi-only correction keeps `systemd-resolved` for networkd and Tailscale,
+sets `DNSStubListener=no`, and points `/etc/resolv.conf` to
+`/run/systemd/resolve/resolv.conf` instead of the disabled stub. The corrected
+Yoshi closure and full flake evaluation passed. After repeat activation, Yoshi
+reported overall state `running`, Blocky owned TCP and UDP port 53, resolved no
+longer exposed the stub, `/etc/resolv.conf` used the uplink file, and the
+netconsole socket listened on UDP port 6666. A subsequent boot verified that
+the running system and boot profile matched, the receiver returned, the 10 GbE
+bond member was active with the 1 GbE member healthy as backup, and DNS still
+worked.
+
+A tagged UDP probe reached Yoshi's persistent journal after that reboot. The
+probe also showed that the initial socket-activated `cat` collector exited
+after one datagram. Although systemd could reactivate it, a kernel-message
+burst could hit the service start limit. The receiver was therefore changed to
+one continuously running, hardened `socat` process; activation and a burst test
+of that revision succeeded. Yoshi received all 50 tagged UDP datagrams in order,
+the receiver remained active, and its restart count remained zero.
+
+The desktop sender was test-activated at 10:55 EDT. The service loaded the
+`netconsole` module successfully against `bond0`, and the kernel reported
+`network logging started`. Yoshi immediately received extended netconsole
+records from the desktop, including the `7.1.5-zen1` release, printk sequence
+numbers and timestamps, and device metadata. This proves the actual kernel
+netconsole path rather than only the receiver's generic UDP path.
+
+Yoshi was then switch-activated. `/run/current-system` and the persistent system
+profile both resolved to the same new generation. The receiver remained enabled
+and active with zero restarts, the system had no failed units, Blocky and
+`systemd-resolved` were active, `bond0` was up, DNS resolved successfully, and a
+fresh tagged UDP probe reached the receiver after the switch.
+
+The desktop was made persistent with `nh os boot -a` after the successful test
+activation. Generation 256 is the current system profile and the default
+systemd-boot entry; its boot entry points to the new system closure and its
+`netconsole-sender.service` is identical to the tested unit. The running test
+closure and boot-profile closure have no package-level closure differences.
+The sender is still active and enabled, and the module remains loaded. The host
+reports `degraded` only because the known optional `evremap.service` fails while
+the ELECOM Relacon is disconnected. Sender startup and capture after an actual
+desktop reboot remain to be verified.
+
+Netconsole carries kernel `printk` messages rather than the complete systemd
+journal. It is therefore the right first layer for a silent kernel or hardware
+failure, but it cannot capture an event that emits no message or a failure that
+also prevents the NIC from transmitting. A userspace journal-forwarding layer
+could be added later if broader service logs are needed.
+
+Pstore/ramoops is also worth evaluating if a suitable persistent region can be
+configured.
 
 The NMI watchdog is already active. A later experiment could combine panic on
 hard lockup, an automatic panic reboot, and remote or persistent crash capture,

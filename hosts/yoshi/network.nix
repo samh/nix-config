@@ -29,7 +29,7 @@
 #
 # "02" in the first octet marks this as a locally administered unicast MAC,
 # so it does not conflict with manufacturer-assigned MAC address space.
-{...}: {
+{lib, ...}: {
   # This host previously used NetworkManager. The server has a fixed network
   # topology, so systemd-networkd is a simpler fit for the bonded interfaces.
   networking = {
@@ -112,4 +112,16 @@
       };
     };
   };
+
+  # Blocky listens on wildcard port 53, which conflicts with resolved's
+  # loopback DNS stub. Keep resolved for networkd and split-DNS consumers such
+  # as Tailscale, but have traditional resolv.conf clients use its dynamically
+  # generated uplink file instead of the disabled stub.
+  services.resolved.settings.Resolve.DNSStubListener = "no";
+  environment.etc."resolv.conf".source =
+    lib.mkForce "/run/systemd/resolve/resolv.conf";
+
+  # Ensure an activation that changes resolved's listener state restarts
+  # Blocky only after resolved has released port 53.
+  systemd.services.blocky.after = ["systemd-resolved.service"];
 }

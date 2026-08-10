@@ -27,6 +27,7 @@
     ./jellyfin.nix
     ./mounts.nix
     ./network.nix
+    ./netconsole-receiver.nix
     ./nfs.nix
     ./nvidia-660ti.nix
     ./samba.nix

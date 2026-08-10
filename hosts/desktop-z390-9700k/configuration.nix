@@ -14,6 +14,7 @@
     ./hardware-configuration.nix
     ./mounts.nix
     ./network.nix
+    ./netconsole-sender.nix
     ./nvidia-rtx2070.nix
     #./proxy.nix
     ./relacon-remap.nix
