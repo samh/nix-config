@@ -263,19 +263,102 @@ including the CPU Vcore and power-behavior fix. This is an inference from normal
 full-image BIOS versioning; Gigabyte's release notes do not explicitly describe
 the updates as cumulative.
 
-1. Verify the physical motherboard revision before downloading firmware.
-2. Record or photograph all current BIOS settings.
-3. Download F10 only from the official support page and verify the listed
-   checksum (`1080`).
-4. Use the firmware's Q-Flash utility. Attempt the direct F7-to-F10 update;
-   avoid an extra F9 flash unless Q-Flash or official instructions require it.
-5. Account for Gigabyte's warning that the capsule transition introduced by F9
-   prevents returning to earlier versions.
-6. After flashing, load optimized defaults.
-7. Initially leave XMP, overclocking, and enhanced multicore behavior disabled.
-8. Re-enable only the settings required for the host, including VT-d and the
-   intended iGPU/VFIO arrangement.
-9. Revalidate IOMMU groups before starting a passthrough VM.
+#### F10 file identification
+
+The official F10 archive checked on 2026-08-10 was named
+`mb_bios_z390-designare_8a1fag0u_f10.zip` and contained only:
+
+```text
+Z390DESIGNARE.F10  16777216 bytes
+```
+
+Checksums calculated from that official download:
+
+```text
+ZIP SHA-256:
+5df9e6297c6b1454e01b51fde43b0731b64ee95eeb3776ddfd743e6e539b5051
+
+Z390DESIGNARE.F10 SHA-256:
+b72167a938e8f25e2d38aac37c326418f812d3fff7aa974ab68f176c76a6c7f6
+```
+
+Gigabyte separately lists `1080` as its short checksum. That is not a
+conventional SHA digest and should not be substituted for the hashes above.
+
+The verified F10 archive and extracted image are stored in:
+
+```text
+/home/samh/Documents/Z390 motherboard/
+```
+
+That directory and `/home/samh/Downloads` also contain the old
+`mb_bios_z390-designare_f9j.zip`, a 2021 leftover containing the beta image
+`Z390DESI.F9j`. Do not flash F9j for this experiment.
+
+On 2026-08-10, the prepared removable drive was verified as `/dev/sde1`, label
+`MC_32GB`, with FAT32 filesystem version. Its top-level
+`Z390DESIGNARE.F10` matched the SHA-256 above byte-for-byte. Linux had mounted
+the filesystem read-only, but the block device was not hardware write-protected
+and the kernel log contained no USB or FAT error. Read-only access is sufficient
+for Q-Flash.
+
+#### Before rebooting
+
+1. Verify that the motherboard PCB is marked Z390 DESIGNARE revision 1.0.
+2. Confirm the archive and extracted image match the identities above.
+3. Format a USB drive as FAT32, extract `Z390DESIGNARE.F10`, and place that
+   image in the top level of the drive. Do not merely copy the ZIP.
+4. Do not rename the image to `GIGABYTE.bin`; that naming is for a different
+   Q-Flash Plus workflow. This board's manual describes regular Q-Flash.
+5. Photograph every customized BIOS page, especially:
+   - SATA mode and boot order
+   - CSM and Secure Boot state
+   - initial display output and integrated-graphics settings
+   - Intel virtualization and VT-d
+   - Above 4G Decoding and Re-Size BAR
+   - XMP, CPU voltage, and other performance settings
+   - fan curves and power or wake settings
+6. Shut down any VM cleanly. Plan to leave the passthrough VM off until the
+   post-update IOMMU check is complete.
+7. Use reliable AC power and do not start during a storm or when power may be
+   interrupted.
+
+#### Flash with Q-Flash
+
+1. Leave the FAT32 USB drive connected and reboot.
+2. During POST, repeatedly press `End` to enter Q-Flash directly. The manual
+   also permits entering BIOS Setup with `Delete` and launching Q-Flash with
+   `F8`, but `End` during POST is the most direct path.
+3. Select **Update BIOS** and then select `Z390DESIGNARE.F10` on the USB drive.
+4. Before confirming, make sure the utility identifies the image for the
+   Z390 DESIGNARE and reports F10. Stop if the model or version does not match.
+5. Confirm the update. Do not reset, power off, remove the USB drive, or press
+   keys while the erase/write/verify operation is running.
+6. Allow all automatic reboots to finish. A longer boot, blank screen, or more
+   than one restart can be normal after firmware settings are rebuilt.
+
+Attempt the direct F7-to-F10 update. Do not perform an extra F9 flash unless
+Q-Flash or an official instruction explicitly requires it. Account for
+Gigabyte's warning that the capsule transition introduced by F9 prevents
+returning to earlier versions.
+
+#### First boot after the flash
+
+1. Enter BIOS Setup with `Delete` and confirm that the BIOS version is F10.
+2. Choose **Load Optimized Defaults**, then save and re-enter BIOS Setup.
+3. Restore only the settings needed to boot NixOS and use the Intel iGPU:
+   - preserve the existing SATA mode
+   - preserve the existing UEFI/CSM and Secure Boot arrangement
+   - select the Intel integrated graphics as the host's initial display
+   - enable Intel virtualization and VT-d
+4. Initially leave XMP, manual CPU voltage or overclocking, enhanced multicore
+   behavior, and Re-Size BAR disabled or at their optimized-default values.
+   This makes the firmware update a cleaner stability experiment.
+5. Save and boot NixOS. Before starting a passthrough VM, verify the reported
+   BIOS version, boot parameters, IOMMU state, device bindings, and IOMMU
+   groups.
+6. Record the update date, exact settings restored, and the start of the
+   observation period in the experiment log.
 
 This should be the first experiment because the firmware is old and the vendor
 specifically changed CPU power behavior after F7.
