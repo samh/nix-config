@@ -20,28 +20,31 @@
   # - How about /ext/ instead? Or /media/ext/?
   # - Something other than dashes? They create ugly systemd unit names...
 
+  # Allow ample time for external HDDs to appear and spin up, but do not wait
+  # forever for a disconnected device.
+
   # External 12TB WD EasyStore
   fileSystems."/ext/12TB.2019.TAKT" = {
     device = "/dev/disk/by-uuid/7a2664f3-753f-42a8-87ab-7f41983ceefe";
     fsType = "btrfs";
-    options = ["noauto" "noatime" "compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["noauto" "noatime" "compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
   #fileSystems."/media/ext-retro" =
   fileSystems."/ext/retro" = {
     device = "/dev/disk/by-label/12TB-external-1";
     fsType = "btrfs";
-    options = ["noauto" "noatime" "subvol=@retro" "compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["noauto" "noatime" "subvol=@retro" "compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
   fileSystems."/media/ext-video" = {
     device = "/dev/disk/by-label/12TB-external-1";
     fsType = "btrfs";
-    options = ["noauto" "noatime" "subvol=@video" "compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["noauto" "noatime" "subvol=@video" "compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
 
   # External 14TB WD EasyStore
   fileSystems."/ext/14TB.2021.WUHL" = {
     device = "/dev/disk/by-label/14TB-2021-WUHL";
     fsType = "btrfs";
-    options = ["noauto" "noatime" "compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["noauto" "noatime" "compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
 }

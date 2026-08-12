@@ -60,7 +60,7 @@
     {
       device = "/dev/nvme/vm1";
       fsType = "ext4";
-      options = ["x-systemd.device-timeout=0"];
+      options = ["x-systemd.device-timeout=2min"];
     };
 
   # libvirt qemu configuration; on Ubuntu and Fedora this is /etc/libvirt/qemu
@@ -75,25 +75,27 @@
   # The "nofail" option tells systemd to mount them asynchronously, instead
   # of waiting until they are mounted to continue, making the boot a little
   # faster.
+  # Allow ample time for the HDDs to spin up, but do not wait forever for a
+  # missing device.
   fileSystems."/media/data1" = {
     device = "/dev/storage/data1";
     fsType = "btrfs";
-    options = ["nofail" "subvol=@main" "compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["nofail" "subvol=@main" "compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
   fileSystems."/media/temp1" = {
     device = "/dev/storage/temp1";
     fsType = "ext4";
-    options = ["nofail" "noatime" "x-systemd.device-timeout=0"];
+    options = ["nofail" "noatime" "x-systemd.device-timeout=2min"];
   };
   fileSystems."/media/backup" = {
     device = "/dev/storage/backup";
     fsType = "btrfs";
-    options = ["nofail" "noatime" "compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["nofail" "noatime" "compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
   fileSystems."/media/vm2-hdd" = {
     device = "/dev/storage/vm2-hdd";
     fsType = "ext4";
-    options = ["nofail" "noatime" "x-systemd.device-timeout=0"];
+    options = ["nofail" "noatime" "x-systemd.device-timeout=2min"];
   };
 
   # Root pools for btrbk backups and general management.
@@ -101,21 +103,21 @@
   fileSystems."/pool/nvme-nixos" = {
     device = "/dev/mapper/nvme-nixos";
     fsType = "btrfs";
-    options = ["compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
   fileSystems."/pool/nvme2-home" = {
     device = "/dev/nvme2/home";
     fsType = "btrfs";
-    options = ["compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
   fileSystems."/pool/data1" = {
     device = "/dev/storage/data1";
     fsType = "btrfs";
-    options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
   #  fileSystems."/pool/fedora2020" =
   #    { device = "/dev/nvme/nvme-fedora2020";
   #      fsType = "btrfs";
-  #      options = [ "compress=zstd:9" "x-systemd.device-timeout=0" ];
+  #      options = [ "compress=zstd:9" "x-systemd.device-timeout=2min" ];
   #    };
 }
