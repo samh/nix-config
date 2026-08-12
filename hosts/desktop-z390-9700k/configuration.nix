@@ -270,7 +270,6 @@
     isNormalUser = true;
     extraGroups = [
       "wheel"
-      "audio"
       "multimedia"
     ];
     shell = pkgs.fish;
