@@ -5,6 +5,7 @@
   config,
   inputs,
   lib,
+  options,
   pkgs,
   ...
 }: {
@@ -325,7 +326,17 @@
 
   # TODO: need to adjust permissions or exclusions
   # See journal for update-locatedb.service
-  services.locate.enable = true;
+  services.locate = {
+    enable = true;
+    prunePaths =
+      options.services.locate.prunePaths.default
+      ++ [
+        # Raw Btrfs pool mounts duplicate files available at normal paths.
+        "/pool"
+        # Do not trigger network automounts while building the database.
+        "/mnt"
+      ];
+  };
 
   # Local (personal) configuration settings
   my.common.ansible.enable = true;
