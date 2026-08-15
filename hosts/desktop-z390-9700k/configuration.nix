@@ -105,10 +105,11 @@
   # Keep docs/sway.md in sync with Sway packages and session integration here.
   programs.sway = {
     enable = true;
+    # Do not add mako here: its system-wide D-Bus service competes with
+    # xfce4-notifyd in XFCE. Home Manager starts mako directly in Sway.
     extraPackages = with pkgs; [
       fuzzel
       grim
-      mako
       slurp
       swayidle
       swaylock
