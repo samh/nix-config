@@ -168,6 +168,7 @@ in {
       fonts.packages = with pkgs; [
         fira-code
         fira-code-symbols
+        nerd-fonts.fira-code
         d2coding # Monospace font with support for Korean and latin characters
         victor-mono # A programming font with semi-connected cursive italics and symbol ligatures
         # mplus-outline-fonts.githubRelease
