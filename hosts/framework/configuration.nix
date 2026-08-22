@@ -155,6 +155,7 @@
     (with pkgs; [
       android-file-transfer
       fossil
+      mcp-nixos
       # Seems to take a lot of time to build due to openjdk-headless?
       #pkgs.unstable.makemkv
       mkvtoolnix
