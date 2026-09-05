@@ -190,8 +190,8 @@
       # following our own.
       codex
       #copilot-cli
-      #gemini-cli
       #goose-cli
+      hermes-desktop
       opencode
       pi
 
