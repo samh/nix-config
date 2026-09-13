@@ -6,7 +6,20 @@
   inputs,
   pkgs,
   ...
-}: {
+}: let
+  hermesDesktop = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.hermes-desktop;
+  hermesDesktopIcons =
+    pkgs.runCommand "hermes-desktop-icons" {
+      nativeBuildInputs = [pkgs.imagemagick];
+    } ''
+      for size in 32 48 64 128 256 512; do
+        install -d "$out/share/icons/hicolor/''${size}x''${size}/apps"
+        magick ${hermesDesktop}/share/icons/hicolor/1024x1024/apps/hermes-desktop.png \
+          -resize "''${size}x''${size}" \
+          "$out/share/icons/hicolor/''${size}x''${size}/apps/hermes-desktop.png"
+      done
+    '';
+in {
   imports = [
     ../../include/common.nix
     ../../include/ext-mounts.nix
@@ -192,6 +205,7 @@
       #copilot-cli
       #goose-cli
       hermes-desktop
+      hermesDesktopIcons
       opencode
       pi
 
