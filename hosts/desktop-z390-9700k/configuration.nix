@@ -159,6 +159,7 @@
       android-file-transfer # Uses Qt5
       android-tools
       btrfs-assistant
+      caddy
       docker-compose
       ghostty # Fast, native, feature-rich terminal emulator pushing modern features
       #jellyfin-media-player # pulls in Qt5; I don't use this much on desktop
@@ -171,6 +172,7 @@
       mcp-nixos
       moonlight-qt
       nextcloud-client
+      nginx
       nixd # Nix language server
       nixos-rebuild-ng
       nh # Yet another nix cli helper
