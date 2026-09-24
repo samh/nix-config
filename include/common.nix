@@ -162,6 +162,7 @@
       cryptsetup
       dig
       duf
+      fd # A simple, fast and user-friendly alternative to 'find'
       file
       git # Required to build flakes
       htop
