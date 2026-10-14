@@ -19,7 +19,10 @@
 
   # Ensure the NVIDIA *kernel modules* are included in the system closure so
   # `modprobe nvidia` works after unbinding from vfio-pci.
-  boot.extraModulePackages = lib.mkAfter [config.hardware.nvidia.package.passthru.open];
+  #
+  # Temporarily disabled because it fails to build on Linux Zen 7.2 kernel,
+  # re-enable after fixed or next time I want to use the GPU on the host.
+  # boot.extraModulePackages = lib.mkAfter [config.hardware.nvidia.package.passthru.open];
 
   hardware.nvidia = {
     # Enable the Nvidia settings menu,
