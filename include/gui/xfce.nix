@@ -42,6 +42,7 @@ in {
 
     environment.systemPackages = with pkgs;
       [
+        emote # Emoji picker (GTK3)
         galculator # GTK calculator
         #pavucontrol # Audio mixer
         rofi # Launcher
