@@ -102,7 +102,7 @@ in {
         element-desktop
         exfatprogs
         evtest # for testing input devices
-        filezilla
+        #filezilla
         fira-code
         gnumake
         gnupg
@@ -127,9 +127,10 @@ in {
         p7zip
         pre-commit
         pulseaudioFull
+        python3Packages.tkinter
         #rar # seems like it requires downloading a binary from rarlab.com
         rclone
-        rclone-browser
+        #rclone-browser
         remmina
         ruff
         shellcheck # shell script linter
