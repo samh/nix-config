@@ -174,6 +174,7 @@ in {
       mkvtoolnix
       nextcloud-client
       nixos-generators
+      nodejs # for npm; see https://wiki.nixos.org/wiki/Node.js (used for pi extensions)
       # syncthingtray Plasmoid issue:
       # https://github.com/NixOS/nixpkgs/issues/199596
       syncthingtray-minimal
