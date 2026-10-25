@@ -5,6 +5,10 @@
   receiverMac = "02:00:00:00:00:40";
   receiverPort = 6666;
 in {
+  # Netconsole follows the console threshold: include warnings, notices, and
+  # informational messages so the remote capture has context before a freeze.
+  boot.consoleLogLevel = 7;
+
   systemd.services.netconsole-sender = {
     description = "Send kernel messages to Yoshi with netconsole";
     after = ["NetworkManager.service"];

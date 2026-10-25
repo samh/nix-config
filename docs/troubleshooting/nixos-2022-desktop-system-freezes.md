@@ -61,6 +61,7 @@ the exact first frozen instruction.
 | 2025-03-10 | Linux 6.12.10-zen1. |
 | 2025-09-22 | Linux 6.15.11-xanmod1; last retained journal entry was 00:11. |
 | 2026-08-10 around 01:37 | Linux 7.1.3-zen2; detailed below. |
+| 2026-10-24; Kuma failure reported 21:13:57 EDT | Linux 7.2.10-zen1, BIOS F10; same stuck display, passthrough VM running. First recurrence recalled since update. Last retained local journal entry 21:07:20; next boot 21:31:34. Exact freeze onset unconfirmed. |
 
 This list is incomplete. Absence from the table does not imply the system was
 stable throughout the interval.
@@ -124,6 +125,84 @@ boot continued for another week.
 Conclusion: retain `fstrim` as a possible trigger for this particular freeze,
 but do not treat it as the general root cause. The older incidents occurred on
 varied days, at varied times, and under varied workloads.
+
+## 2026-10-24 incident
+
+### User report and timing
+
+The user reports the same stuck-display behavior as the older freezes, with a
+passthrough VM running. This is the first freeze they recall since the
+2026-08-10 BIOS update. They describe improved stability but explicitly note
+that this could be coincidence. The approximately 75-day calendar interval is
+not a continuous-uptime measurement or proof of a reduced failure rate; older
+incidents were also separated by months.
+
+Uptime Kuma reported this failed check at 21:13:57 EDT:
+
+```text
+PING 100.64.5.32 (100.64.5.32) 56(84) bytes of data.
+
+--- 100.64.5.32 ping statistics ---
+47 packets transmitted, 0 received, 100% packet loss, time 47087ms
+```
+
+The check lasted about 47 seconds. Its timestamp has not been confirmed as the
+start or completion time, so it does not establish the exact freeze onset.
+
+The failed boot began on 2026-10-14 at 13:13:57 EDT, using Linux
+`7.2.10-zen1`. Its last retained local journal entry is a routine Tailscale
+message at 21:07:20 EDT on October 24, about 6 minutes 37 seconds before the
+Kuma timestamp. The next boot began at 21:31:34 EDT, also using
+`7.2.10-zen1`. It found unclean system and user journals and replayed filesystem
+journals, consistent with an abrupt reset rather than an orderly shutdown.
+
+### Retained evidence
+
+- No retained kernel message identifies a panic, lockup, OOM kill, machine
+  check, AER fault, i915 hang, NVMe timeout, or Btrfs error explaining the freeze.
+- The last retained kernel messages on October 24 concern a YubiKey input
+  device at 10:52:28, not the failure. The GPU-root-port spurious PME warnings
+  remain present in the failed boot's startup logs, without a corresponding
+  warning near the freeze.
+- VFIO GPU resets and KVM messages were recorded on October 23. They establish
+  earlier VM activity, but do not identify a VM or GPU fault at the freeze.
+- The latest weekly `fstrim` completed successfully on October 19 at 01:43,
+  several days before this incident. The August trim proximity did not recur.
+- After reboot, DMI still reports F10 and microcode is `0x104`, updated early
+  from firmware revision `0xfa`. `vfio_pci.disable_idle_d3` remains `N`.
+
+### Remote capture result and limitation
+
+The desktop's netconsole sender started successfully on October 14 at
+13:14:10. Yoshi's continuously running receiver has been active since October
+14 at 14:04:03 with zero restarts. It retained desktop kernel messages through
+October 23 at 14:15:30, but none on October 24 before the reboot. No remote
+crash signature was captured near the Kuma failure time.
+
+After today's reboot, the sender started at 21:31:47 and Yoshi received
+extended kernel records at that same time. Boot-time sender startup and
+end-to-end reception are therefore verified. Reception yesterday and after
+the reboot does not prove delivery was possible at the instant of the freeze.
+
+The failed boot's command line specified `loglevel=4`; after reboot,
+`/proc/sys/kernel/printk` reads `4 4 1 7`. At console threshold 4, netconsole
+normally transmits levels 0 through 3 (errors and more severe messages),
+excluding warnings, notices, and informational messages. The failed boot's
+runtime threshold at the instant of the freeze was not recorded. Absence of
+remote messages is therefore not evidence that all kernel activity ceased or
+that no lower-priority diagnostic was emitted. See the kernel documentation
+for [netconsole](https://docs.kernel.org/networking/netconsole.html) and
+[console severity filtering](https://docs.kernel.org/core-api/printk-basics.html).
+
+Conclusion: F10 has not eliminated the historical freeze signature. A lower
+frequency remains possible but unproven. The active passthrough VM keeps the
+VFIO/PCIe hypothesis relevant without establishing causation. Experiment B
+below is the previously planned next isolation step; it has not been applied.
+Because the VM was running, this incident does not specifically implicate
+VFIO's idle-device D3 transitions; device power states at the freeze are unknown.
+Broader netconsole severity capture is also worth considering before another
+long observation period. No firmware, VFIO, logging, or watchdog setting was
+changed during this investigation.
 
 ## Pre-update hardware and firmware snapshot
 
@@ -291,7 +370,9 @@ The long and irregular intervals make substitution tests slow but valuable.
 | 2024-03 onward | Tried XanMod kernels | Freeze recurred. | Completed; did not fix |
 | 2025-01 onward | Tried Zen kernels | Freeze recurred. | Completed; did not fix |
 | 2026-08-10 | Reviewed previous boot, storage health, timers, and hardware logs | Confirmed silent hard freeze; no final kernel signature. | Completed |
-| 2026-08-10 10:14 | Updated motherboard BIOS directly from F7 to F10; loaded Optimized Defaults and changed only default display output to the iGPU | Boot, iGPU, VT-d/IOMMU, VFIO bindings, groups, and network verified; spurious GPU-root-port PME warnings persist. | Applied; observation in progress |
+| 2026-08-10 10:14 | Updated motherboard BIOS directly from F7 to F10; loaded Optimized Defaults and changed only default display output to the iGPU | Initial boot and topology checks passed. User recalls no further freeze until October 24; same stuck-display signature then recurred with a passthrough VM active. A frequency improvement is unproven. | Applied; recurrence after about 75 calendar days |
+| 2026-10-24 | Reviewed failed boot and Yoshi's netconsole capture after recurrence | No captured crash signature; post-reboot end-to-end capture verified. Console threshold 4 limits capture severity. VFIO idle D3 remains enabled. | Investigation recorded; no settings changed |
+| 2026-10-24 21:54 | Broadened kernel console threshold from 4 to 7 | Warning, notice, and informational probes all received on Yoshi at 21:54:34 EDT. Runtime threshold and default boot entry verified. | Applied; capture verified |
 
 ## Controlled experiments
 
@@ -302,7 +383,8 @@ actually performed.
 
 Recommended target: **F10**.
 
-Status: **Applied 2026-08-10; long-term observation in progress.**
+Status: **Applied 2026-08-10; freeze recurred 2026-10-24. Possible frequency
+improvement remains unproven.**
 
 F10 is the newest non-letter-suffixed release listed for this board. F11a is
 newer and contains additional security fixes, but Gigabyte uses letter-suffixed
@@ -416,6 +498,9 @@ This was selected as the first experiment because the firmware was old and the
 vendor specifically changed CPU power behavior after F7.
 
 ### B. Prevent VFIO idle D3
+
+Status: **Not applied. The 2026-10-24 recurrence meets the planned trigger for
+considering this experiment.**
 
 If the system freezes after the firmware test, try adding
 `disable_idle_d3=1` to the existing `vfio-pci` module options in
@@ -575,7 +660,9 @@ closure and boot-profile closure have no package-level closure differences.
 The sender is still active and enabled, and the module remains loaded. The host
 reports `degraded` only because the known optional `evremap.service` fails while
 the ELECOM Relacon is disconnected. Sender startup and capture after an actual
-desktop reboot remain to be verified.
+desktop reboot remained to be verified at the August checkpoint. On
+2026-10-24, sender startup and reception on Yoshi after the desktop reboot were
+verified; see that incident's remote-capture section above.
 
 Netconsole carries kernel `printk` messages rather than the complete systemd
 journal. It is therefore the right first layer for a silent kernel or hardware
@@ -585,6 +672,39 @@ could be added later if broader service logs are needed.
 
 Pstore/ramoops is also worth evaluating if a suitable persistent region can be
 configured.
+
+### Broader severity capture applied on 2026-10-24
+
+After reviewing the October recurrence, the user agreed to broaden netconsole
+capture. `hosts/desktop-z390-9700k/netconsole-sender.nix` now sets
+`boot.consoleLogLevel = 7`. This includes levels 0 through 6: warnings,
+notices, and informational messages are added to the previous error-level
+capture. Debug-level messages remain excluded. The threshold also affects
+local kernel consoles.
+
+The pinned NixOS kernel module implements this option both as the boot
+parameter `loglevel=7` and the runtime sysctl `kernel.printk = 7`, so switching
+to the new generation should take effect without a reboot and persist across
+future boots. The sender destination and receiver configuration are unchanged.
+
+The complete desktop closure built successfully. Inspection of its generated
+sysctl file and kernel parameters confirmed `kernel.printk=7` and `loglevel=7`.
+`nix store diff-closures` found no package-level changes from the active
+generation. The sender module passes `alejandra --check`, and
+`git diff --check` and the full `nix flake check --no-build` passed.
+
+The user switch-activated the configuration and injected three tagged kernel
+messages at 21:54:34 EDT. Yoshi received all three at that same timestamp:
+`netconsole-capture-test warning`, `netconsole-capture-test notice`, and
+`netconsole-capture-test info`. Their extended records carry consecutive printk
+sequence numbers 1295 through 1297, with severity levels 4, 5, and 6.
+
+Live verification confirmed `/proc/sys/kernel/printk` reads `7 4 1 7`, the
+sender is active with a successful result, and Yoshi's receiver is active with
+zero restarts. The running system and persistent system profile match
+generation 264; the default systemd-boot entry for that generation includes
+`loglevel=7`. Broader capture is active now and configured for subsequent boots.
+No additional reboot was performed for this change.
 
 The NMI watchdog is already active. A later experiment could combine panic on
 hard lockup, an automatic panic reboot, and remote or persistent crash capture,
