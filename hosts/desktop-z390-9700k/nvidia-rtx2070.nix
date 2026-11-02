@@ -19,12 +19,30 @@
 
   # Ensure the NVIDIA *kernel modules* are included in the system closure so
   # `modprobe nvidia` works after unbinding from vfio-pci.
-  #
-  # Temporarily disabled because it fails to build on Linux Zen 7.2 kernel,
-  # re-enable after fixed or next time I want to use the GPU on the host.
-  # boot.extraModulePackages = lib.mkAfter [config.hardware.nvidia.package.passthru.open];
+  boot.extraModulePackages = lib.mkAfter [config.hardware.nvidia.package.passthru.open];
+
+  # The normal NVIDIA module adds GSP firmware only when its Xorg driver is
+  # enabled. Include the matching firmware explicitly for manual host binding.
+  hardware.firmware = [config.hardware.nvidia.package.firmware];
 
   hardware.nvidia = {
+    # Temporary NixOS 26.05 compatibility override: its NVIDIA 595.71.05
+    # still calls strncpy(), removed in Linux 7.2, and fails to build on Zen.
+    # Use the 615.78.08 release/hashes packaged by nixpkgs-unstable, with this
+    # host's kernel package set so kernel modules and userspace stay matched.
+    # TODO(26.11): test the release's packaged driver and remove this package
+    # override when it builds and passes host/VFIO checks. Keep the explicit
+    # extraModulePackages above; Xorg intentionally uses only the Intel iGPU.
+    # See docs/nixos-26.11-upgrade.md for the removal and verification steps.
+    package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+      version = "615.78.08";
+      sha256_64bit = "sha256-Pj9t3cLudnoIGFMAr3vjyyhuznZpjS3eNSRZl4LQf/4=";
+      sha256_aarch64 = "sha256-UHYBE1AYHoGgMfD9AS/jX+S+N8eCDWUft6qolK9Eejc=";
+      openSha256 = "sha256-HBINiOjL0ZJLIAJeNIBYHBnwgUXtNwPPtnFpAI1YwF4=";
+      settingsSha256 = "sha256-inDRpG02sdDgHmlqgu/DsgK8OFdOt1fZIYyXdhlGC/c=";
+      persistencedSha256 = "sha256-RzeR6Ldct6MUxjnXRyThdh5Y3jjMehTVg85MtwuWNX4=";
+    };
+
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
     nvidiaSettings = true;

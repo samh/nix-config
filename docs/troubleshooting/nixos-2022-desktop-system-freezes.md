@@ -62,6 +62,7 @@ the exact first frozen instruction.
 | 2025-09-22 | Linux 6.15.11-xanmod1; last retained journal entry was 00:11. |
 | 2026-08-10 around 01:37 | Linux 7.1.3-zen2; detailed below. |
 | 2026-10-24; Kuma failure reported 21:13:57 EDT | Linux 7.2.10-zen1, BIOS F10; same stuck display, passthrough VM running. First recurrence recalled since update. Last retained local journal entry 21:07:20; next boot 21:31:34. Exact freeze onset unconfirmed. |
+| 2026-11-02; Kuma failure reported 10:14:02 EST | Linux 7.2.11-zen1, BIOS F10; same stuck display requiring reset, passthrough VM running. Last retained local journal entry 10:08:25; next boot 11:12:59. No crash signature in broadened netconsole capture. |
 
 This list is incomplete. Absence from the table does not imply the system was
 stable throughout the interval.
@@ -203,6 +204,76 @@ VFIO's idle-device D3 transitions; device power states at the freeze are unknown
 Broader netconsole severity capture is also worth considering before another
 long observation period. No firmware, VFIO, logging, or watchdog setting was
 changed during this investigation.
+
+## 2026-11-02 incident
+
+### User report and timing
+
+The user reports the same stuck-display behavior requiring a reset, with the
+passthrough VM running. This recurrence is nine calendar days after the
+October 24 freeze; that interval includes intervening boots and is not a
+continuous-uptime measurement.
+
+Uptime Kuma reported this failed check at 10:14:02 EST:
+
+```text
+PING 100.64.5.32 (100.64.5.32) 56(84) bytes of data.
+
+--- 100.64.5.32 ping statistics ---
+47 packets transmitted, 0 received, 100% packet loss, time 47137ms
+```
+
+The failed check lasted about 47 seconds. Whether its timestamp represents
+the start or completion remains unverified, so exact freeze onset is unknown.
+The last retained local journal entry is a routine Tailscale message at
+10:08:25 EST, 5 minutes 37 seconds before the Kuma timestamp.
+
+The failed boot began on October 29 at 20:41:46 EDT, using Linux
+`7.2.11-zen1` with `loglevel=7`. The next boot began on November 2 at
+11:12:59 EST with the same kernel. The system journal was unclean, and several
+filesystems required journal recovery. The October 24 post-update boot had
+also been verified on `7.2.11-zen1`; this kernel update did not eliminate the
+freeze pattern.
+
+### Local and remote capture
+
+The failed boot's netconsole sender started successfully on October 29 at
+20:41:58 EDT. Yoshi's receiver remains active since October 14 with zero
+restarts. Both local and remote kernel logs end their pre-freeze records with
+a successful Btrfs scrub at November 1 02:24:10 EST. All five recorded scrubs
+finished with status 0. No kernel message was retained from the freeze window,
+including no panic, lockup, OOM, machine-check, PCIe/AER, GPU-hang, or storage
+fault explaining the incident.
+
+Unlike the October 24 incident, the failed boot was configured for warning,
+notice, and informational console capture. Yoshi retained informational
+records from that boot and received fresh kernel records after today's reboot,
+including warning and informational messages. The runtime console threshold
+after reboot is still `7 4 1 7`, and the sender is active with a successful
+result. There is no recorded receiver restart or service failure near the
+freeze. These checks confirm capture before and after the incident, but do
+not establish that the desktop's NIC could transmit at the instant of failure.
+
+### Nearby activity and interpretation
+
+- Weekly trim completed successfully at 00:40:07 EST on November 2, more than
+  nine hours before the Kuma failure. This is not the immediately preceding
+  trim pattern seen in August.
+- The UPS USB driver repeatedly logged `nut_libusb_get_report: Input/Output
+  Error` and reconnect attempts throughout the morning, including 10:05:34
+  and 10:07:00. There was no accompanying kernel USB fault in the retained
+  morning logs or recorded battery, power-loss, or shutdown transition. The
+  communication errors merit tracking but do not establish a UPS or USB cause.
+- BIOS remains F10 and `vfio_pci.disable_idle_d3` remains `N` after reboot.
+  The NMI watchdog remains enabled, with hard-lockup panic and automatic
+  panic reboot disabled.
+
+Conclusion: the silent freeze recurred despite broader capture, without a
+recorded kernel explanation. Both recent incidents occurred while a
+passthrough VM was running. This supports prioritizing a controlled
+passthrough/GPU isolation experiment, but does not prove causation or
+specifically implicate idle D3. No system setting was changed during this
+investigation.
 
 ## Pre-update hardware and firmware snapshot
 
@@ -373,6 +444,8 @@ The long and irregular intervals make substitution tests slow but valuable.
 | 2026-08-10 10:14 | Updated motherboard BIOS directly from F7 to F10; loaded Optimized Defaults and changed only default display output to the iGPU | Initial boot and topology checks passed. User recalls no further freeze until October 24; same stuck-display signature then recurred with a passthrough VM active. A frequency improvement is unproven. | Applied; recurrence after about 75 calendar days |
 | 2026-10-24 | Reviewed failed boot and Yoshi's netconsole capture after recurrence | No captured crash signature; post-reboot end-to-end capture verified. Console threshold 4 limits capture severity. VFIO idle D3 remains enabled. | Investigation recorded; no settings changed |
 | 2026-10-24 21:54 | Broadened kernel console threshold from 4 to 7 | Warning, notice, and informational probes all received on Yoshi at 21:54:34 EDT. Runtime threshold and default boot entry verified. | Applied; capture verified |
+| 2026-11-02 | Reviewed recurrence with broader kernel capture enabled | Same freeze pattern with passthrough VM running. No local or remote kernel crash signature; post-reboot remote capture remains functional. | Investigation recorded; no settings changed |
+| 2026-11-02 | Prepared restoration of host NVIDIA support before considering a VM-off observation period | NVIDIA 615.78.08 open modules, userspace, and GSP firmware built in a complete Zen 7.2.14 desktop system. VFIO boot binding and Intel display retained in evaluation. | Built; activation and native binding pending |
 
 ## Controlled experiments
 
@@ -383,8 +456,8 @@ actually performed.
 
 Recommended target: **F10**.
 
-Status: **Applied 2026-08-10; freeze recurred 2026-10-24. Possible frequency
-improvement remains unproven.**
+Status: **Applied 2026-08-10; freezes recurred 2026-10-24 and 2026-11-02.
+Possible frequency improvement remains unproven.**
 
 F10 is the newest non-letter-suffixed release listed for this board. F11a is
 newer and contains additional security fixes, but Gigabyte uses letter-suffixed
@@ -499,8 +572,9 @@ vendor specifically changed CPU power behavior after F7.
 
 ### B. Prevent VFIO idle D3
 
-Status: **Not applied. The 2026-10-24 recurrence meets the planned trigger for
-considering this experiment.**
+Status: **Not applied as of 2026-11-02. The October and November recurrences
+meet the planned trigger for considering this experiment, but both occurred
+with a passthrough VM running and do not specifically implicate idle D3.**
 
 If the system freezes after the firmware test, try adding
 `disable_idle_d3=1` to the existing `vfio-pci` module options in
@@ -514,6 +588,46 @@ Record whether the spurious PME bursts stop after reboot. Because freezes are
 rare, absence of a freeze for a few days is not a meaningful success criterion.
 
 ### C. Remove the discrete GPU path
+
+Practical constraint recorded on 2026-11-02: the user needs to use the
+passthrough VM, so an open-ended VM-off observation period is not currently a
+practical first experiment. They also want working host NVIDIA support before
+considering extended use without passthrough, to allow native-driver ownership
+and thermal monitoring. At initial review, the host module was disabled in
+`hosts/desktop-z390-9700k/nvidia-rtx2070.nix` following the Zen compatibility
+failure. Building that module and verifying host binding are prerequisites;
+neither driver availability nor successful rebinding should be assumed.
+
+Compatibility check on November 2: the current checkout evaluates Zen
+`7.2.14` with NVIDIA `595.71.05`, while the running kernel is still
+`7.2.11-zen1`. A direct build of
+`nixosConfigurations.nixos-2022-desktop.config.hardware.nvidia.package.passthru.open`
+failed at `nvidia/os-interface.c:764` because `strncpy` is no longer declared.
+Linux 7.2 removed that API; this is not resolved by merely adding a header.
+The same source also contains other kernel-side `strncpy` calls. See the
+[Nixpkgs build report](https://github.com/NixOS/nixpkgs/issues/554125) and
+[proposed NVIDIA compatibility changes](https://github.com/NVIDIA/open-gpu-kernel-modules/pull/1227).
+Simply re-enabling `boot.extraModulePackages` therefore remains insufficient.
+No compatibility patch, driver change, or native binding test was applied.
+
+Subsequent restoration work on November 2: NVIDIA `615.78.08` built for
+Zen `7.2.14` without source patches. The user authorized selecting that release
+through the configured kernel package set's `nvidiaPackages.mkDriver`,
+re-enabling `boot.extraModulePackages`, and adding its matching GSP firmware
+explicitly because the Intel-only Xorg setup skips the standard NVIDIA module's
+firmware configuration. The complete desktop system built successfully, and
+inspection confirmed matching kernel modules, firmware, and userspace tools.
+Evaluation retains the Intel display, early VFIO binding, and manual CDI
+generation. Activation, post-reboot checks, and native NVIDIA binding remain
+pending; the running kernel is still `7.2.11-zen1`. No GPU rebinding was done.
+The temporary override's removal criteria are recorded in the
+[NixOS 26.11 upgrade notes](../nixos-26.11-upgrade.md).
+
+No primary-source evidence was found establishing that prolonged VFIO binding
+by itself damages this RTX 2070 SUPER. That does not verify this card's idle
+temperature, fan behavior, or board power under VFIO. Those measurements would
+be needed before treating any extended idle configuration as thermally
+validated; PCI power-state labels alone do not provide them.
 
 For the strongest PCIe A/B test, physically remove the RTX card and run only on
 the Intel iGPU for an extended period. Merely changing the bound driver does not
