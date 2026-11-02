@@ -52,6 +52,7 @@
           config.services.forgejo.stateDir
           "/var/lib/open-webui"
           "/var/lib/paperless"
+          "/var/lib/smokeping/data"
           # Service data (StateDirectory) when DynamicUser=true,
           # Includes: 'blocky', 'uptime-kuma'
           "/var/lib/private"

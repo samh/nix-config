@@ -30,6 +30,7 @@ in {
     ./notes-history.nix
     ./proxy.nix
     ./samba.nix
+    ./smokeping.nix
     ./syncthing.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
