@@ -446,6 +446,7 @@ The long and irregular intervals make substitution tests slow but valuable.
 | 2026-10-24 21:54 | Broadened kernel console threshold from 4 to 7 | Warning, notice, and informational probes all received on Yoshi at 21:54:34 EDT. Runtime threshold and default boot entry verified. | Applied; capture verified |
 | 2026-11-02 | Reviewed recurrence with broader kernel capture enabled | Same freeze pattern with passthrough VM running. No local or remote kernel crash signature; post-reboot remote capture remains functional. | Investigation recorded; no settings changed |
 | 2026-11-02 | Prepared restoration of host NVIDIA support before considering a VM-off observation period | NVIDIA 615.78.08 open modules, userspace, and GSP firmware built in a complete Zen 7.2.14 desktop system. VFIO boot binding and Intel display retained in evaluation. | Built; activation and native binding pending |
+| 2026-11-02 12:39 EST | Tested native NVIDIA binding after applying and rebooting into the restored host-driver configuration | Native query succeeded; all RTX functions returned to VFIO with original driver override restored. Subsequent Windows VM startup and assignment of all four NVIDIA functions verified at 13:30. | Host-side native/VFIO/VM round trip verified |
 
 ## Controlled experiments
 
@@ -622,6 +623,33 @@ generation. Activation, post-reboot checks, and native NVIDIA binding remain
 pending; the running kernel is still `7.2.11-zen1`. No GPU rebinding was done.
 The temporary override's removal criteria are recorded in the
 [NixOS 26.11 upgrade notes](../nixos-26.11-upgrade.md).
+
+Post-activation checkpoint: the November 2 12:24:54 EST boot runs
+`7.2.14-zen1` with the matching NVIDIA `615.78.08` modules and GSP firmware
+installed. Running and persistent profiles match; the Intel display is on
+`i915`, all four RTX functions remain VFIO-bound, and broader netconsole
+delivery to Yoshi is verified. Native probing and the host-to-VM round trip
+remain unverified. Boot-time NVIDIA probes reported the card already owned
+by VFIO, and `01:00.3` refused a D0-to-D3hot transition at 12:25:08. These are
+recorded observations, not an established explanation for the freezes.
+
+Native binding checkpoint at 12:39:56-12:39:58 EST: with all VMs stopped,
+function `01:00.0` was rebound to NVIDIA `615.78.08`. `nvidia-smi` identified
+the RTX 2070 SUPER and reported 41 degrees Celsius, 47.68 W, intended fan
+speed 29%, and P0. These values were sampled immediately after initialization;
+they are not steady-state idle readings and do not measure VFIO-owned thermal
+behavior. The test then returned the GPU to VFIO and restored the original
+unset `driver_override`. All four RTX functions are verified VFIO-bound, the
+CDI generator is inactive with a successful result, and no NVIDIA Xid or
+kernel fault was retained during the test.
+
+Subsequent VM checkpoint at 13:30 EST: the user reports the passthrough VM
+running, and libvirt confirms `win11-2025-1` is active. QEMU's read-only
+`query-pci` lists all four NVIDIA functions assigned to the guest. The kernel
+recorded successful GPU resets at 12:44:05-12:44:07 without a retained NVIDIA
+Xid or kernel fault. All four host functions remain VFIO-bound, and the GPU's
+driver override remains unset. This verifies the host-side native-to-VFIO-to-VM
+round trip; guest-side rendering was not independently inspected.
 
 No primary-source evidence was found establishing that prolonged VFIO binding
 by itself damages this RTX 2070 SUPER. That does not verify this card's idle

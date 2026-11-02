@@ -93,11 +93,33 @@ Remove this NVIDIA follow-up from the pending upgrade work only after:
   `loglevel=7`. Formatting and whitespace checks passed.
 - Evaluation retains the Intel `modesetting` display driver, early VFIO
   binding of all four GPU functions, and manual/conditional CDI generation.
-- Activation, post-reboot verification, and native GPU binding checks remain
-  pending. The running kernel at preparation time is `7.2.11-zen1`, while the
-  current lock builds `7.2.14-zen1`. Stage with `nh os boot -a` and reboot
-  during a planned VM shutdown before testing native binding, so the running
-  kernel and newly installed modules match.
+- The user applied the configuration and rebooted on November 2 at 12:24:54
+  EST. Post-boot verification confirmed `7.2.14-zen1`, installed NVIDIA
+  `615.78.08` modules with matching kernel ABI, and the matching GSP firmware
+  path. The running and persistent system profiles match. All four RTX
+  functions remain bound to VFIO, and the Intel display remains on `i915`.
+  Console threshold 7 survived, and Yoshi received this boot's kernel records
+  with its receiver active and zero restarts.
+- Native binding and return to VFIO passed at 12:39:56-12:39:58 EST on
+  November 2, with all VMs stopped. Only GPU function `01:00.0` was rebound.
+  `nvidia-smi` identified the RTX 2070 SUPER and driver `615.78.08`, reporting
+  41 degrees Celsius, 47.68 W, intended fan speed 29%, and performance state
+  P0 immediately after initialization. This brief sample is not a settled
+  idle measurement or a measurement of the card while VFIO owns it.
+- The test restored all four RTX functions to VFIO and restored the original
+  unset `driver_override`; the CDI generator is inactive with a successful
+  result. No NVIDIA Xid or kernel fault was retained during the test.
+- The user subsequently started `win11-2025-1`. At 13:30 EST on November 2,
+  libvirt reports it running and QEMU's read-only `query-pci` confirms all
+  four NVIDIA functions are assigned to the guest. GPU resets at 12:44:05-
+  12:44:07 completed successfully, all four host functions remain VFIO-bound,
+  and no NVIDIA Xid or kernel fault was retained during startup. The
+  native-driver-to-VFIO-to-running-VM round trip is verified on the host;
+  guest-side rendering was not independently inspected.
+- The boot logged NVIDIA probe attempts while VFIO owned the card, correctly
+  reporting no NVIDIA device available. It also logged a refused D0-to-D3hot
+  transition on function `01:00.3`; retain this observation without treating
+  it as proof of the freeze cause.
 
 Restoring host-driver availability is not evidence that the intermittent
 freeze is fixed. The passthrough guest uses its own NVIDIA driver while it
