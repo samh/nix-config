@@ -190,6 +190,7 @@ in {
       #(quickemu.override {qemu = qemu_full;})
       #samba # Provides smbd for quickemu
       quickemu
+      socat
       spice-gtk
       spotify
       virt-viewer # remote-viewer
