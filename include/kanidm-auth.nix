@@ -100,6 +100,11 @@ in {
           group = "kanidm";
           mode = "0400";
         };
+        "kanidm/oauth2/notes_code_server_client_secret" = {
+          owner = "kanidm";
+          group = "kanidm";
+          mode = "0400";
+        };
       };
 
       users.users.nginx.extraGroups = ["kanidm"];
@@ -167,9 +172,23 @@ in {
             "homarr-admins" = {};
             "audiobookshelf-users" = {};
             "audiobookshelf-admins" = {};
+            # Membership is managed through Kanidm; do not clear it on rebuild.
+            "notes-code-server-users".overwriteMembers = false;
           };
 
           systems.oauth2 = {
+            notes-code-server = {
+              displayName = "Notes Editor";
+              originUrl = "https://notes.yoshi.${config.my.baseDomain}/oauth2/callback";
+              originLanding = "https://notes.yoshi.${config.my.baseDomain}/";
+              basicSecretFile = config.sops.secrets."kanidm/oauth2/notes_code_server_client_secret".path;
+              preferShortUsername = true;
+              scopeMaps."notes-code-server-users" = ["openid" "email" "profile"];
+              claimMaps.notes_access = {
+                joinType = "array";
+                valuesByGroup."notes-code-server-users" = ["notes-code-server-users"];
+              };
+            };
             homarr = {
               displayName = "Homarr";
               originUrl = "https://homarr.kirby.${config.my.baseDomain}/api/auth/callback/oidc";

@@ -23,6 +23,7 @@
     ./acme.nix
     ./archivebox.nix
     ./borg-backup.nix
+    ./code-server.nix
     ./ersatztv.nix
     ./jellyfin.nix
     ./mounts.nix

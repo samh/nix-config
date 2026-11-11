@@ -14,6 +14,7 @@ This repo uses a two-node Kanidm deployment on `kirby` and `yoshi` to provide:
   - phase-1 manual failover using manualPrimaryHost = "kirby"
 - Homarr on kirby is wired for OIDC (but not working), with local credentials still enabled as break-glass.
 - Audiobookshelf on yoshi has the Kanidm OIDC client provisioned, but its final OIDC enablement is still partly app-UI-side.
+- The isolated notes editor on Yoshi is deployed with OAuth2 Proxy and Kanidm authentication; login and editor loading were confirmed on 2026-11-11. See [Notes Editor on Yoshi](notes-code-server.md).
 - Replication was previously confirmed healthy after both hosts were rebuilt. kirby and yoshi were both logging Incremental Replication Success.
 
 ## Architecture
@@ -40,6 +41,7 @@ Applications should always use those shared names, never `kirby`-specific or `yo
 - [`hosts/kirby/configuration.nix`](../hosts/kirby/configuration.nix): `kirby` host integration
 - [`hosts/yoshi/configuration.nix`](../hosts/yoshi/configuration.nix): `yoshi` host integration
 - [`hosts/kirby/homarr.nix`](../hosts/kirby/homarr.nix): Homarr OIDC wiring
+- [`hosts/yoshi/code-server.nix`](../hosts/yoshi/code-server.nix): notes editor and OAuth2 Proxy wiring
 - [`docs/auth-phase-2-vip.md`](auth-phase-2-vip.md): planned LAN VIP follow-up
 
 ## Upstream Kanidm References
@@ -59,6 +61,8 @@ Add these secrets to `secrets/secrets.yaml` before deployment:
 - `kanidm/idm_admin_password`
 - `kanidm/oauth2/homarr_client_secret`
 - `kanidm/oauth2/audiobookshelf_client_secret`
+- `kanidm/oauth2/notes_code_server_client_secret`
+- `notes-code-server-cookie-secret` (used only by Yoshi's OAuth2 Proxy)
 - `acme-env`
 
 Notes:
@@ -191,6 +195,7 @@ What to assign:
 - every user who should administer Homarr should also be added to `homarr-admins`
 - every user who should log into Audiobookshelf should be added to `audiobookshelf-users`
 - every user who should administer Audiobookshelf should also be added to `audiobookshelf-admins`
+- only the trusted notes owner should be added to `notes-code-server-users`; this grants access to both note vaults and the shared editor session
 
 Recommended phase 1 approach:
 
