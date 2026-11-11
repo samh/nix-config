@@ -126,6 +126,7 @@
     mergerfs-tools
     nh # Yet another nix cli helper
     pciutils # lspci
+    rclone
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     yt-dlp
