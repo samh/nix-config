@@ -222,7 +222,7 @@
       #copilot-cli
       #gemini-cli
       #goose-cli
-      opencode
+      opencode2
       pi
 
       # Disable these for now as I haven't been using them.
