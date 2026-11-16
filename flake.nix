@@ -124,13 +124,16 @@
           ./hosts/goomba/configuration.nix
         ];
       };
-      # VFIO Gaming VM on my desktop PC
-      bowser = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./hosts/bowser/configuration.nix
-        ];
-      };
+      # VFIO Gaming/AI VM on my desktop PC, currently unused.
+      # Disabled while its Open WebUI dependency posthog is
+      # marked broken. Re-enable when needed after checking/removing
+      # that dependency.
+      # bowser = nixpkgs.lib.nixosSystem {
+      #   specialArgs = {inherit inputs outputs;};
+      #   modules = [
+      #     ./hosts/bowser/configuration.nix
+      #   ];
+      # };
       # Sec VM on laptop
       stalfos = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};

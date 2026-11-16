@@ -63,6 +63,7 @@ the exact first frozen instruction.
 | 2026-08-10 around 01:37 | Linux 7.1.3-zen2; detailed below. |
 | 2026-10-24; Kuma failure reported 21:13:57 EDT | Linux 7.2.10-zen1, BIOS F10; same stuck display, passthrough VM running. First recurrence recalled since update. Last retained local journal entry 21:07:20; next boot 21:31:34. Exact freeze onset unconfirmed. |
 | 2026-11-02; Kuma failure reported 10:14:02 EST | Linux 7.2.11-zen1, BIOS F10; same stuck display requiring reset, passthrough VM running. Last retained local journal entry 10:08:25; next boot 11:12:59. No crash signature in broadened netconsole capture. |
+| 2026-11-16; Kuma failure reported 07:42:22 EST | Linux 7.2.14-zen1, BIOS F10; same stuck display requiring hard reset, passthrough VM running. Last retained local journal entry 07:35:36; next boot 09:23:59. Netconsole had stopped during a November 13 bond change; remote capture unavailable for this incident. |
 
 This list is incomplete. Absence from the table does not imply the system was
 stable throughout the interval.
@@ -275,6 +276,67 @@ passthrough/GPU isolation experiment, but does not prove causation or
 specifically implicate idle D3. No system setting was changed during this
 investigation.
 
+## 2026-11-16 incident
+
+### User report and timing
+
+The user confirmed the same stuck-display behavior requiring a hard reset,
+with the passthrough VM running. Kuma reported failure at 07:42:22 EST:
+
+```text
+PING 100.64.5.32 (100.64.5.32) 56(84) bytes of data.
+--- 100.64.5.32 ping statistics ---
+47 packets transmitted, 0 received, 100% packet loss, time 47090ms
+```
+
+The failed boot began November 2 at 12:24:54 EST and ran Linux 7.2.14-zen1
+with `loglevel=7`. The last retained local journal entry is a routine
+Tailscale message at 07:35:36. The next boot began at 09:23:59, also on
+7.2.14-zen1. The exact freeze onset remains unknown; the Kuma timestamp is
+the monitoring report time. This is another recurrence about fourteen days
+after the previous incident, not evidence of a regular failure interval.
+
+### Capture interruption discovered during investigation
+
+There is no final crash signature in the retained local kernel journal. Its
+last entry is a USB disconnect on November 15 at 17:58:31, many hours before
+the freeze. Remote capture was unavailable for this incident:
+
+- On November 13 at 15:27:09, the local kernel logged
+  `netconsole: network logging stopped on interface bond0 as it released slaves`
+  when `eno2` was detached from the bond. No subsequent netconsole startup
+  appears in that boot, and the sender service has no restart recorded.
+- Yoshi's last pre-freeze message arrived November 13 at 15:24:40. Its
+  receiver has been active since November 11 at 10:05:31 with zero restarts.
+- The sender is a oneshot unit with `RemainAfterExit=true`. Its successful
+  startup does not detect a later kernel-side disablement of netconsole.
+- After today's reboot, the kernel logged netconsole startup at 09:24:16;
+  fresh warning and informational records reached Yoshi. Runtime printk is
+  still `7 4 1 7`.
+
+Unlike the November 2 incident, silence on Yoshi cannot be treated as evidence
+that an operational capture path received no crash report. The next capture
+improvement should restore the target after bond reconfiguration and verify
+end-to-end delivery after a network transition. The repair below is activated
+and startup delivery and induced target recovery are verified. Recovery after
+an actual bond reconfiguration remains to be tested.
+
+### Other observations and interpretation
+
+Weekly trim completed successfully at 00:31:02, over seven hours before the
+failure. UPS USB communication errors continued, including 07:30:24 and
+07:32:31; these remain observations rather than an established cause.
+USB hub and Realtek Ethernet disconnect/reconnect activity occurred on
+November 14 at 18:35, with bond failover and recovery, but no retained kernel
+record places that activity at the freeze itself.
+
+After reboot, BIOS remains F10 and `vfio_pci.disable_idle_d3` remains `N`.
+The November 2 restoration of native NVIDIA support and successful
+native/VFIO/VM round trip enabled future isolation testing; they were not a
+freeze fix. Three recent recurrences had a passthrough VM running, but this
+alone does not distinguish GPU involvement from normal usage. No system
+configuration was changed during this incident review.
+
 ## Pre-update hardware and firmware snapshot
 
 Snapshot taken after the 2026-08-10 08:57 reboot, before the BIOS update:
@@ -447,6 +509,8 @@ The long and irregular intervals make substitution tests slow but valuable.
 | 2026-11-02 | Reviewed recurrence with broader kernel capture enabled | Same freeze pattern with passthrough VM running. No local or remote kernel crash signature; post-reboot remote capture remains functional. | Investigation recorded; no settings changed |
 | 2026-11-02 | Prepared restoration of host NVIDIA support before considering a VM-off observation period | NVIDIA 615.78.08 open modules, userspace, and GSP firmware built in a complete Zen 7.2.14 desktop system. VFIO boot binding and Intel display retained in evaluation. | Built; activation and native binding pending |
 | 2026-11-02 12:39 EST | Tested native NVIDIA binding after applying and rebooting into the restored host-driver configuration | Native query succeeded; all RTX functions returned to VFIO with original driver override restored. Subsequent Windows VM startup and assignment of all four NVIDIA functions verified at 13:30. | Host-side native/VFIO/VM round trip verified |
+| 2026-11-16 | Reviewed another recurrence with the passthrough VM running | No local crash signature. Netconsole stopped during November 13 bond reconfiguration; Yoshi confirms a capture gap until today's reboot. Post-reboot delivery verified. | Incident recorded; sender recovery repair pending |
+| 2026-11-16 | Replaced oneshot sender with a supervised dynamic-target monitor | Desktop closure builds; simulated network loss and target disablement recover, and healthy targets are left enabled. Corrected activation succeeded at 09:43:05; Yoshi received startup at 09:43:06 and a probe after induced target recovery at 09:44:19. | Applied; live target recovery and delivery verified; actual bond-change test pending |
 
 ## Controlled experiments
 
@@ -457,7 +521,8 @@ actually performed.
 
 Recommended target: **F10**.
 
-Status: **Applied 2026-08-10; freezes recurred 2026-10-24 and 2026-11-02.
+Status: **Applied 2026-08-10; freezes recurred 2026-10-24, 2026-11-02,
+and 2026-11-16.
 Possible frequency improvement remains unproven.**
 
 F10 is the newest non-letter-suffixed release listed for this board. F11a is
@@ -852,6 +917,59 @@ The NMI watchdog is already active. A later experiment could combine panic on
 hard lockup, an automatic panic reboot, and remote or persistent crash capture,
 but that changes failure behavior and should be reviewed separately before
 enabling it.
+
+### Recovery after bond changes prepared on 2026-11-16
+
+The sender now uses a named configfs target, `yoshi`, and a continuously running
+service. Every five seconds it checks whether `bond0` is up with the expected
+source address and whether the kernel target is disabled. It re-enables a
+disabled target when the network is ready, retrying failed enable attempts.
+An enabled target is left alone. Service cleanup removes the configfs target
+before unloading netconsole. The configfs mount is an explicit dependency.
+
+This follows the kernel's documented
+[dynamic netconsole interface](https://docs.kernel.org/networking/netconsole.html#dynamic-reconfiguration).
+The existing destination, ports, extended format, kernel-release tag, and
+console threshold are retained. Recovery polling is not proof of packet
+delivery, and cannot capture messages while the network is unavailable.
+
+The complete desktop system built successfully. `nix flake check --no-build`
+passed after commenting out the unused Bowser output with user authorization
+(its existing broken PostHog dependency still prevented evaluation). Bash
+syntax, ShellCheck, and Nix formatting checks passed. A simulated
+configfs/network exercise verified startup with the network absent, initial
+enablement, no repeated writes to a
+healthy target, and recovery after disablement and network restoration. This
+does not substitute for testing the actual kernel interface.
+
+Activation requires the user's sudo authentication. After activation, verify
+`/sys/kernel/config/netconsole/yoshi/enabled` reads `1` and a tagged `/dev/kmsg`
+message arrives on Yoshi. Temporarily writing `0` to that target's `enabled`
+attribute should trigger recovery within approximately five seconds; verify
+another tagged message afterward. A real bond reconfiguration remains a
+separate test to perform when a brief network interruption is acceptable.
+
+The first activation attempt at 09:40 EST failed: startup unconditionally
+wrote `0` to a newly created, already-disabled target. The kernel rejected
+this with `EINVAL` and logged `network logging has already stopped`. The
+ordinary-file simulation did not model that configfs restriction. Startup
+now checks the current state before disabling a target. Capture was down
+during the failed service's restart loop; the successful retry and recovery
+verification are recorded below.
+
+The corrected configuration was switch-activated at 09:43:05 EST. The sender
+is `active/running` with zero restarts, and the target's `enabled` attribute
+reads `1`. Yoshi received the extended, release-tagged kernel message
+`netconsole: network logging started` at 09:43:06. The running system and
+persistent profile both resolve to
+`/nix/store/rzcv50x9b8scpps4rp6r30xm7grd2vh1-nixos-system-nixos-2022-desktop-26.05.20261101.9bb5222`.
+The user then deliberately disabled the target through configfs. The running
+sender re-enabled it at 09:44:16, without a service restart, and the user
+confirmed `enabled` returned to `1`. Yoshi received `netconsole-recovery-test`
+at 09:44:19 in an extended record tagged `7.2.14-zen1`. The service remained
+`active/running` with zero restarts. This verifies live target recovery and
+remote delivery afterward. Recovery after an actual bond reconfiguration
+remains unverified; the test did not interrupt the network or the VM.
 
 ## Updating this document
 

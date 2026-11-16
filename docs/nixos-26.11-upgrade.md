@@ -133,6 +133,8 @@ unstable package set. Evaluating Bowser from untouched commit
 `696676ab91943064e802eaa06ebb73be3d5a0637` reproduced the failure, independently
 of the desktop NVIDIA changes.
 
-Recheck this dependency when updating the release and unstable inputs. The
-complete desktop build succeeds, but the repository-wide check cannot be
-marked passed until this separate dependency issue is resolved.
+On November 16 the same failure was reproduced. At the user's request,
+the unused Bowser test VM's `nixosConfigurations` entry was commented out
+in `flake.nix`, retaining its host files. Recheck this dependency when updating
+the release and unstable inputs before re-enabling Bowser. A passing flake
+check with that output disabled does not validate Bowser.
