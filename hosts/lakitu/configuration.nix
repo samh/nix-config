@@ -6,6 +6,14 @@
 }: let
   myIP = config.my.metadata.hosts.${config.networking.hostName}.ip_address;
   myTailscaleIP = config.my.metadata.hosts.${config.networking.hostName}.tailscale_address;
+
+  # Virt-manager uses emblem-default for the current snapshot. Adwaita lacks it.
+  virtManagerSnapshotIcon = pkgs.runCommand "virt-manager-snapshot-icon" {} ''
+    for size in 16x16 32x32; do
+      install -Dm644 "${pkgs.gnome-icon-theme}/share/icons/gnome/$size/emblems/emblem-default.png" \
+        "$out/share/icons/hicolor/$size/emblems/emblem-default.png"
+    done
+  '';
 in {
   imports = [
     ../../include/common.nix
@@ -90,6 +98,7 @@ in {
     gnome-tweaks
     loupe # basic GNOME image viewer (GTK4/Rust)
     nautilus
+    virtManagerSnapshotIcon
     nh # Nix helper
     vscodium # for local editing of NixOS config in case network goes down
     doit # task runner for my NixOS config
