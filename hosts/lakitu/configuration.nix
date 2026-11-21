@@ -88,6 +88,7 @@ in {
     gnome-terminal
     gnome-text-editor
     gnome-tweaks
+    loupe # basic GNOME image viewer (GTK4/Rust)
     nautilus
     nh # Nix helper
     vscodium # for local editing of NixOS config in case network goes down
