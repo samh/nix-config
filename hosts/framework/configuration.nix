@@ -172,6 +172,7 @@ in {
       # Seems to take a lot of time to build due to openjdk-headless?
       #pkgs.unstable.makemkv
       mkvtoolnix
+      moonlight-qt
       nextcloud-client
       nixos-generators
       nodejs # for npm; see https://wiki.nixos.org/wiki/Node.js (used for pi extensions)
