@@ -27,8 +27,11 @@
     # instead of using binaries from the numtide cache.
     #llm-agents.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Hermes Agent service for Kirby. Use its upstream Nix dependency pins.
+    # Hermes Agent service for Kirby. Reuse the shared unstable package set.
+    # The upstream Home Manager input is only used for its module tests.
     hermes-agent.url = "github:NousResearch/hermes-agent";
+    hermes-agent.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    hermes-agent.inputs.home-manager.follows = "home-manager";
 
     # This is one of the options for getting additional / newer extensions
     # for VS Code (compared to the set in nixpkgs)
