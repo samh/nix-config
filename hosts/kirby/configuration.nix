@@ -25,6 +25,7 @@ in {
     ./borg-backup.nix
     ./forgejo.nix
     ./gitea.nix
+    ./hermes-agent.nix
     ./homarr.nix
     ./mounts.nix
     ./notes-history.nix

@@ -27,6 +27,9 @@
     # instead of using binaries from the numtide cache.
     #llm-agents.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Hermes Agent service for Kirby. Use its upstream Nix dependency pins.
+    hermes-agent.url = "github:NousResearch/hermes-agent";
+
     # This is one of the options for getting additional / newer extensions
     # for VS Code (compared to the set in nixpkgs)
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
