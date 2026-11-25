@@ -10,6 +10,11 @@
    Home Assistant shared folder.
 4. `tailscale up --advertise-tags=tag:server --advertise-routes=192.168.5.0/24,192.168.107.0/24,192.168.108.0/24`
 
+#### Hermes Agent
+
+See [`hermes-agent.md`](./hermes-agent.md) for the first deployment, ChatGPT
+OAuth login, CLI and dashboard access, and future nginx/Kanidm integration.
+
 #### Notes History (Syncthing + Gitea)
 Canonical technical docs:
 - [`hosts/kirby/notes-history.md`](./notes-history.md)
@@ -130,6 +135,8 @@ own RRD history; a Prometheus ping exporter would take separate measurements.
 blocky.service
 borgmatic.service
 borgmatic.timer
+hermes-agent.service
+hermes-backend.service
 nginx.service
 postgresql.service
 smokeping.service
