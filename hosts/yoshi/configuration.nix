@@ -26,6 +26,7 @@
     ./code-server.nix
     ./ersatztv.nix
     ./jellyfin.nix
+    ./kopia.nix
     ./mounts.nix
     ./network.nix
     ./netconsole-receiver.nix
