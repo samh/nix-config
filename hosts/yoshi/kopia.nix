@@ -41,6 +41,8 @@ in {
 
   systemd.tmpfiles.rules = [
     "d ${stateDir} 0700 kopia kopia -"
+    # Allow traversal of /pool
+    "a+ /pool - - - - u:kopia:--x,m::--x"
   ];
 
   # Tailscale ACLs separately restrict which devices may connect.
@@ -86,6 +88,41 @@ in {
       ProtectSystem = "strict";
       ProtectHome = true;
       ReadWritePaths = [stateDir repoDir];
+    };
+  };
+
+  systemd.services.kopia-family-maintenance = {
+    description = "Full maintenance of family Kopia repository";
+
+    unitConfig = {
+      RequiresMountsFor = [pool];
+      ConditionPathIsMountPoint = pool;
+      ConditionPathExists = "${stateDir}/ready";
+    };
+
+    serviceConfig = {
+      Type = "oneshot";
+      User = "kopia";
+      Group = "kopia";
+      UMask = "0077";
+      WorkingDirectory = stateDir;
+      ExecStart = "${admin}/bin/kopia-family maintenance run --full";
+
+      # Prefer other workloads when CPU or disk access is contested.
+      Nice = 10;
+      IOSchedulingClass = "best-effort";
+      IOSchedulingPriority = 7;
+    };
+  };
+
+  systemd.timers.kopia-family-maintenance = {
+    description = "Nightly family Kopia maintenance";
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      OnCalendar = "*-*-* 03:30:00";
+
+      # Don't run a missed overnight job during a daytime boot.
+      Persistent = false;
     };
   };
 }
