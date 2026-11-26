@@ -155,6 +155,7 @@
     environment.systemPackages = with pkgs; [
       #autorestic
       bindfs
+      bubblewrap # sandboxing, needed for e.g. codex
       btdu # btrfs usage tool
       btop # another top, rewrite of bpytop in C++
       btrbk # even if not using for backups, it provides 'lsbtr' command
