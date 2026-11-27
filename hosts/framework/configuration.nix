@@ -167,7 +167,8 @@ in {
   environment.systemPackages =
     (with pkgs; [
       android-file-transfer
-      fossil
+      # TODO: switch to stable when released
+      pkgs.unstable.anomaly-hex # local voice dictation (STT)
       mcp-nixos
       # Seems to take a lot of time to build due to openjdk-headless?
       #pkgs.unstable.makemkv
