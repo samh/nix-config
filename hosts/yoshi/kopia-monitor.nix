@@ -71,9 +71,8 @@ in {
     description = "Check freshness of Mom's Kopia backups";
     wants = ["network-online.target"];
     after = ["network-online.target"];
-    unitConfig.RequiresMountsFor = [
-      "/pool/disk4.4TB.raid1"
-    ];
+    unitConfig.RequiresMountsFor = ["/srv/kopia"];
+    unitConfig.ConditionPathIsMountPoint = "/srv/kopia";
 
     serviceConfig = {
       Type = "oneshot";

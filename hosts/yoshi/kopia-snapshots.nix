@@ -1,4 +1,6 @@
 {pkgs, ...}: let
+  # Storage administration: keep snapshots beside @kopia, outside the
+  # separately mounted live repository at /srv/kopia.
   pool = "/pool/disk4.4TB.raid1";
   snapshotDir = "${pool}/kopia-snapshots";
 

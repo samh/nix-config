@@ -103,17 +103,17 @@
   fileSystems."/pool/nvme-nixos" = {
     device = "/dev/mapper/nvme-nixos";
     fsType = "btrfs";
-    options = ["compress=zstd:9" "x-systemd.device-timeout=2min"];
+    options = ["subvolid=5" "compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
   fileSystems."/pool/nvme2-home" = {
     device = "/dev/nvme2/home";
     fsType = "btrfs";
-    options = ["compress=zstd:9" "x-systemd.device-timeout=2min"];
+    options = ["subvolid=5" "compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
   fileSystems."/pool/data1" = {
     device = "/dev/storage/data1";
     fsType = "btrfs";
-    options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=2min"];
+    options = ["subvolid=5" "nofail" "compress=zstd:9" "x-systemd.device-timeout=2min"];
   };
   #  fileSystems."/pool/fedora2020" =
   #    { device = "/dev/nvme/nvme-fedora2020";

@@ -50,6 +50,6 @@ in {
   fileSystems."/pool/luks-fwnixos2" = {
     device = "/dev/mapper/luks-fwnixos2";
     fsType = "btrfs";
-    options = btrfs_opts;
+    options = ["subvolid=5"] ++ btrfs_opts;
   };
 }

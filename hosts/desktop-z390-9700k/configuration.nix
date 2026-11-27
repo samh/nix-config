@@ -5,7 +5,6 @@
   config,
   inputs,
   lib,
-  options,
   pkgs,
   ...
 }: {
@@ -331,17 +330,12 @@
   # See journal for update-locatedb.service
   services.locate = {
     enable = true;
-    prunePaths =
-      options.services.locate.prunePaths.default
-      ++ [
-        # Raw Btrfs pool mounts duplicate files available at normal paths.
-        "/pool"
-        # Do not trigger network automounts while building the database.
-        "/mnt"
-      ];
+    # Do not trigger network automounts while building the database.
+    prunePaths = ["/mnt"];
   };
 
   # Local (personal) configuration settings
+  my.pool.allowWheel = true;
   my.common.ansible.enable = true;
   my.common.extra-fonts.enable = true;
   my.common.extras.enable = true;

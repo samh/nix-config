@@ -3,6 +3,7 @@
   outputs,
   config,
   lib,
+  options,
   pkgs,
   ...
 }:
@@ -281,9 +282,14 @@
 
     networking.search = [config.my.baseDomain config.my.tailscaleDomain];
 
-    # I like to have these directories around for mounts.
-    # Adding them here creates the directories as needed, plus declaratively
-    # sets the permissions (/pool should be readable only by root).
+    # /pool/<name> is the administrative mount of a Btrfs filesystem
+    # (subvolid=5), exposing all of its subvolumes and snapshots. Applications
+    # should use separately mounted subvolumes at their functional paths.
+    # Access is root-only by default; workstations may allow wheel members.
+    # Exclude this duplicate view from the locate index on every host.
+    services.locate.prunePaths = options.services.locate.prunePaths.default ++ ["/pool"];
+
+    # Create the directories for permanent administrative and other mounts.
     systemd.tmpfiles.rules = [
       "d /media 0755 root root"
       "d /mnt 0755 root root"

@@ -19,6 +19,19 @@
    "Allow list for WOPI requests" (seems like it should be the IP that is
    resolved from the Nextcloud hostname).
 
+### Kopia
+
+The existing `@kopia` subvolume on `disk4.4TB.raid1` is mounted at
+`/srv/kopia`; the family repository is `/srv/kopia/family`. The repository
+server, maintenance, and monitoring use this mount. The root-only Btrfs
+snapshot job still uses `/pool/disk4.4TB.raid1` so its snapshots remain
+outside the live repository subvolume.
+
+The persistent connection configuration at
+`/var/lib/kopia-family/repository.config` must reference `/srv/kopia/family`
+as its filesystem storage path. The existing repository has been migrated
+without moving its data.
+
 ## Notable Systemd Units
 
 ```

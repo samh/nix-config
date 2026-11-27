@@ -301,6 +301,7 @@ in {
 
   # Local (personal) configuration settings
   # (see common-options.nix)
+  my.pool.allowWheel = true;
   my.common.ansible.enable = true;
   my.common.extra-fonts.enable = true;
   my.common.extras.enable = true;

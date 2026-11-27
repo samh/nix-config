@@ -38,6 +38,13 @@
     options = ["nofail" "subvol=@disk4" "compress=zstd:9" "x-systemd.device-timeout=0"];
   };
 
+  # Kopia repository data, independent of the administrative pool path.
+  fileSystems."/srv/kopia" = {
+    device = "LABEL=disk4.4TB.raid1";
+    fsType = "btrfs";
+    options = ["nofail" "subvol=@kopia" "compress=zstd:9" "x-systemd.device-timeout=0"];
+  };
+
   # Mergerfs pool
   fileSystems."/storage" = {
     device = "/media/disk*";
@@ -89,27 +96,27 @@
   fileSystems."/pool/ssd-root" = {
     device = "LABEL=nixos";
     fsType = "btrfs";
-    options = ["compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["subvolid=5" "compress=zstd:9" "x-systemd.device-timeout=0"];
   };
   fileSystems."/pool/16TB.2023.3GPN" = {
     # 16 TB WD Red Pro (2023)
     device = "LABEL=16TB-2023-3GPN";
     fsType = "btrfs";
-    options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["subvolid=5" "nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
   };
   fileSystems."/pool/disk4.4TB.raid1" = {
     device = "LABEL=disk4.4TB.raid1";
     fsType = "btrfs";
-    options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["subvolid=5" "nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
   };
   fileSystems."/pool/10TB.2020.SWTP" = {
     device = "LABEL=10TB-WD-SWTP";
     fsType = "btrfs";
-    options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["subvolid=5" "nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
   };
   fileSystems."/pool/4TB.2014.2282" = {
     device = "LABEL=4TB-2014-2282";
     fsType = "btrfs";
-    options = ["nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
+    options = ["subvolid=5" "nofail" "compress=zstd:9" "x-systemd.device-timeout=0"];
   };
 }

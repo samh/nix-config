@@ -23,6 +23,6 @@
   fileSystems."/pool/root" = {
     device = "/dev/disk/by-uuid/6c999188-02a8-42e2-a70d-175464e9e7c2";
     fsType = "btrfs";
-    options = ["compress=zstd:9"];
+    options = ["subvolid=5" "compress=zstd:9"];
   };
 }

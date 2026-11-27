@@ -4,8 +4,8 @@
   ...
 }: let
   stateDir = "/var/lib/kopia-family";
-  pool = "/pool/disk4.4TB.raid1";
-  repoDir = "${pool}/@kopia/family";
+  repoMount = "/srv/kopia";
+  repoDir = "${repoMount}/family";
 
   # Administrative CLI:
   # sudo -u kopia kopia-family <command>
@@ -41,8 +41,6 @@ in {
 
   systemd.tmpfiles.rules = [
     "d ${stateDir} 0700 kopia kopia -"
-    # Allow traversal of /pool
-    "a+ /pool - - - - u:kopia:--x,m::--x"
   ];
 
   # Tailscale ACLs separately restrict which devices may connect.
@@ -55,10 +53,10 @@ in {
     after = ["tailscaled.service"];
 
     unitConfig = {
-      RequiresMountsFor = [pool];
-      ConditionPathIsMountPoint = pool;
+      RequiresMountsFor = [repoMount];
+      ConditionPathIsMountPoint = repoMount;
 
-      # Create this marker only after repository, ACL, and TLS setup.
+      # Create this marker only after repository and TLS setup.
       ConditionPathExists = "${stateDir}/ready";
 
       # Keep retrying if the Tailscale address is initially unavailable.
@@ -95,8 +93,8 @@ in {
     description = "Full maintenance of family Kopia repository";
 
     unitConfig = {
-      RequiresMountsFor = [pool];
-      ConditionPathIsMountPoint = pool;
+      RequiresMountsFor = [repoMount];
+      ConditionPathIsMountPoint = repoMount;
       ConditionPathExists = "${stateDir}/ready";
     };
 

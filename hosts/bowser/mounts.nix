@@ -38,21 +38,21 @@ in {
   fileSystems."/pool/home" = {
     device = "LABEL=gaming-home";
     fsType = "btrfs";
-    options = btrfs_opts;
+    options = ["subvolid=5"] ++ btrfs_opts;
   };
   fileSystems."/pool/games-nvme2" = {
     device = "LABEL=games-nvme2";
     fsType = "btrfs";
-    options = btrfs_opts;
+    options = ["subvolid=5"] ++ btrfs_opts;
   };
   fileSystems."/pool/games-hdd" = {
     device = "LABEL=game-2";
     fsType = "btrfs";
-    options = btrfs_opts;
+    options = ["subvolid=5"] ++ btrfs_opts;
   };
   fileSystems."/pool/ai" = {
     device = "LABEL=ai-data";
     fsType = "btrfs";
-    options = btrfs_opts_ai;
+    options = ["subvolid=5"] ++ btrfs_opts_ai;
   };
 }
