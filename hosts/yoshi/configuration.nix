@@ -27,6 +27,7 @@
     ./ersatztv.nix
     ./jellyfin.nix
     ./kopia.nix
+    ./kopia-monitor.nix
     ./kopia-snapshots.nix
     ./mounts.nix
     ./network.nix
