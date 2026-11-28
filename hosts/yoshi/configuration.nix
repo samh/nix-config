@@ -16,6 +16,7 @@
     ../../include/nextcloud.nix
     ../../include/nix-ld.nix
     ../../include/nginx.nix
+    ../../include/numtide-cache.nix
     ../../include/kanidm-auth.nix
     ../../include/gui
     inputs.sops-nix.nixosModules.sops
@@ -196,6 +197,7 @@
 
   # Local (personal) configuration settings
   # (see common-options.nix)
+  my.pool.allowWheel = true;
   my.common.tailscale.enable = true;
   my.auth.kanidm = {
     enable = true;

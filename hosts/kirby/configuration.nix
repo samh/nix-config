@@ -18,6 +18,7 @@ in {
     ../../include/ext-mounts.nix
     ../../include/kanidm-auth.nix
     ../../include/nginx.nix
+    ../../include/numtide-cache.nix
     ../../include/virt-manager.nix
     inputs.sops-nix.nixosModules.sops
 
@@ -307,6 +308,7 @@ in {
 
   # Local (personal) configuration settings
   # (see common-options.nix)
+  my.pool.allowWheel = true;
   my.common.tailscale.enable = true;
   my.auth.kanidm = {
     enable = true;
